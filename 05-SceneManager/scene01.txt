@@ -6,6 +6,11 @@ assets\coin.txt
 assets\goomba.txt
 assets\cloud.txt
 #
+#
+#map_id	matrix_path	width	height
+[MAPS]
+10000	map\tilemap_1-1.txt	2832	432
+#
 [OBJECTS]
 # type	x	y	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
