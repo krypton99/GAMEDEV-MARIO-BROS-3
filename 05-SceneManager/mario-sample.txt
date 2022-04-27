@@ -17,4 +17,5 @@ height	240
 0	textures\mario-3.png
 10	textures\enemies.png
 20	textures\misc.png
-90	textures\mario-holding-shell
+90	textures\mario-holding-shell.png
+10000	textures\tilesheet_background_1-1.png
