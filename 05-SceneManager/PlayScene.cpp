@@ -8,6 +8,7 @@
 #include "Sprites.h"
 #include "Portal.h"
 #include "Coin.h"
+#include "Ghost.h"
 #include "Platform.h"
 
 #include "SampleKeyEventHandler.h"
@@ -103,7 +104,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	float y = (float)atof(tokens[2].c_str());
 
 	CGameObject *obj = NULL;
-
+	CGameObject *ghost = NULL;
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
@@ -127,12 +128,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
 		int length = atoi(tokens[5].c_str());
-
-		obj = new CPlatform(
+	/*	int type = atoi(tokens[6].c_str());*/
+		CPlatform* platform = NULL;
+		platform = new CPlatform(
 			x, y,
 			cell_width, cell_height, length
 		);
-
+		CGhost* ghost = new CGhost(x, y+16,
+			cell_width, 16, length
+		);
+		platform->ghost = ghost;
+		objects.push_back(platform);
+		objects.push_back(ghost);
 		break;
 	}
 
@@ -152,10 +159,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	obj->SetPosition(x, y);
+	
 
-
-	objects.push_back(obj);
+	if (object_type != OBJECT_TYPE_PLATFORM) {
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+	}
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -250,6 +259,25 @@ void CPlayScene::Update(DWORD dt)
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
 	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 0; i < objects.size(); i++) {
+		if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
+			CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
+			float x, y, px,py;
+			platform->GetPosition(x, y);
+			player->GetPosition(px, py);
+			if (py < y) {
+				platform->ghost->isHit = 0;
+			} 
+			if (platform->ghost->isHit == 1) {
+				platform->SetIsThrough(true);
+				
+			}
+			else
+				platform->SetIsThrough(false);
+	
+			}
+		}
+
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);

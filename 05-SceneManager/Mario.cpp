@@ -9,6 +9,8 @@
 #include "Portal.h"
 
 #include "Collision.h"
+#include "Platform.h"
+#include "Ghost.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -54,8 +56,17 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CGhost*>(e->obj))
+		OnCollisionWithGhost(e);
 }
 
+void CMario::OnCollisionWithGhost(LPCOLLISIONEVENT e)
+{
+	CGhost* ghost = dynamic_cast<CGhost*>(e->obj);
+	if (e->ny >= 0) {
+		ghost->isHit = 1;
+	}
+}
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -89,7 +100,6 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
-
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
