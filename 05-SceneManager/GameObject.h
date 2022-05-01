@@ -20,7 +20,9 @@ protected:
 
 	float x; 
 	float y;
-
+	float start_x;
+	float start_y;
+	float type = NULL;
 	float vx;
 	float vy;
 
@@ -35,7 +37,8 @@ public:
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float &x, float &y) { x = this->x; y = this->y; }
 	void GetSpeed(float &vx, float &vy) { vx = this->vx; vy = this->vy; }
-
+	float GetType() { return this->type; }
+	void SetType(float type) { this->type = type; }
 	int GetState() { return this->state; }
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
