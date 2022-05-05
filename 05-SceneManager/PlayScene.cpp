@@ -119,7 +119,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_BRICK: 
+	{
+		float brickType = (float)atof(tokens[3].c_str());
+		int itemType = (int)atoi(tokens[4].c_str());
+		obj = new CBrick(x, y, brickType, itemType); break;
+	}
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
 	case OBJECT_TYPE_PLATFORM:
@@ -135,7 +140,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			cell_width, cell_height, length
 		);
 		CGhost* ghost = new CGhost(x, y+16,
-			cell_width, 16, length
+			cell_width+1, 16, length
 		);
 		platform->ghost = ghost;
 		objects.push_back(platform);

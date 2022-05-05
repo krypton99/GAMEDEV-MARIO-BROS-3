@@ -1,7 +1,24 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
-20001	372	153	387	168	20
+#normal brick
+20001	224	30	240	46	20
+
+#question brick
+#active
+21001	127	30	144	47	30
+21002	146	30	163	47	30
+21003	166	30	183	47	30
+21004	185	30	202	47	30
+#empty
+21005	205	30	222	47	30
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+#normal brick
 10000	20001	1000
+
+#question brick
+#active
+11001	21001	100	21002	100	21003	100	21004	100
+#broken
+11002	21005	100
