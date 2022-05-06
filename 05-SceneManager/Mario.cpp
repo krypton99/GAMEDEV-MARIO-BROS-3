@@ -11,6 +11,7 @@
 #include "Collision.h"
 #include "Platform.h"
 #include "Ghost.h"
+#include "Brick.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -58,6 +59,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CGhost*>(e->obj))
 		OnCollisionWithGhost(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 }
 
 void CMario::OnCollisionWithGhost(LPCOLLISIONEVENT e)
@@ -105,7 +108,26 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	coin++;
 }
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
+	// jump on top >> kill Goomba and deflect a bit 
+
+	//Mario hit Venus
+	if (brick->GetBrickType() != BRICK_TYPE_HIDDEN) {
+		if (brick->GetState() == BRICK_STATE_ACTIVE) {
+			
+			if (e->ny > 0) {
+
+				//brick->SetState(BRICK_STATE_EMPTY);
+				brick->SetState(BRICK_STATE_BOUND);
+			}
+
+		}
+	}
+	
+}
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
