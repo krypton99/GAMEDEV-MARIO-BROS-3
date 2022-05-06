@@ -1,0 +1,12 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+# LONG PIPE
+41001	5	28	38	77	30
+# SHORT PIPE
+41002	201	415	234	448	30
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+12001	41001	300
+12002	41002	300

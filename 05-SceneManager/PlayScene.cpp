@@ -13,6 +13,7 @@
 #include "Mushroom.h"
 #include "SampleKeyEventHandler.h"
 #include "Item.h"
+#include "Funnel.h"
 
 using namespace std;
 
@@ -120,6 +121,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
+	case OBJECT_TYPE_FUNNEL: {
+		int funnelType = (int)atoi(tokens[3].c_str());
+		obj = new CFunnel(x, y, funnelType); break;
+	}
 	case OBJECT_TYPE_BRICK: 
 	{
 		float brickType = (float)atof(tokens[3].c_str());

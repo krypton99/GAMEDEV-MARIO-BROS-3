@@ -7,6 +7,7 @@ assets\goomba.txt
 assets\cloud.txt
 assets\background_1-1.txt
 assets\item.txt
+assets\funnel.txt
 #
 #
 #map_id	matrix_path	width	height
@@ -31,6 +32,12 @@ assets\item.txt
 4	140	120
 4	160	120
 4	180	120
+
+# FUNNEL
+6	360	384	100
+6	1800	392	0
+6	1864	384	100
+6	2328	392	0
 
 #Goomba
 2	300	10
