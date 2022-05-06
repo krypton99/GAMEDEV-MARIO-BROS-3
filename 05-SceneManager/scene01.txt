@@ -6,6 +6,7 @@ assets\coin.txt
 assets\goomba.txt
 assets\cloud.txt
 assets\background_1-1.txt
+assets\item.txt
 #
 #
 #map_id	matrix_path	width	height

@@ -10,8 +10,9 @@
 #include "Coin.h"
 #include "Ghost.h"
 #include "Platform.h"
-
+#include "Mushroom.h"
 #include "SampleKeyEventHandler.h"
+#include "Item.h"
 
 using namespace std;
 
@@ -265,6 +266,28 @@ void CPlayScene::Update(DWORD dt)
 
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 0; i < objects.size(); i++) {
+		if (objects[i]->GetType() == OBJECT_TYPE_BRICK) {
+			CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
+
+
+			if (brick->isFallingItem) {
+				//CREATE ITEM FOLLOW MARIO LEVEL
+				Item* item = NULL;
+				CGameObject* obj = NULL;
+				if (brick->GetItemType() == CONTAIN_MUSHROOM) {
+					
+					item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_RED_MUSHROOM);
+				}
+
+				if (item != NULL) {
+					listItems.push_back(item);
+				}
+				if (obj != NULL) {
+					objects.push_back(obj);
+				} /*else return;*/
+				brick->isFallingItem = false;
+			}
+		}
 		if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
 			CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
 			float x, y, px,py;
@@ -287,12 +310,17 @@ void CPlayScene::Update(DWORD dt)
 	{
 		coObjects.push_back(objects[i]);
 	}
-
+	for (size_t i = 0; i < listItems.size(); i++)
+	{
+		coObjects.push_back(listItems[i]);
+	}
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
-
+	for (size_t i = 0; i < listItems.size(); i++) {
+		listItems[i]->Update(dt, &coObjects);
+	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
@@ -316,6 +344,8 @@ void CPlayScene::Render()
 	map->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	for (int i = 0; i < listItems.size(); i++)
+		listItems[i]->Render();
 
 }
 
