@@ -335,7 +335,13 @@ void CPlayScene::Update(DWORD dt)
 	if (cx < 0) cx = 0;
 
 	CGame::GetInstance()->SetCamPos(cx, cy);
+	for (size_t i = 0; i < listItems.size(); i++) {
+		if (listItems[i]->GetState() == STATE_ERASE) {
 
+			listItems.erase(listItems.begin() + i);
+			i--;
+		}
+	}
 	PurgeDeletedObjects();
 }
 
@@ -393,10 +399,22 @@ void CPlayScene::PurgeDeletedObjects()
 			*it = NULL;
 		}
 	}
+	for (it = listItems.begin(); it != listItems.end(); it++)
+	{
+		LPGAMEOBJECT o = *it;
+		if (o->IsDeleted())
+		{
+			delete o;
+			*it = NULL;
+		}
+	}
 
 	// NOTE: remove_if will swap all deleted items to the end of the vector
 	// then simply trim the vector, this is much more efficient than deleting individual items
 	objects.erase(
 		std::remove_if(objects.begin(), objects.end(), CPlayScene::IsGameObjectDeleted),
 		objects.end());
+	listItems.erase(
+		std::remove_if(listItems.begin(), listItems.end(), CPlayScene::IsGameObjectDeleted),
+		listItems.end());
 }

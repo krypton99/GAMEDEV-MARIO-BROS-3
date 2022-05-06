@@ -12,6 +12,7 @@
 #include "Platform.h"
 #include "Ghost.h"
 #include "Brick.h"
+#include "Mushroom.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -61,8 +62,25 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGhost(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
 		OnCollisionWithBrick(e);
+	else if (dynamic_cast<CMushroom*>(e->obj))
+		OnCollisionWithMushroom(e);
 }
+void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
+	CMushroom* item = dynamic_cast<CMushroom*>(e->obj);
+	if (item->GetItemType() == ITEM_RED_MUSHROOM) {
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			e->obj->SetState(STATE_ERASE);
+			return;
+		}
+		else
+		{
+			e->obj->SetState(STATE_ERASE);
+			SetLevel(MARIO_LEVEL_BIG);
 
+		}
+	}
+}
 void CMario::OnCollisionWithGhost(LPCOLLISIONEVENT e)
 {
 	CGhost* ghost = dynamic_cast<CGhost*>(e->obj);
