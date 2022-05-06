@@ -1,0 +1,22 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#MUSHROOM
+90001	248	7	265	24	30
+
+#LEAF
+#right
+90010	308	9	325	24	30
+#left
+90011	287	9	304	24	30
+
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+#MUSHROOM
+9001	90001	1000
+
+#LEAF
+#right
+9010	90010	100
+#left
+9011	90011	100
