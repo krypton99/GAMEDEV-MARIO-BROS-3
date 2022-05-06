@@ -14,7 +14,7 @@
 #include "SampleKeyEventHandler.h"
 #include "Item.h"
 #include "Funnel.h"
-
+#include "VenusFireTrap.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -124,6 +124,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FUNNEL: {
 		int funnelType = (int)atoi(tokens[3].c_str());
 		obj = new CFunnel(x, y, funnelType); break;
+	}
+	case OBJECT_TYPE_VENUS: {
+		int plant_type = (int)atoi(tokens[3].c_str());
+		obj = new CVenusFireTrap(x, y, plant_type);
+		break;
 	}
 	case OBJECT_TYPE_BRICK: 
 	{
