@@ -9,6 +9,7 @@ assets\background_1-1.txt
 assets\item.txt
 assets\funnel.txt
 assets\venus.txt
+assets\koopas.txt
 #
 #
 #map_id	matrix_path	width	height
@@ -47,6 +48,9 @@ assets\venus.txt
 
 #Goomba
 2	300	10
+
+#Koopas
+8	577	360	1000
 
 #Platform
 5	90	136	16	16	16
