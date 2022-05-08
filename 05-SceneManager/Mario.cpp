@@ -13,6 +13,7 @@
 #include "Ghost.h"
 #include "Brick.h"
 #include "Mushroom.h"
+#include "Koopas.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -64,6 +65,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
 		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CKoopas*>(e->obj))
+		OnCollisionWithKoopas(e);
 }
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
 	CMushroom* item = dynamic_cast<CMushroom*>(e->obj);
@@ -117,6 +120,56 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+			}
+		}
+	}
+}
+void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
+{
+	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+	// jump on top >> kill Goomba and deflect a bit 
+	if (koopas->GetKoopasType() == KOOPAS_TYPE_RED) {
+
+		if (e->ny < 0)
+		{
+			if (koopas->GetState() != TROOPA_STATE_DIE)
+			{
+				koopas->SetState(TROOPA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else if (koopas->GetState() == TROOPA_STATE_DIE || koopas->GetState() == TROOPA_STATE_DIE_UP) {
+				if (e->nx <= 0) {
+					koopas->SetState(TROOPA_STATE_ROLL_RIGHT);
+				}
+				else { koopas->SetState(TROOPA_STATE_ROLL_LEFT); }
+			}
+		}
+		else if (koopas->GetState() == TROOPA_STATE_DIE || koopas->GetState() == TROOPA_STATE_DIE_UP)
+		{
+
+			if (e->nx <= 0) {
+				koopas->SetState(TROOPA_STATE_ROLL_RIGHT);
+			}
+			else { koopas->SetState(TROOPA_STATE_ROLL_LEFT); }
+		}
+		else  // hit by Koopas
+		{
+			if (untouchable == 0)
+			{
+				if (koopas->GetState() != TROOPA_STATE_DIE)
+				{
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						level = MARIO_LEVEL_SMALL;
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
+				}
+
 			}
 		}
 	}
