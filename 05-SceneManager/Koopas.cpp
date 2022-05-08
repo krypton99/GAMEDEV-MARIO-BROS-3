@@ -85,9 +85,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == TROOPA_STATE_DIE) {
 		if (timeReborn->IsTimeUp() && timeReborn->GetStartTime()) { // bd tinh time hoi sinh
 			timeReborn->Stop();
+			SetState(TROOPA_STATE_WALKING);
+			y -= 10;
+			if (koopa_type == KOOPAS_TYPE_RED) {
+			ghost_koopas->SetPosition(x + 16, y);
 			}
-
 		}
+	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
 		if (ghost_koopas->isOnGround == false && (state != TROOPA_STATE_DIE && state != TROOPA_STATE_ROLL_LEFT && state != TROOPA_STATE_ROLL_RIGHT)) {
 			vx = -vx;
