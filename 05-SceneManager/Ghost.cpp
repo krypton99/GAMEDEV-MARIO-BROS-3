@@ -1,5 +1,6 @@
 #include "Ghost.h"
 #include "Textures.h"
+#include "Koopas.h"
 
 
 
@@ -53,11 +54,17 @@ CGhostKoopas::CGhostKoopas(float x, float y) :CGameObject(x, y)
 
 void CGhostKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-
+	if(type==GHOST_TYPE_KOOPAS)
 	{
 		left = x - GHOST_KOOPAS_BBOX_WIDTH / 2;
 		top = y - GHOST_KOOPAS_BBOX_HEIGHT / 2;
 		right = left + GHOST_KOOPAS_BBOX_WIDTH;
+		bottom = top + GHOST_KOOPAS_BBOX_HEIGHT;
+	}
+	else {
+		left = x - GHOST_SHELL_BBOX_WIDTH / 2;
+		top = y - GHOST_KOOPAS_BBOX_HEIGHT / 2;
+		right = left + GHOST_SHELL_BBOX_WIDTH;
 		bottom = top + GHOST_KOOPAS_BBOX_HEIGHT;
 	}
 }
@@ -71,7 +78,7 @@ void CGhostKoopas::OnNoCollision(DWORD dt)
 void CGhostKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CGhost*>(e->obj)) return;
+	if (dynamic_cast<CKoopas*>(e->obj)) return;
 
 	if (e->ny != 0)
 	{

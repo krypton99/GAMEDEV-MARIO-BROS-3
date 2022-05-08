@@ -331,6 +331,7 @@ void CPlayScene::Update(DWORD dt)
 			koopas->GetPosition(x, y);
 			if (koopas->isGhostFollow) {
 				koopas->ghost_koopas = new CGhostKoopas(x + 16, y);
+				koopas->ghost_koopas->type = GHOST_TYPE_KOOPAS;
 				if (koopas->ghost_koopas != NULL) {
 					objects.push_back(koopas->ghost_koopas);
 				}

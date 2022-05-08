@@ -79,4 +79,9 @@ public:
 	void SetKoopasType(float koopa_type) { this->koopa_type = koopa_type; };
 	virtual void SetState(int state);
 	Timer* timeReborn = new Timer(5000);
+	bool isMariohold = false;
+	bool isShellUp = false;
+	int n; //0: left, 1:right
+	float temp_x;
+	float temp_y;
 };

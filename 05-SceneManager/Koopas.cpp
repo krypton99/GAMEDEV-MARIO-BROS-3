@@ -79,18 +79,39 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vy += ay * dt;
 	vx += ax * dt;
-	
-	ay = TROOPA_GRAVITY;
+	if (isMariohold) {
+		ay = 0;
+	}
+	else ay = TROOPA_GRAVITY;
 	
 	if (state == TROOPA_STATE_DIE) {
 		if (timeReborn->IsTimeUp() && timeReborn->GetStartTime()) { // bd tinh time hoi sinh
 			timeReborn->Stop();
-			SetState(TROOPA_STATE_WALKING);
-			y -= 10;
-			if (koopa_type == KOOPAS_TYPE_RED) {
-			ghost_koopas->SetPosition(x + 16, y);
+			if (!isMariohold) {
+				SetState(TROOPA_STATE_WALKING);
+				y -= 10;
+				if (koopa_type == KOOPAS_TYPE_RED) {
+					ghost_koopas->type = GHOST_TYPE_KOOPAS;
+					ghost_koopas->SetPosition(x + 16, y);
+					ghost_koopas->SetSpeed(vx, vy);
+				}
 			}
 		}
+	}
+	if (state == TROOPA_STATE_DIE_UP) {
+		if (n > 0) {
+			if (x > temp_x + 20) {
+				vx = 0;
+
+			}
+		}
+		else
+			if (n < 0) {
+				if (x < temp_x - 20) {
+					vx = 0;
+
+				}
+			}
 	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
 		if (ghost_koopas->isOnGround == false && (state != TROOPA_STATE_DIE && state != TROOPA_STATE_ROLL_LEFT && state != TROOPA_STATE_ROLL_RIGHT)) {
@@ -115,20 +136,31 @@ void CKoopas::Render()
 
 		int	aniId = ID_ANI_RED_TROOPA_WALKING_LEFT;
 
-
+		//int ani = KOOPA_TROOPA_ANI_WALKING_LEFT;
 		if ((state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP) && vx == 0) {
-			
-				
+			if (isMariohold) {
+				RenderBoundingBox();
+				return;
+			}
+			else
+				if (state == TROOPA_STATE_DIE_UP) {
+					aniId = ID_ANI_RED_TROOPA_DIE_UP_IDLE;
+				}
+				else {
 					if (timeReborn->Timeleft() > 4000) {
 
 						aniId = ID_ANI_RED_TROOPA_DIE_DOWN_SHAKE;
 					}
 					else aniId = ID_ANI_RED_TROOPA_DIE_DOWN_IDLE;
 
+				}
 
 		}
 		else if (state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) {
-			
+			if (isShellUp) {
+				aniId = ID_ANI_RED_TROOPA_DIE_UP_RUN;
+			}
+			else
 				aniId = ID_ANI_RED_TROOPA_DIE_DOWN_RUN;
 		}
 		else if (state == TROOPA_STATE_DIE_UP) {
@@ -138,25 +170,48 @@ void CKoopas::Render()
 		else if (vx < 0) aniId = ID_ANI_RED_TROOPA_WALKING_LEFT;
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
-	
+	else if (koopa_type == KOOPAS_TYPE_GREEN_WING) {
+
+		int aniId = 0;
+		if (vx > 0) {
+			aniId = ID_ANI_GREEN_TROOPA_FLY_RIGHT;
+		}
+		else if (vx < 0) {
+			aniId = ID_ANI_GREEN_TROOPA_FLY_LEFT;
+		}
+
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	}
 	else/* if(koopa_type == KOOPAS_TYPE_GREEN)*/ {
 		int aniId = ID_ANI_GREEN_TROOPA_WALKING_LEFT;
 		//int ani = KOOPA_TROOPA_ANI_WALKING_LEFT;
 		if ((state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP) && vx == 0) {
-			
-			
+			if (isMariohold) {
+				RenderBoundingBox();
+				return;
+			}
+			else
+				if (state == TROOPA_STATE_DIE_UP) {
+					aniId = ID_ANI_GREEN_TROOPA_DIE_UP_IDLE;
+				}
+				else {
 					if (timeReborn->Timeleft() > 4000) {
 
 						aniId = ID_ANI_GREEN_TROOPA_DIE_DOWN_SHAKE;
 					}
 					else aniId = ID_ANI_GREEN_TROOPA_DIE_DOWN_IDLE;
 
+				}
 		}
 		else if (state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) {
-			
+			if (isShellUp) {
+				aniId = ID_ANI_GREEN_TROOPA_DIE_UP_RUN;
+			}
 			aniId = ID_ANI_GREEN_TROOPA_DIE_DOWN_RUN;
 		}
-		
+		else if (state == TROOPA_STATE_DIE_UP) {
+			aniId = ID_ANI_GREEN_TROOPA_DIE_UP_IDLE;
+		}
 		else if (vx > 0) aniId = ID_ANI_GREEN_TROOPA_WALKING_RIGHT;
 		else if (vx < 0) aniId = ID_ANI_GREEN_TROOPA_WALKING_LEFT;
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
@@ -179,9 +234,12 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		vy = 0;
 		ax = 0;
+		ghost_koopas->SetVx(0);
+		ghost_koopas->type = GHOST_TYPE_SHELL;
+		ghost_koopas->SetPosition(x, y + 5);
 		//ay = 0;
 		//timeStartJump->Stop();
-
+		isShellUp = false;
 		timeReborn->Start();
 
 		break;
@@ -191,6 +249,17 @@ void CKoopas::SetState(int state)
 		break;
 	case TROOPA_STATE_ROLL_LEFT:
 		vx = -TROOPA_ROLLING_SPEED;
+		break;
+	case TROOPA_STATE_DIE_UP:
+		vy = -0.4f;
+		if (n > 0) {
+			vx = 0.05f;
+		}
+		else {
+			vx = -0.05f;
+		}
+
+		isShellUp = true;
 		break;
 	case TROOPA_STATE_ROLL_RIGHT:
 		vx = TROOPA_ROLLING_SPEED;

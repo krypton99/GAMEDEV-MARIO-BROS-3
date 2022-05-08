@@ -3,7 +3,7 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
+#include "Koopas.h"
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.1f
@@ -129,7 +129,9 @@ class CMario : public CGameObject
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
-
+	CKoopas* shell = nullptr;
+	bool holding = false;
+	bool isHolding = false;
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
@@ -153,7 +155,7 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
-
+		
 		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
@@ -176,6 +178,9 @@ public:
 	int GetLevel() { return level; };
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-
+	bool GetHolding() { return holding; }
+	void SetHolding(bool holding) { this->holding = holding; }
+	bool GetIsHolding() { return isHolding; }
+	void SetIsHolding(bool isHolding) { this->isHolding = isHolding; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
