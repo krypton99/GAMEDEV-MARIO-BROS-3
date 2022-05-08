@@ -38,3 +38,30 @@ public:
 	void RenderBoundingBox();
 	
 };
+
+
+class CGhostKoopas : public CGameObject
+{
+protected:
+	float ax;
+	float ay;
+
+	ULONGLONG die_start;
+
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+
+
+	virtual int IsCollidable() { return 1; };
+	virtual int IsBlocking() { return 0; }
+	virtual void OnNoCollision(DWORD dt);
+
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+
+public:
+	CGhostKoopas(float x, float y);
+	void SetPos(float x, float y) { this->x = x; this->y = y; }
+	virtual void SetState(int state);
+	bool isOnGround = false;
+	virtual void Render();
+};
