@@ -15,6 +15,7 @@
 #include "Item.h"
 #include "Funnel.h"
 #include "VenusFireTrap.h"
+#include "Koopas.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -128,6 +129,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_VENUS: {
 		int plant_type = (int)atoi(tokens[3].c_str());
 		obj = new CVenusFireTrap(x, y, plant_type);
+		break;
+	}
+	case OBJECT_TYPE_KOOPAS:
+	{
+		float type = (float)atof(tokens[3].c_str());
+		obj = new CKoopas(x, y, type);
+		obj->SetPosition(x, y);
+		
+		/*objects.push_back(obj);*/
+
 		break;
 	}
 	case OBJECT_TYPE_BRICK: 
