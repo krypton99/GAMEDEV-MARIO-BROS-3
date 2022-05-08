@@ -68,6 +68,8 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
+	CGhostKoopas* ghost_koopas = NULL;
+	bool isGhostFollow = false;
 	CKoopas(float x, float y, float type);
 	int GetLevel() { return level; };
 	void SetLevel(int level) { this->level = level; };

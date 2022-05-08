@@ -12,7 +12,7 @@ CKoopas::CKoopas(float x, float y, float type) : CGameObject(x, y)
 	this->ay = TROOPA_GRAVITY;
 	this->koopa_type = type;
 	this->type = OBJECT_TYPE_KOOPAS;
-
+	isGhostFollow = true;
 	type = OBJECT_TYPE_KOOPAS;
 	die_start = -1;
 	
@@ -88,7 +88,19 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 		}
-
+	if (koopa_type == KOOPAS_TYPE_RED) {
+		if (ghost_koopas->isOnGround == false && (state != TROOPA_STATE_DIE && state != TROOPA_STATE_ROLL_LEFT && state != TROOPA_STATE_ROLL_RIGHT)) {
+			vx = -vx;
+			if (vx > 0) {
+				ghost_koopas->SetSpeed(vx, vy);
+				ghost_koopas->SetPos(this->x + 17, y+((TROOPA_BBOX_HEIGHT-GHOST_KOOPAS_BBOX_HEIGHT) / 2) );
+			}
+			else if (vx < 0) {
+				ghost_koopas->SetSpeed(vx, vy);
+				ghost_koopas->SetPos(this->x - 17, y + ((TROOPA_BBOX_HEIGHT - GHOST_KOOPAS_BBOX_HEIGHT) / 2));
+			}
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 

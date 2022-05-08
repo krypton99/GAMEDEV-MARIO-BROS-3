@@ -55,10 +55,10 @@ void CGhostKoopas::GetBoundingBox(float& left, float& top, float& right, float& 
 {
 
 	{
-		left = x - GHOST_BBOX_WIDTH / 2;
-		top = y - GHOST_BBOX_HEIGHT / 2;
-		right = left + GHOST_BBOX_WIDTH;
-		bottom = top + GHOST_BBOX_HEIGHT;
+		left = x - GHOST_KOOPAS_BBOX_WIDTH / 2;
+		top = y - GHOST_KOOPAS_BBOX_HEIGHT / 2;
+		right = left + GHOST_KOOPAS_BBOX_WIDTH;
+		bottom = top + GHOST_KOOPAS_BBOX_HEIGHT;
 	}
 }
 
@@ -81,6 +81,7 @@ void CGhostKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 			isOnGround = true;
 
 		}
+		
 	}
 	else if (e->nx != 0)
 	{

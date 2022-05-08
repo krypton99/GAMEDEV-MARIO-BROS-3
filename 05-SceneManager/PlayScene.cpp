@@ -325,6 +325,19 @@ void CPlayScene::Update(DWORD dt)
 				platform->SetIsThrough(false);
 	
 			}
+		if (objects[i]->GetType() == OBJECT_TYPE_KOOPAS) {
+			CKoopas* koopas = dynamic_cast<CKoopas*>(objects[i]);
+			float x, y;
+			koopas->GetPosition(x, y);
+			if (koopas->isGhostFollow) {
+				koopas->ghost_koopas = new CGhostKoopas(x + 16, y);
+				if (koopas->ghost_koopas != NULL) {
+					objects.push_back(koopas->ghost_koopas);
+				}
+				else return;
+				koopas->isGhostFollow = false;
+			}
+		}
 		}
 
 	for (size_t i = 1; i < objects.size(); i++)
