@@ -68,6 +68,7 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
 	CGhostKoopas* ghost_koopas = NULL;
 	bool isGhostFollow = false;

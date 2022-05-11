@@ -74,6 +74,10 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		OnCollisionWithBrick(e);
 	}
+	else if(dynamic_cast<CGoomba*>(e->obj))
+	{
+		OnCollisionWithGoomba(e);
+	}
 }
 void CKoopas::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
@@ -82,7 +86,13 @@ void CKoopas::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 		brick->SetState(BRICK_STATE_EMPTY);
 	}
 }
+void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) {
+		goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
+	}
 
+}
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 

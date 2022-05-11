@@ -55,6 +55,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if ( (state==GOOMBA_STATE_DIE) && (GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT) )
 	{
 		isDeleted = true;
+		state = STATE_ERASE;
 		return;
 	}
 
@@ -70,7 +71,9 @@ void CGoomba::Render()
 	{
 		aniId = ID_ANI_GOOMBA_DIE;
 	}
-
+	else if (state == GOOMBA_STATE_DIE_BY_OBJECT) {
+		aniId = ID_ANI_BROWN_GOOMBA_DIE_BY_OBJECT;
+	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x,y);
 	RenderBoundingBox();
 }
@@ -89,6 +92,11 @@ void CGoomba::SetState(int state)
 			break;
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;
+			break;
+		case GOOMBA_STATE_DIE_BY_OBJECT:
+			vy = -GOOMBA_DIE_DEFLECT_SPEED;
+			vx = 0;
+			ax = 0;
 			break;
 	}
 }
