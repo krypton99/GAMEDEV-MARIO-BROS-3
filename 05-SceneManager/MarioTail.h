@@ -21,6 +21,7 @@ private:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
 	CMarioTail(float x, float y);
 	void Render();

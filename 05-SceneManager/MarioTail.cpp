@@ -26,8 +26,9 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,D3DXVECTOR2 pl
 		if (animations->Get(ani)->getCurrentFrame() != NULL) {
 			animations->Get(ani)->getFrames();
 			frame = animations->Get(ani)->getCurrentFrame();
+			DebugOut(L"frame %d \n", frame);
 		}
-		if ((frame == 3||frame == 1) && isAttack) {
+		if ((frame == 3||frame == 1) /*&& isAttack*/) {
 			if (nx > 0) {
 				this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
 			}
@@ -65,7 +66,16 @@ void CMarioTail::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CKoopas*>(e->obj) /*&& isAttack*/) {
 		OnCollisionWithKoopas(e);
 	}
+	if (dynamic_cast<CGoomba*>(e->obj) && isAttack) {
+		OnCollisionWithGoomba(e);
+	}
 
+}
+void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	
+	goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
+	
 }
 void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
@@ -84,7 +94,7 @@ void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b) {
 			if (animations->Get(ani)->getCurrentFrame() != NULL) {
 				frame = animations->Get(ani)->getCurrentFrame();
 			}
-			if ((frame == 3 || frame == 1) && isAttack) {
+			if ((frame == 3 || frame == 1)/* && isAttack*/) {
 				if (nx > 0) {
 					l = x + TAIL_BBOX_WIDTH / 2;
 				}
