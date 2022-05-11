@@ -291,7 +291,7 @@ void CPlayScene::Update(DWORD dt)
 			CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
 
 
-			if (brick->isFallingItem) {
+			if (brick->isFallingItem ) {
 				//CREATE ITEM FOLLOW MARIO LEVEL
 				Item* item = NULL;
 				CGameObject* obj = NULL;

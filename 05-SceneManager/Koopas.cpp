@@ -28,9 +28,9 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 {
 	if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT)
 	{
-		left = x - TROOPA_BBOX_WIDTH / 2;
+		left = x - TROOPA_BBOX_WIDTH_DIE / 2;
 		top = y - TROOPA_BBOX_HEIGHT_DIE / 2;
-		right = left + TROOPA_BBOX_WIDTH;
+		right = left + TROOPA_BBOX_WIDTH_DIE;
 		bottom = top + TROOPA_BBOX_HEIGHT_DIE;
 	}
 	else
@@ -70,9 +70,18 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 
 		vx = -vx;
 	}
-	
+	if (dynamic_cast<CBrick*>(e->obj) && (state==TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT))
+	{
+		OnCollisionWithBrick(e);
+	}
 }
-
+void CKoopas::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (brick->GetState() != BRICK_STATE_EMPTY) {
+		brick->isFallingItem = true;
+		brick->SetState(BRICK_STATE_EMPTY);
+	}
+}
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

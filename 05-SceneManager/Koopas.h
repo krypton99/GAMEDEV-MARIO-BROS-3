@@ -10,7 +10,7 @@
 #define TROOPA_BBOX_WIDTH 16
 #define TROOPA_BBOX_HEIGHT 26
 #define TROOPA_BBOX_HEIGHT_DIE 16
-
+#define TROOPA_BBOX_WIDTH_DIE 18
 
 
 #define TROOPA_STATE_WALKING 100
@@ -67,6 +67,7 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 public:
 	CGhostKoopas* ghost_koopas = NULL;
 	bool isGhostFollow = false;
