@@ -20,7 +20,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 	
-	DebugOut(L"canHold %d \n", canHold);
+	DebugOut(L"state %f \n", state);
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
@@ -29,6 +29,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+	isOnPlatform = false;
 	if (flyTime->IsTimeUp())
 		flyTime->Stop();
 	isOnPlatform = false;
@@ -36,9 +37,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		if (!isOnPlatform) {
 			if (isFlying && !flyTime->IsTimeUp()) {
 				this->state = MARIO_STATE_FLY;
+				isFlying = false;
 			}
 			else {
 				isFlying = false;
+				/*ay = MARIO_GRAVITY;*/
 				this->state = MARIO_STATE_JUMP;
 			}
 		}
@@ -101,6 +104,7 @@ void CMario::DecreaseSpeed() {
 		ax = 0;
 		
 	}
+	//ay = MARIO_GRAVITY;
 	isFlying = false;
 }
 void CMario::OnNoCollision(DWORD dt)
@@ -708,7 +712,9 @@ void CMario::SetState(int state)
 	case MARIO_STATE_RELEASE_JUMP:
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
 		break;
-
+	case MARIO_STATE_RELEASE_FLY:
+		if (ay < 0) ay = MARIO_GRAVITY ;
+		break;
 	case MARIO_STATE_SIT:
 		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
 		{
@@ -732,6 +738,7 @@ void CMario::SetState(int state)
 		/*ax = 0.0f;
 		vx = 0.0f;*/
 		DecreaseSpeed();
+		//isFlying = false;
 		break;
 
 	case MARIO_STATE_DIE:
@@ -743,7 +750,7 @@ void CMario::SetState(int state)
 		if (isSitting) break;
 		if (level == MARIO_LEVEL_RACOON) {
 			isFlying = true;
-			ay = -0.0002f;
+			ay = -0.001;
 			vy = 0;
 			isOnPlatform = false;
 			flyTime->Start();

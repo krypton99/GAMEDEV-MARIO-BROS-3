@@ -5,7 +5,7 @@
 #include "Animations.h"
 #include "Koopas.h"
 #include "debug.h"
-#define TIME_FLY					2000
+#define TIME_FLY					3000
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
 
@@ -35,6 +35,7 @@
 #define MARIO_STATE_SIT_RELEASE		601
 
 #define MARIO_STATE_FLY				700
+#define MARIO_STATE_RELEASE_FLY     800
 
 #pragma region ANIMATION_ID
 
@@ -193,6 +194,7 @@ class CMario : public CGameObject
 	int GetAniIdRacoon();
 	void DecreaseSpeed();
 public:
+	void setAy(float ay) { this->ay = ay; }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		isSitting = false;
@@ -229,4 +231,6 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	bool GetIsFlying() { return isFlying; }
 	void SetIsFlying(bool isFlying) { this->isFlying = isFlying; }
+	bool GetIsOnPlatform() { return isOnPlatform; }
+	void SetIsOnPlatform(bool isOnPlatform) { this->isOnPlatform = isOnPlatform; }
 };
