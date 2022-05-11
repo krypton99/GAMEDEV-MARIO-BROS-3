@@ -25,6 +25,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_2:
 		mario->SetLevel(MARIO_LEVEL_BIG);
 		break;
+	case DIK_3:
+		mario->SetLevel(MARIO_LEVEL_RACOON);
+		break;
 	case DIK_0:
 		mario->SetState(MARIO_STATE_DIE);
 		break;
@@ -34,9 +37,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_F:
 		if (mario->GetIsHolding() == true) {
 			mario->SetIsHolding(false);
-		}
-		else
+		} else
 			mario->SetHolding(true);
+		
 		break;
 	}
 
