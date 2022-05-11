@@ -549,17 +549,17 @@ int CMario::GetAniIdRacoon()
 		else
 		{
 			if (nx >= 0) {
-				/*if (isFallLower) {
+				if (isFallLower) {
 					aniId = ID_ANI_MARIO_RACOON_FALL_SLOW_RIGHT;
 				}
-				else*/
+				else
 					aniId = ID_ANI_RACOON_MARIO_JUMP_WALK_RIGHT;
 			}
 			else {
-				/*if (isFallLower) {
+				if (isFallLower) {
 					aniId = ID_ANI_MARIO_RACOON_FALL_SLOW_LEFT;
 				}
-				else*/
+				else
 					aniId = ID_ANI_RACOON_MARIO_JUMP_WALK_LEFT;
 			}
 		}

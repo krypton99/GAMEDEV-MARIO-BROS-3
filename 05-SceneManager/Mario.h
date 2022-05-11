@@ -8,7 +8,7 @@
 #define TIME_FLY					3000
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
-
+#define MARIO_RACOON_FALLING_SLOW_SPEED -0.04f
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
 #define MARIO_ACCEL_STOP_X 0.0003f
@@ -193,6 +193,7 @@ class CMario : public CGameObject
 	int GetAniIdSmall();
 	int GetAniIdRacoon();
 	void DecreaseSpeed();
+	bool isFallLower = false;
 public:
 	void setAy(float ay) { this->ay = ay; }
 	CMario(float x, float y) : CGameObject(x, y)
@@ -233,4 +234,8 @@ public:
 	void SetIsFlying(bool isFlying) { this->isFlying = isFlying; }
 	bool GetIsOnPlatform() { return isOnPlatform; }
 	void SetIsOnPlatform(bool isOnPlatform) { this->isOnPlatform = isOnPlatform; }
+	bool GetFallLower() { return isFallLower; }
+	void SetFallLower(bool isFallLower) { this->isFallLower = isFallLower; }
+	float GetVy() { return vy; }
+	void SetVy(float vy) { this->vy = vy; }
 };
