@@ -33,19 +33,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (flyTime->IsTimeUp())
 		flyTime->Stop();
 	isOnPlatform = false;
-	if (level == MARIO_LEVEL_RACOON) {
-		if (!isOnPlatform) {
-			if (isFlying && !flyTime->IsTimeUp()) {
-				this->state = MARIO_STATE_FLY;
-				isFlying = false;
-			}
-			else {
-				isFlying = false;
-				/*ay = MARIO_GRAVITY;*/
-				this->state = MARIO_STATE_JUMP;
-			}
-		}
-	}
+	//if (level == MARIO_LEVEL_RACOON) {
+	//	if (!isOnPlatform) {
+	//		if (isFlying && !flyTime->IsTimeUp()) {
+	//			this->state = MARIO_STATE_FLY;
+	//			isFlying = false;
+	//		}
+	//		else {
+	//			isFlying = false;
+	//			/*ay = MARIO_GRAVITY;*/
+	//			this->state = MARIO_STATE_JUMP;
+	//		}
+	//	}
+	//}
 	if (shell != nullptr) {
 		if (isHolding == true) {
 			if (level == MARIO_LEVEL_SMALL) {
@@ -82,7 +82,38 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
-	
+	if (level == MARIO_LEVEL_RACOON) {
+		if (isAttack && GetTickCount64() - attackStart->GetStartTime() <= MARIO_TIME_ATTACK) {
+			this->state = MARIO_STATE_ATTACK;
+			tail->SetState(TAIL_STATE_HIT);
+
+			// Xet lai huong cho tail khi o frame 2
+			if (GetTickCount64() - attackStart->GetStartTime() < MARIO_TIME_ATTACK / 2 && changeNx == 0) {
+				nx = -nx;
+				changeNx++;
+			}
+			if (GetTickCount64() - attackStart->GetStartTime() >= MARIO_TIME_ATTACK / 2 && changeNx == 1) {
+				changeNx = 0;
+				nx = -nx;
+			}
+			tail->SetPosition(x, y);
+			tail->Update(dt, coObjects, { x,y }, nx);
+
+		}
+		else {
+			if (!isOnPlatform) {
+				if (isFlying && !flyTime->IsTimeUp()) {
+					this->state = MARIO_STATE_FLY;
+				}
+				else {
+					isFlying = false;
+					this->state = MARIO_STATE_JUMP;
+				}
+			}
+			isAttack = false;
+			attackStart->Stop();
+		}
+	}
 }
 void CMario::DecreaseSpeed() {
 	if (vx < 0 && nx == 1) {
@@ -128,6 +159,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->nx != 0 && e->obj->IsBlocking())
 	{
 		vx = 0;
+		/*ax = 0;*/
 	}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
@@ -537,7 +569,7 @@ int CMario::GetAniIdBig()
 int CMario::GetAniIdRacoon()
 {
 	int aniId = -1;
-	if (!isOnPlatform && !isHolding)
+	if (!isOnPlatform && !isHolding && !isAttack)
 	{
 		if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
@@ -572,7 +604,13 @@ int CMario::GetAniIdRacoon()
 			else
 				aniId = ID_ANI_RACOON_MARIO_SIT_LEFT;
 		}
-		
+		else if (isAttack)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_RACOON_MARIO_ATTACK_RIGHT;
+			else
+				aniId = ID_ANI_RACOON_MARIO_ATTACK_LEFT;
+		}
 		else if (isHolding) {
 			if (shell->GetKoopasType() == KOOPAS_TYPE_RED) {
 				if (vx == 0)
@@ -660,8 +698,9 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_RACOON)
 		aniId = GetAniIdRacoon();
 
+	tail->ani = aniId;
 	animations->Get(aniId)->Render(x, y);
-
+	
 	//RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
@@ -755,6 +794,12 @@ void CMario::SetState(int state)
 			isOnPlatform = false;
 			flyTime->Start();
 		}
+		break;
+	case MARIO_STATE_ATTACK:
+		isAttack = true;
+		attackStart->Start();
+		tail->SetPosition(x, y);
+		tail->isAttack = true;
 		break;
 	}
 

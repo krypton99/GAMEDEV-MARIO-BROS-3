@@ -5,6 +5,8 @@
 #include "Animations.h"
 #include "Koopas.h"
 #include "debug.h"
+#include "MarioTail.h"
+#define MARIO_TIME_ATTACK 400
 #define TIME_FLY					3000
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
@@ -36,6 +38,8 @@
 
 #define MARIO_STATE_FLY				700
 #define MARIO_STATE_RELEASE_FLY     800
+
+#define MARIO_STATE_ATTACK	900
 
 #pragma region ANIMATION_ID
 
@@ -137,6 +141,9 @@
 #define ID_ANI_MARIO_RACOON_PIPE 2424
 #define ID_ANI_MARIO_RACOON_FALL_SLOW_LEFT 2425
 #define ID_ANI_MARIO_RACOON_FALL_SLOW_RIGHT 2426
+
+#define ID_ANI_RACOON_MARIO_ATTACK_RIGHT	2301
+#define ID_ANI_RACOON_MARIO_ATTACK_LEFT		2300
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -195,6 +202,8 @@ class CMario : public CGameObject
 	void DecreaseSpeed();
 	bool isFallLower = false;
 public:
+	int changeNx = 0;
+	bool isAttack = false;
 	void setAy(float ay) { this->ay = ay; }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -202,13 +211,14 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
-		
+		tail = new CMarioTail(x, y);
 		level = MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 	}
+	CMarioTail* tail = CMarioTail::GetInstance(x,y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
@@ -218,6 +228,7 @@ public:
 		return (state != MARIO_STATE_DIE); 
 	}
 	Timer* flyTime = new Timer(TIME_FLY);
+	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
 
 	void OnNoCollision(DWORD dt);

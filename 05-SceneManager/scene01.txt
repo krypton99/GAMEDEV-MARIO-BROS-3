@@ -51,7 +51,8 @@ assets\koopas.txt
 
 
 #Goomba
-2	300	10
+2	608	400	1000
+2	930	370	1000
 
 #Koopas
 8	577	360	1000
