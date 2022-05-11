@@ -11,7 +11,7 @@
 
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
-
+#define MARIO_ACCEL_STOP_X 0.0003f
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
 
@@ -191,6 +191,7 @@ class CMario : public CGameObject
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRacoon();
+	void DecreaseSpeed();
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
