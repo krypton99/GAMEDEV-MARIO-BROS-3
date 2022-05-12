@@ -122,7 +122,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		objects.push_back(player->tail);
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
+	case OBJECT_TYPE_GOOMBA: {
+		float goomba_type = (float)atof(tokens[3].c_str());
+		obj = new CGoomba(x, y,goomba_type); break;
+	}
 	case OBJECT_TYPE_FUNNEL: {
 		int funnelType = (int)atoi(tokens[3].c_str());
 		obj = new CFunnel(x, y, funnelType); break;
