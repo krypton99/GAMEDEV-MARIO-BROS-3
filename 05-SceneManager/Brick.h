@@ -46,7 +46,7 @@ public:
 	float GetPosY() { return y; };
 	virtual void SetState(int state);
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return isBlocking; };
+	virtual int IsBlocking() { return 1; };
 	boolean isBlocking = 1;
 	bool isBroken = false;
 };

@@ -16,6 +16,7 @@
 #include "Funnel.h"
 #include "VenusFireTrap.h"
 #include "Koopas.h"
+#include "Leaf.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -300,8 +301,9 @@ void CPlayScene::Update(DWORD dt)
 				Item* item = NULL;
 				CGameObject* obj = NULL;
 				if (brick->GetItemType() == CONTAIN_MUSHROOM) {
-					
-					item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_RED_MUSHROOM);
+					if (player->GetLevel() == MARIO_LEVEL_BIG)
+						item = new CLeaf({ brick->GetPosX(), brick->GetPosY() - ITEM_BBOX * 3 , ITEM_LEAF });
+					else item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_RED_MUSHROOM);
 				}
 
 				if (item != NULL) {

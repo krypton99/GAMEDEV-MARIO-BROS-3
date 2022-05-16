@@ -56,7 +56,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 }
 void CBrick::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	x = start_x;
+
 
 }
 void CBrick::SetState(int state) {
