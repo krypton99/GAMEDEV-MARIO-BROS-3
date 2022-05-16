@@ -14,6 +14,7 @@
 #include "Brick.h"
 #include "Mushroom.h"
 #include "Koopas.h"
+#include "Leaf.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -176,6 +177,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
 		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CLeaf*>(e->obj))
+		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CKoopas*>(e->obj))
 		OnCollisionWithKoopas(e);
 	/*else 
@@ -195,6 +198,21 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
 			e->obj->SetState(STATE_ERASE);
 			SetLevel(MARIO_LEVEL_BIG);
 
+		}
+	}
+}
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e) {
+	CLeaf* item = dynamic_cast<CLeaf*>(e->obj);
+	if (item->GetItemType() == ITEM_LEAF) {
+		if (level > MARIO_LEVEL_BIG)
+		{
+			item->SetState(STATE_ERASE);
+			return;
+		}
+		else
+		{
+			level = MARIO_LEVEL_RACOON;
+			item->SetState(STATE_ERASE);
 		}
 	}
 }
