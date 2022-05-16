@@ -3,7 +3,8 @@
 #include "GameObject.h"
 #include "debug.h"
 #include "AssetIDs.h"
-
+#include "Collision.h"
+#define MAX_ZONE	48
 CVenusFireTrap::CVenusFireTrap(float x, float y, int plant_type) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -37,7 +38,7 @@ void CVenusFireTrap::OnCollisionWith(LPCOLLISIONEVENT e)
 
 }
 
-void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
 {
 	//CGameObject::Update(dt);
 	this->y += vy * dt;
@@ -62,7 +63,43 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		hiddenTimer->Stop();
 		SetState(VENUS_STATE_UP);
 	}
-	
+
+	if (player.x < start_x) {
+		// mario_x o ben TRAI fireflower
+		if (player.y > this->y) {
+			// mario_y THAP hon fireflower
+			if (CheckDistancePlayer(player))
+				mario_direction = MARIO_LEFT_DOWN_NEAR;
+			else
+				mario_direction = MARIO_LEFT_DOWN_FAR;
+		}
+		else {
+			// mario_y CAO hon fireflower
+			if (CheckDistancePlayer(player))
+				mario_direction = MARIO_LEFT_UP_NEAR;
+			else
+				mario_direction = MARIO_LEFT_UP_FAR;
+		}
+		nx = -1;
+	}
+	else {
+		// mario_x o ben PHAI fireflower
+		if (player.y > this->y) {
+			// mario_y THAP hon fireflower
+			if (CheckDistancePlayer(player))
+				mario_direction = MARIO_RIGHT_DOWN_NEAR;
+			else
+				mario_direction = MARIO_RIGHT_DOWN_FAR;
+		}
+		else {
+			// mario_y CAO hon fireflower
+			if (CheckDistancePlayer(player))
+				mario_direction = MARIO_RIGHT_UP_NEAR;
+			else
+				mario_direction = MARIO_RIGHT_UP_FAR;
+		}
+		nx = 1;
+	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -71,16 +108,36 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CVenusFireTrap::Render()
 {
-	int aniId = 0;
+	int ani = ID_ANI_REDVENUS_MOVE;
 	
-	if (plant_type == PLANT_TYPE_RED_VENUS) {
-		CAnimations::GetInstance()->Get(ID_ANI_REDVENUS_MOVE)->Render(x, y);
+	switch (mario_direction)
+	{
+	case MARIO_LEFT_DOWN_FAR:
+	case MARIO_LEFT_DOWN_NEAR:
+		ani = ID_ANI_REDVENUS_LEFT_DOWN;
+		break;
+	case MARIO_LEFT_UP_FAR:
+	case MARIO_LEFT_UP_NEAR:
+		ani = ID_ANI_REDVENUS_LEFT_UP;
+		break;
+	case MARIO_RIGHT_DOWN_FAR:
+	case MARIO_RIGHT_DOWN_NEAR:
+		ani = ID_ANI_REDVENUS_RIGHT_DOWN;
+		break;
+	case MARIO_RIGHT_UP_FAR:
+	case MARIO_RIGHT_UP_NEAR:
+		ani = ID_ANI_REDVENUS_RIGHT_UP;
+		break;
 	}
-	else if (plant_type == PLANT_TYPE_GREEN_VENUS) {
-		CAnimations::GetInstance()->Get(ID_ANI_GREENVENUS_MOVE)->Render(x, y);
-	}
+	CAnimations::GetInstance()->Get(ani)->Render(x, y);
 	
 	//RenderBoundingBox();
+}
+bool CVenusFireTrap::CheckDistancePlayer(D3DXVECTOR4 player)
+{
+	if (abs(player.x - start_x) < MAX_ZONE) // trong vung gan hoa
+		return true;
+	return false;
 }
 
 void CVenusFireTrap::SetState(int state)

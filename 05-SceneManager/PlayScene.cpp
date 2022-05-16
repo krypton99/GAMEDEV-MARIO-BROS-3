@@ -345,6 +345,12 @@ void CPlayScene::Update(DWORD dt)
 				koopas->isGhostFollow = false;
 			}
 		}
+		if (objects[i]->GetType() == OBJECT_TYPE_VENUS) {
+			float l, t, r, b;
+			player->GetBoundingBox(l, t, r, b);
+			CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(objects[i]);
+			venus->Update(dt, &objects, { l,t,r,b });
+		}
 		}
 
 	for (size_t i = 1; i < objects.size(); i++)

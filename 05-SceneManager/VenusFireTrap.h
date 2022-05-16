@@ -34,6 +34,15 @@
 #define PLANT_TYPE_RED_VENUS 10
 #define PLANT_TYPE_GREEN_VENUS 20
 
+#define MARIO_LEFT_DOWN_FAR		1
+#define MARIO_LEFT_DOWN_NEAR	2
+#define MARIO_LEFT_UP_FAR		3
+#define MARIO_LEFT_UP_NEAR		4
+
+#define MARIO_RIGHT_DOWN_FAR	5
+#define MARIO_RIGHT_DOWN_NEAR	6
+#define MARIO_RIGHT_UP_FAR		7
+#define MARIO_RIGHT_UP_NEAR		8
 class CVenusFireTrap : public CGameObject
 {
 protected:
@@ -44,16 +53,16 @@ protected:
 	ULONGLONG die_start;
 	int plant_type;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	
 	virtual void Render();
-
+	int mario_direction = 0;
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; };
 	virtual void OnNoCollision(DWORD dt);
-
+	bool CheckDistancePlayer(D3DXVECTOR4 player);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
 public:
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
 	CVenusFireTrap(float x, float y, int plant_type);
 	virtual void SetState(int state);
 };
