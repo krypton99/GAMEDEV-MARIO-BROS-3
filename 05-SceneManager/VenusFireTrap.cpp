@@ -4,6 +4,7 @@
 #include "debug.h"
 #include "AssetIDs.h"
 #include "Collision.h"
+#include "FireBullet.h"
 #define MAX_ZONE	48
 CVenusFireTrap::CVenusFireTrap(float x, float y, int plant_type) :CGameObject(x, y)
 {
@@ -100,7 +101,24 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTO
 		}
 		nx = 1;
 	}
+	if (isAttack) {
+		if (nx > 0) { // PHAI
+			fireBullet = new CFireBullet( x , y  , nx, mario_direction);
+		}
+		else {
+			fireBullet = new CFireBullet( x , y  , nx, mario_direction);
+		}
+		isAttack = false;
+		coObjects->push_back(fireBullet);
+	}
 
+	// step 1: (state = moving up)
+	
+	//if (GetState() == VENUS_STATE_UP && y < start_y - VENUS_BBOX_HEIGHT) {
+	//		y = start_y - VENUS_BBOX_HEIGHT; // vi tri y tang len maximum ~ flower height
+	//		SetState(VENUS_STATE_ATTACK);
+	//}
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -147,6 +165,7 @@ void CVenusFireTrap::SetState(int state)
 	{
 	case VENUS_STATE_ATTACK:
 		vy = 0;
+		isAttack = true;
 		attackTimer->Start();
 		break;
 	case VENUS_STATE_HIDDEN:

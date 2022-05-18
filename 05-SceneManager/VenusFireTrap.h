@@ -4,7 +4,7 @@
 #include"Animation.h"
 #include"Animations.h"
 #include "Timer.h"
-
+#include "FireBullet.h"
 #define VENUS_MOVING_SPEED 0.005f
 
 #define HIDDEN_TIME 2500
@@ -53,7 +53,7 @@ protected:
 	ULONGLONG die_start;
 	int plant_type;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	
+	CFireBullet* fireBullet = nullptr;
 	virtual void Render();
 	int mario_direction = 0;
 	virtual int IsCollidable() { return 1; };
@@ -62,6 +62,7 @@ protected:
 	bool CheckDistancePlayer(D3DXVECTOR4 player);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 public:
+	bool isAttack;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
 	CVenusFireTrap(float x, float y, int plant_type);
 	virtual void SetState(int state);
