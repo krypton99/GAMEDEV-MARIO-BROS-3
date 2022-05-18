@@ -7,6 +7,9 @@
 #define BULLET_BBOX_WIDTH	8
 #define BULLET_BBOX_HEIGHT	8
 
+#define ID_ANI_BULLET_RIGHT 5001
+#define ID_ANI_BULLET_LEFT 5002
+
 
 #define BULLET_GRAVITY 0.0008f //gravity
 #define BULLET_SPEED_X	0.2f 

@@ -12,6 +12,10 @@ void CBullet::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int ani = 0;
+	if (nx > 0) {
+		ani = ID_ANI_BULLET_RIGHT;
+	}
+	else ani = ID_ANI_BULLET_LEFT;
 	animations->Get(ani)->Render(x, y);
 	//RenderBoundingBox();
 }
@@ -29,7 +33,7 @@ void CBullet::OnNoCollision(DWORD dt)
 	y += vy * dt;
 }
 void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	//CGameObject::Update(dt);
+	CGameObject::Update(dt);
 	this->vy += BULLET_GRAVITY * dt;	// Simple fall down
 	this->vx = nx * BULLET_SPEED_X;
 

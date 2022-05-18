@@ -112,12 +112,6 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTO
 		coObjects->push_back(fireBullet);
 	}
 
-	// step 1: (state = moving up)
-	
-	//if (GetState() == VENUS_STATE_UP && y < start_y - VENUS_BBOX_HEIGHT) {
-	//		y = start_y - VENUS_BBOX_HEIGHT; // vi tri y tang len maximum ~ flower height
-	//		SetState(VENUS_STATE_ATTACK);
-	//}
 	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
