@@ -70,7 +70,7 @@ protected:
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
-	CGhostKoopas* ghost_koopas = NULL;
+	CGhost* ghost_koopas = NULL;
 	bool isGhostFollow = false;
 	CKoopas(float x, float y, float type);
 	int GetLevel() { return level; };

@@ -170,9 +170,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CGhostPlatform*>(e->obj))
+		OnCollisionWithGhostPlatform(e);
 	else if (dynamic_cast<CGhost*>(e->obj))
-		OnCollisionWithGhost(e);
-	else if (dynamic_cast<CGhostKoopas*>(e->obj))
 		OnCollisionWithGhostKoopas(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
 		OnCollisionWithBrick(e);
@@ -219,16 +219,16 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e) {
 }
 void CMario::OnCollisionWithGhostKoopas(LPCOLLISIONEVENT e) {
 	canHold = false;
-	CGhostKoopas* ghost_koopas = dynamic_cast<CGhostKoopas*>(e->obj);
+	CGhost* ghost_koopas = dynamic_cast<CGhost*>(e->obj);
 	/*if (holding == true) {
 		isHolding = true;
 		shell->isMariohold = true;
 	}*/
 	canHold = true;
 }
-void CMario::OnCollisionWithGhost(LPCOLLISIONEVENT e)
+void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 {
-	CGhost* ghost = dynamic_cast<CGhost*>(e->obj);
+	CGhostPlatform* ghost = dynamic_cast<CGhostPlatform*>(e->obj);
 
 	if (e->ny >= 0) {
 		DebugOut(L"isHit %d \n", true);

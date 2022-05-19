@@ -17,7 +17,7 @@
 #define ID_ANI_GOOMBA_WALKING 5000
 #define ID_ANI_GOOMBA_DIE 5001
 
-class CGhost : public CGameObject
+class CGhostPlatform : public CGameObject
 {
 protected:
 	int length;				// Unit: cell 
@@ -26,7 +26,7 @@ protected:
 
 public:
 	
-	CGhost(float x, float y,
+	CGhostPlatform(float x, float y,
 		float cell_width, float cell_height, int length) :CGameObject(x, y)
 	{
 		this->length = length;
@@ -47,7 +47,7 @@ public:
 };
 
 
-class CGhostKoopas : public CGameObject
+class CGhost : public CGameObject
 {
 protected:
 	float ax;
@@ -61,13 +61,14 @@ protected:
 
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
+	//virtual int IsThrough() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public:
 	int type;
-	CGhostKoopas(float x, float y);
+	CGhost(float x, float y);
 	void SetPos(float x, float y) { this->x = x; this->y = y; }
 	void SetVx(float vx) { this->vx = vx; }
 	virtual void SetState(int state);

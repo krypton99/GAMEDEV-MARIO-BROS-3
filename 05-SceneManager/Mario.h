@@ -191,7 +191,7 @@ class CMario : public CGameObject
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
-	void OnCollisionWithGhost(LPCOLLISIONEVENT e);
+	void OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);

@@ -166,7 +166,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			x, y,
 			cell_width, cell_height, length
 		);
-		CGhost* ghost = new CGhost(x, y+16,
+		CGhostPlatform* ghost = new CGhostPlatform(x, y+16,
 			cell_width+1, 16, length
 		);
 		platform->ghost = ghost;
@@ -336,7 +336,7 @@ void CPlayScene::Update(DWORD dt)
 			float x, y;
 			koopas->GetPosition(x, y);
 			if (koopas->isGhostFollow) {
-				koopas->ghost_koopas = new CGhostKoopas(x + 16, y);
+				koopas->ghost_koopas = new CGhost(x + 16, y);
 				koopas->ghost_koopas->type = GHOST_TYPE_KOOPAS;
 				if (koopas->ghost_koopas != NULL) {
 					objects.push_back(koopas->ghost_koopas);

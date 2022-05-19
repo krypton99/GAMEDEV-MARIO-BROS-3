@@ -4,7 +4,7 @@
 
 
 
-void CGhost::RenderBoundingBox()
+void CGhostPlatform::RenderBoundingBox()
 {
 	D3DXVECTOR3 p(x, y, 0);
 	RECT rect;
@@ -27,12 +27,12 @@ void CGhost::RenderBoundingBox()
 	CGame::GetInstance()->Draw(xx - cx, y - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }
 
-void CGhost::Render()
+void CGhostPlatform::Render()
 {
 	RenderBoundingBox();
 }
 
-void CGhost::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CGhostPlatform::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	float cellWidth_div_2 = this->cellWidth / 2;
 	l = x - cellWidth_div_2;
@@ -42,7 +42,7 @@ void CGhost::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 
 
-CGhostKoopas::CGhostKoopas(float x, float y) :CGameObject(x, y)
+CGhost::CGhost(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = GHOST_GRAVITY;
@@ -52,7 +52,7 @@ CGhostKoopas::CGhostKoopas(float x, float y) :CGameObject(x, y)
 	start_y = y;
 }
 
-void CGhostKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CGhost::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if(type==GHOST_TYPE_KOOPAS)
 	{
@@ -69,16 +69,16 @@ void CGhostKoopas::GetBoundingBox(float& left, float& top, float& right, float& 
 	}
 }
 
-void CGhostKoopas::OnNoCollision(DWORD dt)
+void CGhost::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
 };
 
-void CGhostKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
+void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CKoopas*>(e->obj)) return;
+	if (dynamic_cast<CGhost*>(e->obj)) return;
 
 	if (e->ny != 0)
 	{
@@ -98,7 +98,7 @@ void CGhostKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 
 }
 
-void CGhostKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
 	vy += ay * dt;
@@ -109,12 +109,12 @@ void CGhostKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 
 
-void CGhostKoopas::Render()
+void CGhost::Render()
 {
 	RenderBoundingBox();
 }
 
-void CGhostKoopas::SetState(int state)
+void CGhost::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)

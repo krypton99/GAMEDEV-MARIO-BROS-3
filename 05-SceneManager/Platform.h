@@ -14,7 +14,7 @@ protected:
 	float cellHeight;
 	int isThrough=0;
 public: 
-	CGhost* ghost = NULL;
+	CGhostPlatform* ghost = NULL;
 	int GetIsThrough() { return this->isThrough; }
 	void SetIsThrough(int isThrough) { this->isThrough = isThrough; }
 	int IsBlocking() { return isThrough == 0; }
