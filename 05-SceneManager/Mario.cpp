@@ -82,7 +82,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	
 	if (level == MARIO_LEVEL_RACOON) {
 		if (isAttack && GetTickCount64() - attackStart->GetStartTime() <= MARIO_TIME_ATTACK) {
 			this->state = MARIO_STATE_ATTACK;
@@ -115,6 +115,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			attackStart->Stop();
 		}
 	}
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CMario::DecreaseSpeed() {
 	if (vx < 0 && nx == 1) {
@@ -228,7 +229,9 @@ void CMario::OnCollisionWithGhostKoopas(LPCOLLISIONEVENT e) {
 void CMario::OnCollisionWithGhost(LPCOLLISIONEVENT e)
 {
 	CGhost* ghost = dynamic_cast<CGhost*>(e->obj);
+
 	if (e->ny >= 0) {
+		DebugOut(L"isHit %d \n", true);
 		ghost->isHit = 1;
 	}
 }

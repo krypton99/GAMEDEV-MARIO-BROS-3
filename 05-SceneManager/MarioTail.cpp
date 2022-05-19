@@ -15,11 +15,17 @@ CMarioTail::CMarioTail(float x, float y) :CGameObject(x, y) {
 	this->start_y = y;
 }
 void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,D3DXVECTOR2 playerPos, int playerNx) {
-	CGameObject::Update(dt);
-	x += vx * dt;
-	y += vy * dt;
-	this->x = playerPos.x;
-	this->y = playerPos.y;
+	//CGameObject::Update(dt);
+	this->nx = playerNx;
+	
+	
+	if (state == TAIL_STATE_HIT) {
+		vx = 0.3f * playerNx;
+		x += vx * dt;
+	}
+	
+	/*this->x = playerPos.x;
+	this->y = playerPos.y;*/
 	if (ani) {
 		CAnimations* animations = CAnimations::GetInstance();
 		int frame = 0;
@@ -30,28 +36,25 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,D3DXVECTOR2 pl
 		}
 		if ((frame == 3||frame == 1) /*&& isAttack*/) {
 			if (nx > 0) {
-				this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
+				this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;				
 			}
-			else
-				this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;
+			else {
+				this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;			
+			}
 		}
-		/*else
-			if (frame == 1 && isAttack) {
-				if (nx > 0) {
-					this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;
-				}
-				else this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
-			}*/
 		else {
 			if (nx > 0) {
 				this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;
+				
 			}
-			else this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
+			else {
+				this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
+			}
 		}
 	}
 
 	this->y = y + MARIO_RACOON_BBOX_HEIGHT / 4;
-	this->nx = nx;
+	
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CMarioTail::OnNoCollision(DWORD dt)
@@ -61,7 +64,7 @@ void CMarioTail::OnNoCollision(DWORD dt)
 }
 void CMarioTail::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//if (!e->obj->IsBlocking()) return;
+	/*if (!e->obj->IsBlocking()) return;*/
 	//if (dynamic_cast<CMarioTail*>(e->obj)) return;
 	if (dynamic_cast<CKoopas*>(e->obj) /*&& isAttack*/) {
 		OnCollisionWithKoopas(e);
@@ -75,7 +78,6 @@ void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	
 	goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
-	
 }
 void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
