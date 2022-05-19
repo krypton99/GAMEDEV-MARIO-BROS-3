@@ -61,7 +61,13 @@ void CGhost::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		right = left + GHOST_KOOPAS_BBOX_WIDTH;
 		bottom = top + GHOST_KOOPAS_BBOX_HEIGHT;
 	}
-	else {
+	else if (type == GHOST_TYPE_MARIO) 
+	{
+		left = x - GHOST_MARIO_BBOX_WIDTH / 2;
+		top = y - GHOST_KOOPAS_BBOX_HEIGHT / 2;
+		right = left + GHOST_MARIO_BBOX_WIDTH;
+		bottom = top + GHOST_KOOPAS_BBOX_HEIGHT;
+	} else {
 		left = x - GHOST_SHELL_BBOX_WIDTH / 2;
 		top = y - GHOST_KOOPAS_BBOX_HEIGHT / 2;
 		right = left + GHOST_SHELL_BBOX_WIDTH;
@@ -100,8 +106,8 @@ void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
-	vy += ay * dt;
+	
+	vy += ay * dt ;
 	vx += ax * dt;
 	//CGameObject::Update(dt, coObjects);
 	isOnGround = false;
@@ -120,7 +126,10 @@ void CGhost::SetState(int state)
 	switch (state)
 	{
 	case GHOST_STATE_STICK:
-		vx = 0.05f;
+		if (type == GHOST_TYPE_KOOPAS)
+		{
+			vx = 0.05f;
+		}
 		break;
 	}
 }

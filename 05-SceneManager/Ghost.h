@@ -4,12 +4,14 @@
 #define GHOST_GRAVITY 0.002f
 #define GHOST_STATE_STICK 100
 #define GHOST_TYPE_KOOPAS 1
-#define GHOST_TYPE_SHELL 2
+#define GHOST_TYPE_MARIO 2
+#define GHOST_TYPE_SHELL 3
 
 #define GHOST_BBOX_WIDTH 16
 #define GHOST_BBOX_HEIGHT 1
 #define GHOST_KOOPAS_BBOX_WIDTH 16
 #define GHOST_SHELL_BBOX_WIDTH 32
+#define GHOST_MARIO_BBOX_WIDTH 16
 #define GHOST_KOOPAS_BBOX_HEIGHT 16
 #define GHOST_BBOX_HEIGHT_DIE 7
 
@@ -52,7 +54,7 @@ class CGhost : public CGameObject
 protected:
 	float ax;
 	float ay;
-
+	
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -68,6 +70,7 @@ protected:
 
 public:
 	int type;
+	int nx;
 	CGhost(float x, float y);
 	void SetPos(float x, float y) { this->x = x; this->y = y; }
 	void SetVx(float vx) { this->vx = vx; }

@@ -218,6 +218,8 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		
+
 	}
 	CMarioTail* tail = CMarioTail::GetInstance(x,y);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -231,7 +233,7 @@ public:
 	Timer* flyTime = new Timer(TIME_FLY);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
-
+	CGhost* ghost_mario = nullptr;
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	int GetLevel() { return level; };

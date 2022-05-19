@@ -120,7 +120,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CMario(x,y); 
 		player = (CMario*)obj;  
 		player->tail->GetInstance(x, y);
+		player->ghost_mario = new CGhost(x, y);
+		player->ghost_mario->SetType(GHOST_TYPE_MARIO);
 		objects.push_back(player->tail);
+		objects.push_back(player->ghost_mario);
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: {

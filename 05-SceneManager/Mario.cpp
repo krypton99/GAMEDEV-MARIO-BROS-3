@@ -20,7 +20,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-	
+	ghost_mario->nx = nx;
 	//DebugOut(L"state %f \n", state);
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
