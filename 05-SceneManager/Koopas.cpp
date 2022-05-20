@@ -101,7 +101,7 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
 {
 	canHoldingshell = CheckDistancePlayer(player);
-	DebugOut(L"canHoldingshell %d \n", canHoldingshell);
+	//DebugOut(L"canHoldingshell %d \n", canHoldingshell);
 	vy += ay * dt;
 	vx += ax * dt;
 	if (isMariohold) {
@@ -125,14 +125,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 	}
 	if (state == TROOPA_STATE_DIE_UP) {
 		if (n > 0) {
-			if (x > temp_x + 20) {
+			if (x > temp_x + 30) {
 				vx = 0;
 
 			}
 		}
 		else
 			if (n < 0) {
-				if (x < temp_x - 20) {
+				if (x < temp_x - 30) {
 					vx = 0;
 
 				}

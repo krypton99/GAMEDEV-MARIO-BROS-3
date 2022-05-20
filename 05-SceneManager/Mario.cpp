@@ -82,14 +82,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			tail->SetState(TAIL_STATE_HIT);
 
 			// Xet lai huong cho tail khi o frame 2
-			if (GetTickCount64() - attackStart->GetStartTime() < MARIO_TIME_ATTACK / 2 && changeNx == 0) {
+			/*if (GetTickCount64() - attackStart->GetStartTime() < MARIO_TIME_ATTACK / 2 && changeNx == 0) {
 				nx = -nx;
 				changeNx++;
 			}
 			if (GetTickCount64() - attackStart->GetStartTime() >= MARIO_TIME_ATTACK / 2 && changeNx == 1) {
 				changeNx = 0;
 				nx = -nx;
-			}
+			}*/
 			tail->SetPosition(x, y);
 			tail->Update(dt, coObjects, { x,y }, nx);
 
@@ -227,7 +227,7 @@ void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 	CGhostPlatform* ghost = dynamic_cast<CGhostPlatform*>(e->obj);
 
 	if (e->ny >= 0) {
-		DebugOut(L"isHit %d \n", true);
+		//DebugOut(L"isHit %d \n", true);
 		ghost->isHit = 1;
 	}
 }
