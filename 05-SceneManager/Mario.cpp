@@ -58,11 +58,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else shell->SetPosition(x - 12, y - 5);
 			}
-		}
-	}
-	if (ghost_mario->holdingShell == false) {
-		isHolding = false;
-		if (shell != nullptr) {
+		} else if (ghost_mario->holdingShell == false) {
+			isHolding = false;
+
 			if (shell->isMariohold == true) {
 				shell->isMariohold = false;
 				if (nx > 0)
@@ -71,8 +69,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else shell->SetState(TROOPA_STATE_ROLL_LEFT);
 			}
+
 		}
 	}
+	
 	
 	if (level == MARIO_LEVEL_RACOON) {
 		if (isAttack && GetTickCount64() - attackStart->GetStartTime() <= MARIO_TIME_ATTACK) {
@@ -244,12 +244,16 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_RACOON)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
-				}
-				else
+				} else
 				{
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
@@ -278,7 +282,12 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		{
 			if (koopas->GetState() != TROOPA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (level == MARIO_LEVEL_RACOON)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_BIG)
 				{
 					level = MARIO_LEVEL_SMALL;
 					StartUntouchable();
