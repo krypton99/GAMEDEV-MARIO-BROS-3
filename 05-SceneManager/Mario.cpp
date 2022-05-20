@@ -15,6 +15,8 @@
 #include "Mushroom.h"
 #include "Koopas.h"
 #include "Leaf.h"
+#include "FireBullet.h"
+#include "VenusFireTrap.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -173,6 +175,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CKoopas*>(e->obj))
 		OnCollisionWithKoopas(e);
+	else if (dynamic_cast<CFireBullet*>(e->obj))
+		OnCollisionWithFireBullet(e);
+	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
+		OnCollisionWithVenus(e);
 	/*else 
 		canHold = false;*/
 	
@@ -260,6 +266,44 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 				}
 			}
 		}
+	}
+}
+void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
+{
+	CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(e->obj);
+	if (level == MARIO_LEVEL_RACOON)
+	{
+		level = MARIO_LEVEL_BIG;
+		StartUntouchable();
+	}
+	else if (level == MARIO_LEVEL_BIG)
+	{
+		level = MARIO_LEVEL_SMALL;
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
+}
+void CMario::OnCollisionWithFireBullet(LPCOLLISIONEVENT e)
+{
+	CFireBullet* bullet = dynamic_cast<CFireBullet*>(e->obj);
+	if (level == MARIO_LEVEL_RACOON)
+	{
+		level = MARIO_LEVEL_BIG;
+		StartUntouchable();
+	}
+	else if (level == MARIO_LEVEL_BIG)
+	{
+		level = MARIO_LEVEL_SMALL;
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
 	}
 }
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
