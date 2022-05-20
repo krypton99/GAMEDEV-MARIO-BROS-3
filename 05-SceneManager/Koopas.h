@@ -12,7 +12,7 @@
 #define TROOPA_BBOX_HEIGHT_DIE 16
 #define TROOPA_BBOX_WIDTH_DIE 18
 
-
+#define MARIO_DISTANCE_KOOPAS 16
 #define TROOPA_STATE_WALKING 100
 //#define TROOPA_STATE_ROLL 300
 #define TROOPA_STATE_DIE 200
@@ -59,7 +59,7 @@ protected:
 	ULONGLONG die_start;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
@@ -70,7 +70,10 @@ protected:
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
-	CGhost* ghost_koopas = NULL;
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
+	bool canHoldingshell = false;
+	bool CheckDistancePlayer(D3DXVECTOR4 player);
+	CGhost* ghost_koopas = nullptr;
 	bool isGhostFollow = false;
 	CKoopas(float x, float y, float type);
 	int GetLevel() { return level; };

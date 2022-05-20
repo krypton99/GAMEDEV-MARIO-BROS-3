@@ -23,7 +23,12 @@ CKoopas::CKoopas(float x, float y, float type) : CGameObject(x, y)
 	/*ghost = new CGhost(x+16, y);*/
 	//ghost->Render();
 }
-
+bool CKoopas::CheckDistancePlayer(D3DXVECTOR4 player)
+{
+	if (abs(player.x - x) < MARIO_DISTANCE_KOOPAS) // trong vung gan rua
+		return true;
+	return false;
+}
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT)
@@ -91,11 +96,12 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	if (state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) {
 		goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
 	}
-
+	
 }
-void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
 {
-
+	canHoldingshell = CheckDistancePlayer(player);
+	DebugOut(L"canHoldingshell %d \n", canHoldingshell);
 	vy += ay * dt;
 	vx += ax * dt;
 	if (isMariohold) {
@@ -253,7 +259,7 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		vy = 0;
 		ax = 0;
-		ghost_koopas->SetVx(0);
+		//ghost_koopas->SetVx(0);
 		ghost_koopas->type = GHOST_TYPE_SHELL;
 		ghost_koopas->SetPosition(x, y + 5);
 		//ay = 0;

@@ -47,8 +47,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//		}
 	//	}
 	//}
+	if (ghost_mario->holdingShell == true) {
+		/*shell = ghost_mario->shell_temp;*/
+	}
 	if (shell != nullptr) {
-		if (isHolding == true) {
+		if (ghost_mario->holdingShell == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
+			isHolding = true;
+			shell->isMariohold = true;
 			if (level == MARIO_LEVEL_SMALL) {
 				if (nx > 0) {
 					shell->SetPosition(x + 10, y - 5);
@@ -69,8 +74,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
-	if (isHolding == false) {
-
+	if (ghost_mario->holdingShell == false) {
+		isHolding = false;
 		if (shell != nullptr) {
 			if (shell->isMariohold == true) {
 				shell->isMariohold = false;
@@ -218,13 +223,12 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e) {
 	}
 }
 void CMario::OnCollisionWithGhostKoopas(LPCOLLISIONEVENT e) {
-	canHold = false;
+
 	CGhost* ghost_koopas = dynamic_cast<CGhost*>(e->obj);
 	/*if (holding == true) {
 		isHolding = true;
 		shell->isMariohold = true;
 	}*/
-	canHold = true;
 }
 void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 {
@@ -320,11 +324,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		}
 		else if (koopas->GetState() == TROOPA_STATE_DIE || koopas->GetState() == TROOPA_STATE_DIE_UP)
 		{
-			if (holding == true) {
-				isHolding = true;
-				shell->isMariohold = true;
-			}
-			else
+			
 				if (e->nx <= 0) {
 					koopas->SetState(TROOPA_STATE_ROLL_RIGHT);
 				}

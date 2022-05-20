@@ -34,7 +34,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	LPGAMEOBJECT GetPlayer() { return player; }
+	CMario* GetPlayer() { return player; }
 
 	void Clear();
 	void PurgeDeletedObjects();

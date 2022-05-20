@@ -43,11 +43,13 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		//Reload();
 		break;
 	case DIK_F:
-		if (mario->GetIsHolding() == true) {
-			mario->SetIsHolding(false);
-		} else
-			mario->SetHolding(true);
-		
+		float x, y;
+		mario->GetPosition(x, y);
+		mario->ghost_mario->SetPosition(x, y);
+		mario->ghost_mario->SetSpeed(0.2f*mario->ghost_mario->nx, 0);
+		if (mario->ghost_mario->holdingShell == true) {
+			mario->ghost_mario->holdingShell=false;
+		} 
 		break;
 	}
 
@@ -74,9 +76,6 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
-		break;
-	case DIK_F:
-		mario->SetHolding(false);
 		break;
 	}
 

@@ -179,8 +179,6 @@ class CMario : public CGameObject
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
-	CKoopas* shell = nullptr;
-	bool holding = false;
 	bool isHolding = false;
 	int level; 
 	int untouchable; 
@@ -203,6 +201,7 @@ class CMario : public CGameObject
 	void DecreaseSpeed();
 	bool isFallLower = false;
 public:
+	CKoopas* shell = nullptr;
 	int changeNx = 0;
 	bool isAttack = false;
 	void setAy(float ay) { this->ay = ay; }
@@ -225,7 +224,7 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
-	bool canHold = false;
+
 	int IsCollidable()
 	{ 
 		return (state != MARIO_STATE_DIE); 
@@ -239,8 +238,6 @@ public:
 	int GetLevel() { return level; };
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
-	bool GetHolding() { return holding; }
-	void SetHolding(bool holding) { this->holding = holding; }
 	bool GetIsHolding() { return isHolding; }
 	void SetIsHolding(bool isHolding) { this->isHolding = isHolding; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

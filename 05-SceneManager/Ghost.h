@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
+
 #define GHOST_GRAVITY 0.002f
 #define GHOST_STATE_STICK 100
 #define GHOST_TYPE_KOOPAS 1
@@ -67,8 +68,9 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-
+	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
 public:
+	bool holdingShell=false;
 	int type;
 	int nx;
 	CGhost(float x, float y);

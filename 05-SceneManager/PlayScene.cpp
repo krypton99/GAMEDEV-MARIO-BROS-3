@@ -121,7 +121,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		player = (CMario*)obj;  
 		player->tail->GetInstance(x, y);
 		player->ghost_mario = new CGhost(x, y);
-		player->ghost_mario->SetType(GHOST_TYPE_MARIO);
+		player->ghost_mario->type=GHOST_TYPE_MARIO;
 		objects.push_back(player->tail);
 		objects.push_back(player->ghost_mario);
 		DebugOut(L"[INFO] Player object has been created!\n");
@@ -336,6 +336,7 @@ void CPlayScene::Update(DWORD dt)
 			}
 		if (objects[i]->GetType() == OBJECT_TYPE_KOOPAS) {
 			CKoopas* koopas = dynamic_cast<CKoopas*>(objects[i]);
+			
 			float x, y;
 			koopas->GetPosition(x, y);
 			if (koopas->isGhostFollow) {
@@ -347,6 +348,9 @@ void CPlayScene::Update(DWORD dt)
 				else return;
 				koopas->isGhostFollow = false;
 			}
+			float l, t, r, b;
+			player->GetBoundingBox(l, t, r, b);
+			koopas->Update(dt, &objects, { l,t,r,b });
 		}
 		if (objects[i]->GetType() == OBJECT_TYPE_VENUS) {
 			float l, t, r, b;

@@ -1,6 +1,7 @@
 #include "Ghost.h"
 #include "Textures.h"
 #include "Koopas.h"
+#include "PlayScene.h"
 
 
 
@@ -101,9 +102,18 @@ void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = -vx;
 
 	}
-
+	if (dynamic_cast<CKoopas*>(e->obj))
+	{
+		if (type == GHOST_TYPE_MARIO) {
+			OnCollisionWithKoopas(e);
+		}
+	}
 }
-
+void CGhost::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
+	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+	holdingShell = true;
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->shell=koopas;
+}
 void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	
