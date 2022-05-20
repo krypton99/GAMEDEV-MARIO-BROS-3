@@ -2,6 +2,7 @@
 #include "Textures.h"
 #include "Koopas.h"
 #include "PlayScene.h"
+#include "Platform.h"
 
 
 
@@ -86,7 +87,6 @@ void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CGhost*>(e->obj)) return;
-
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -111,8 +111,11 @@ void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 void CGhost::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-	holdingShell = true;
+	if (koopas->canHoldingshell == true) {
+		holdingShell = true;
+	}
 	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->shell=koopas;
+	
 }
 void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

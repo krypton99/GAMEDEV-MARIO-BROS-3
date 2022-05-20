@@ -34,22 +34,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (flyTime->IsTimeUp())
 		flyTime->Stop();
 	isOnPlatform = false;
-	//if (level == MARIO_LEVEL_RACOON) {
-	//	if (!isOnPlatform) {
-	//		if (isFlying && !flyTime->IsTimeUp()) {
-	//			this->state = MARIO_STATE_FLY;
-	//			isFlying = false;
-	//		}
-	//		else {
-	//			isFlying = false;
-	//			/*ay = MARIO_GRAVITY;*/
-	//			this->state = MARIO_STATE_JUMP;
-	//		}
-	//	}
-	//}
-	if (ghost_mario->holdingShell == true) {
-		/*shell = ghost_mario->shell_temp;*/
-	}
+
+	
 	if (shell != nullptr) {
 		if (ghost_mario->holdingShell == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
 			isHolding = true;
