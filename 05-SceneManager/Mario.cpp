@@ -35,8 +35,32 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	isOnPlatform = false;
 	if (flyTime->IsTimeUp())
 		flyTime->Stop();
-	isOnPlatform = false;
+	if (platform_posY) {
+		if (y > platform_posY-16 || y < platform_posY)
+		{
+			
+			isHitY = true;
+		}
+		else
+		{
+			isHitY = false;
 
+		}
+
+	}
+	if (platform_posY) {
+		if (y < platform_posY && isHitY  )
+		{
+			isBlocking = true;
+			//isHitY = false;
+		}
+		else if (/*y > platform_posY &&*/ isHitY && vy<0)
+		{ 
+			isBlocking = false; 
+			
+		}
+
+	}
 	
 	if (shell != nullptr) {
 		if (ghost_mario->holdingShell == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
@@ -82,14 +106,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			tail->SetState(TAIL_STATE_HIT);
 
 			// Xet lai huong cho tail khi o frame 2
-			/*if (GetTickCount64() - attackStart->GetStartTime() < MARIO_TIME_ATTACK / 2 && changeNx == 0) {
+			if (GetTickCount64() - attackStart->GetStartTime() < MARIO_TIME_ATTACK / 2 && changeNx == 0) {
 				nx = -nx;
 				changeNx++;
 			}
 			if (GetTickCount64() - attackStart->GetStartTime() >= MARIO_TIME_ATTACK / 2 && changeNx == 1) {
 				changeNx = 0;
 				nx = -nx;
-			}*/
+			}
 			tail->SetPosition(x, y);
 			tail->Update(dt, coObjects, { x,y }, nx);
 
@@ -163,7 +187,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
-	else if (dynamic_cast<CGhostPlatform*>(e->obj))
+	else if (dynamic_cast<CGhostPlatform*>(e->obj) )
 		OnCollisionWithGhostPlatform(e);
 	else if (dynamic_cast<CGhost*>(e->obj))
 		OnCollisionWithGhostKoopas(e);
@@ -179,6 +203,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireBullet(e);
 	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
 		OnCollisionWithVenus(e);
+	/*else if (dynamic_cast<CPlatform*>(e->obj))
+		OnCollisionWithPlatform(e);*/
 	/*else 
 		canHold = false;*/
 	
@@ -225,11 +251,18 @@ void CMario::OnCollisionWithGhostKoopas(LPCOLLISIONEVENT e) {
 void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 {
 	CGhostPlatform* ghost = dynamic_cast<CGhostPlatform*>(e->obj);
-
+	/*isHitY = 1;
 	if (e->ny >= 0) {
-		//DebugOut(L"isHit %d \n", true);
-		ghost->isHit = 1;
-	}
+		
+	
+	}*/
+	platform_posY=platform_PosY(ghost);
+}
+float CMario::platform_PosY(CGhostPlatform* platform)
+{
+	float x, y;
+	platform->GetPosition(x, y);
+	return { y};
 }
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {

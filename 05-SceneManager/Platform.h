@@ -20,8 +20,10 @@ protected:
 public: 
 	CGhostPlatform* ghost = NULL;
 	int isBlockingX=-1;
+	int isBlockingY = -1;
 	int IsBlocking() { return 1; }
 	int IsBlockingX() { return isBlockingX; }
+	int IsBlockingY() { return (isBlockingY||isMarioJump); }
 	CPlatform(float x, float y,
 		float cell_width, float cell_height, int length,int type) :CGameObject(x, y)
 	{

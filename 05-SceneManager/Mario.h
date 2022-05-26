@@ -197,15 +197,18 @@ class CMario : public CGameObject
 	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBullet(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	//void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRacoon();
 	void DecreaseSpeed();
 	bool isFallLower = false;
 public:
+	float platform_posY = NULL;
 	CKoopas* shell = nullptr;
 	int changeNx = 0;
 	bool isAttack = false;
+	bool isHitY = false;
 	void setAy(float ay) { this->ay = ay; }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -226,14 +229,15 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
-
+	boolean isBlocking = true;
 	int IsCollidable()
 	{ 
-		return (state != MARIO_STATE_DIE); 
+		return (state != MARIO_STATE_DIE && isBlocking);
 	}
+	float platform_PosY(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
-	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
+	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0 ); }
 	CGhost* ghost_mario = nullptr;
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
