@@ -73,6 +73,7 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
 	bool canHoldingshell = false;
 	bool CheckDistancePlayer(D3DXVECTOR4 player);
+	int CheckNxShell(D3DXVECTOR4 player);
 	CGhost* ghost_koopas = nullptr;
 	bool isGhostFollow = false;
 	CKoopas(float x, float y, float type);

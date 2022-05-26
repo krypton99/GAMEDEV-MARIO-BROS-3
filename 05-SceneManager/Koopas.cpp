@@ -19,15 +19,18 @@ CKoopas::CKoopas(float x, float y, float type) : CGameObject(x, y)
 	SetState(TROOPA_STATE_WALKING);
 		
 	start_vx = vx;
-
-	/*ghost = new CGhost(x+16, y);*/
-	//ghost->Render();
 }
 bool CKoopas::CheckDistancePlayer(D3DXVECTOR4 player)
 {
 	if (abs(player.x - x) < MARIO_DISTANCE_KOOPAS) // trong vung gan rua
 		return true;
 	return false;
+}
+int CKoopas::CheckNxShell(D3DXVECTOR4 player)
+{
+	if ((player.x - x) > 0) 
+		return 1;
+	return -1;
 }
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -59,7 +62,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
-
+	/*if (dynamic_cast<CPlatform*>(e->obj)) return;*/
 	/*}*/
 
 	if (e->ny != 0)
@@ -101,6 +104,7 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
 {
 	canHoldingshell = CheckDistancePlayer(player);
+	n = CheckNxShell(player);
 	//DebugOut(L"canHoldingshell %d \n", canHoldingshell);
 	vy += ay * dt;
 	vx += ax * dt;
@@ -131,7 +135,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 			}
 		}
 		else
-			if (n < 0) {
+			 {
 				if (x < temp_x - 30) {
 					vx = 0;
 
@@ -276,7 +280,9 @@ void CKoopas::SetState(int state)
 		vx = -TROOPA_ROLLING_SPEED;
 		break;
 	case TROOPA_STATE_DIE_UP:
+		
 		vy = -0.4f;
+		ax = 0;
 		if (n > 0) {
 			vx = 0.05f;
 		}
