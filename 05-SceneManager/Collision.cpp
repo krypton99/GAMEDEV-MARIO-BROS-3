@@ -178,9 +178,9 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	vector<LPCOLLISIONEVENT>& coEvents,
 	LPCOLLISIONEVENT &colX,
 	LPCOLLISIONEVENT &colY,
-	int filterBlock = 1,		// 1 = only filter block collisions, 0 = filter all collisions 
-	int filterX = 1,			// 1 = process events on X-axis, 0 = skip events on X 
-	int filterY = 1)			// 1 = process events on Y-axis, 0 = skip events on Y
+	int filterBlock,		// 1 = only filter block collisions, 0 = filter all collisions 
+	int filterX ,			// 1 = process events on X-axis, 0 = skip events on X 
+	int filterY )			// 1 = process events on Y-axis, 0 = skip events on Y
 {
 	float min_tx, min_ty;
 
@@ -193,20 +193,24 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 	{
 		LPCOLLISIONEVENT c = coEvents[i];
 		if (c->isDeleted) continue;
-		if (c->obj->IsDeleted()) continue; 
+		if (c->obj->IsDeleted()) continue;
 
 		// ignore collision event with object having IsBlocking = 0 (like coin, mushroom, etc)
-		if (filterBlock == 1 && !c->obj->IsBlocking()) 
+		if (filterBlock == 1 && !c->obj->IsBlocking())
 		{
 			continue;
 		}
-
-		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
-			min_tx = c->t; min_ix = i;
-		}
-
-		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
-			min_ty = c->t; min_iy = i;
+		else {
+			if (filterBlock == 1 && c->obj->IsBlockingX()) {
+				if (c->t < min_tx && c->nx != 0 && filterX == 1) {
+					min_tx = c->t; min_ix = i;
+				}
+			}
+			if (filterBlock == 1 && c->obj->IsBlockingY()) {
+				if (c->t < min_ty && c->ny != 0 && filterY == 1) {
+					min_ty = c->t; min_iy = i;
+				}
+			}
 		}
 	}
 
@@ -238,7 +242,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	}
 	else
 	{
-		Filter(objSrc, coEvents, colX, colY);
+		Filter(objSrc, coEvents, colX, colY,1, objSrc->IsFilterX(),1);
 
 		float x, y, vx, vy, dx, dy;
 		objSrc->GetPosition(x, y);
@@ -246,7 +250,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 		dx = vx * dt;
 		dy = vy * dt;
 
-		if (colX != NULL && colY != NULL) 
+		if (colX != NULL && colY != NULL)
 		{
 			if (colY->t < colX->t)	// was collision on Y first ?
 			{
@@ -316,24 +320,24 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 			}
 		}
 		else
-		if (colX != NULL)
-		{
-			x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
-			y += dy;
-			objSrc->OnCollisionWith(colX);
-		}
-		else 
-			if (colY != NULL)
+			if (colX != NULL)
 			{
-				x += dx;
-				y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
-				objSrc->OnCollisionWith(colY);
-			}
-			else // both colX & colY are NULL 
-			{
-				x += dx;
+				x += colX->t * dx + colX->nx * BLOCK_PUSH_FACTOR;
 				y += dy;
+				objSrc->OnCollisionWith(colX);
 			}
+			else
+				if (colY != NULL)
+				{
+					x += dx;
+					y += colY->t * dy + colY->ny * BLOCK_PUSH_FACTOR;
+					objSrc->OnCollisionWith(colY);
+				}
+				else // both colX & colY are NULL 
+				{
+					x += dx;
+					y += dy;
+				}
 
 		objSrc->SetPosition(x, y);
 	}

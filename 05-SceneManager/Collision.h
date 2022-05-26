@@ -18,7 +18,7 @@ struct CCollisionEvent
 	LPGAMEOBJECT obj;			// the target object
 	
 	float t, nx, ny;
-
+	
 	float dx, dy;				// *RELATIVE* movement distance between this object and obj
 	bool isDeleted;		
 
