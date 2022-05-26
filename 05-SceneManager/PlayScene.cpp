@@ -163,12 +163,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
 		int length = atoi(tokens[5].c_str());
-	/*	int type = atoi(tokens[6].c_str());*/
+		int type = atoi(tokens[6].c_str());
 		CPlatform* platform = NULL;
 		platform = new CPlatform(
 			x, y,
-			cell_width, cell_height, length
+			cell_width, cell_height, length, type
 		);
+		if (type == PLATFORM_TYPE_BLOCK) {
+			platform->isBlockingX = 0;
+		} else platform->isBlockingX = 1;
 		CGhostPlatform* ghost = new CGhostPlatform(x, y+16,
 			cell_width+1, 16, length
 		);
@@ -318,22 +321,23 @@ void CPlayScene::Update(DWORD dt)
 				brick->isFallingItem = false;
 			}
 		}
-		if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
-			CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
-			float x, y, px,py;
-			platform->GetPosition(x, y);
-			player->GetPosition(px, py);
-			if (py < y) {
-				platform->ghost->isHit = 0;
-			} 
-			if (platform->ghost->isHit == 1) {
-				platform->SetIsThrough(true);
-				
-			}
-			else
-				platform->SetIsThrough(false);
+		//if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
+		//	CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
+		//	float x, y, px,py;
+		//	platform->GetPosition(x, y);
+		//	player->GetPosition(px, py);
+		//	if (py < y) {
+		//		player->isBlocking = true;
+		//	}
+		//	//else player->isBlocking = true;
+		//	if (platform->ghost->isHit == 1) {
+		//		player->isBlocking = false;
+		//		
+		//	}
+		//	//else
+		//		//player->isBlocking = true;
 	
-			}
+		//	}
 		if (objects[i]->GetType() == OBJECT_TYPE_KOOPAS) {
 			CKoopas* koopas = dynamic_cast<CKoopas*>(objects[i]);
 			
