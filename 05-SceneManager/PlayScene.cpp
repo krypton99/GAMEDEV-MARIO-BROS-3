@@ -321,23 +321,21 @@ void CPlayScene::Update(DWORD dt)
 				brick->isFallingItem = false;
 			}
 		}
-		//if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
-		//	CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
-		//	float x, y, px,py;
-		//	platform->GetPosition(x, y);
-		//	player->GetPosition(px, py);
-		//	if (py < y) {
-		//		player->isBlocking = true;
-		//	}
-		//	//else player->isBlocking = true;
-		//	if (platform->ghost->isHit == 1) {
-		//		player->isBlocking = false;
-		//		
-		//	}
-		//	//else
-		//		//player->isBlocking = true;
+		if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
+			CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
+			if (platform->isBlockingX == 1) {
+				float l, t, r, b, ml, mt, mr, mb;
+				platform->GetBoundingBox(l,t,r,b);
+				player->GetBoundingBox(ml, mt, mr, mb);;
+				if (mb > t-6) {
+					player->isBlocking = true;
+				}
+				//else player->isBlocking = true;
+			}
+			//else
+				//player->isBlocking = true;
 	
-		//	}
+			}
 		if (objects[i]->GetType() == OBJECT_TYPE_KOOPAS) {
 			CKoopas* koopas = dynamic_cast<CKoopas*>(objects[i]);
 			
