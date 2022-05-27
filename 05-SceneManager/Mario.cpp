@@ -35,10 +35,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	isOnPlatform = false;
 	if (flyTime->IsTimeUp())
 		flyTime->Stop();
-	if (platform_posY) {
-		if (y > platform_posY-16 || y < platform_posY)
+	if (collide_Platform) {
+		float l, r, b, t;
+		float ml, mr, mb, mt;
+		GetBoundingBox(ml, mt, mr, mb);
+		collide_Platform->GetBoundingBox(l, t, r, b);
+		if ((mr < l || ml < r)&&(mt<b-16 || mb>t-16))
 		{
-			
 			isHitY = true;
 		}
 		else
@@ -46,21 +49,30 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			isHitY = false;
 
 		}
-
-	}
-	if (platform_posY) {
-		if (y < platform_posY && isHitY  )
+		if (mt < b-16 && isHitY)
 		{
 			isBlocking = true;
 			//isHitY = false;
 		}
-		else if (/*y > platform_posY &&*/ isHitY && vy<0)
-		{ 
-			isBlocking = false; 
-			
-		}
+		else if (/*y > platform_posY &&*/ isHitY && vy < 0)
+		{
+			isBlocking = false;
 
+		}
 	}
+	//if (platform_posY) {
+	//	if (y < platform_posY && isHitY  )
+	//	{
+	//		isBlocking = true;
+	//		//isHitY = false;
+	//	}
+	//	else if (/*y > platform_posY &&*/ isHitY && vy<0)
+	//	{ 
+	//		isBlocking = false; 
+	//		
+	//	}
+
+	//}
 	
 	if (shell != nullptr) {
 		if (ghost_mario->holdingShell == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
@@ -256,14 +268,10 @@ void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 		
 	
 	}*/
-	platform_posY=platform_PosY(ghost);
+	collide_Platform = ghost;
 }
-float CMario::platform_PosY(CGhostPlatform* platform)
-{
-	float x, y;
-	platform->GetPosition(x, y);
-	return { y};
-}
+
+
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);

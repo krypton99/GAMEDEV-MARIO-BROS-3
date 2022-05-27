@@ -205,6 +205,7 @@ class CMario : public CGameObject
 	bool isFallLower = false;
 public:
 	float platform_posY = NULL;
+	float platform_posX = NULL;
 	CKoopas* shell = nullptr;
 	int changeNx = 0;
 	bool isAttack = false;
@@ -234,7 +235,8 @@ public:
 	{ 
 		return (state != MARIO_STATE_DIE && isBlocking);
 	}
-	float platform_PosY(CGhostPlatform* platform);
+	CGhostPlatform* collide_Platform=nullptr;
+	//float platform_PosX(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0 ); }
