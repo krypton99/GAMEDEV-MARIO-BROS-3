@@ -235,6 +235,7 @@ public:
 	{ 
 		return (state != MARIO_STATE_DIE && isBlocking);
 	}
+	int temp_nx;
 	CGhostPlatform* collide_Platform=nullptr;
 	//float platform_PosX(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);

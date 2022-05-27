@@ -114,7 +114,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	
 	if (level == MARIO_LEVEL_RACOON) {
 		if (isAttack && GetTickCount64() - attackStart->GetStartTime() <= MARIO_TIME_ATTACK) {
-			this->state = MARIO_STATE_ATTACK;
+			//this->state = MARIO_STATE_ATTACK;
 			tail->SetState(TAIL_STATE_HIT);
 
 			// Xet lai huong cho tail khi o frame 2
@@ -416,7 +416,12 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 			{
 				if (koopas->GetState() != TROOPA_STATE_DIE)
 				{
-					if (level > MARIO_LEVEL_SMALL)
+					if (level == MARIO_LEVEL_RACOON)
+					{
+						level = MARIO_LEVEL_BIG;
+						StartUntouchable();
+					}
+					else if (level == MARIO_LEVEL_BIG)
 					{
 						level = MARIO_LEVEL_SMALL;
 						StartUntouchable();
@@ -707,10 +712,12 @@ int CMario::GetAniIdRacoon()
 		}
 		else if (isAttack)
 		{
-			if (nx > 0)
-				aniId = ID_ANI_RACOON_MARIO_ATTACK_RIGHT;
-			else
-				aniId = ID_ANI_RACOON_MARIO_ATTACK_LEFT;
+			
+				if (temp_nx > 0)
+					aniId = ID_ANI_RACOON_MARIO_ATTACK_RIGHT;
+				else
+					aniId = ID_ANI_RACOON_MARIO_ATTACK_LEFT;
+		
 		}
 		else if (isHolding) {
 			if (shell->GetKoopasType() == KOOPAS_TYPE_RED) {
@@ -802,7 +809,7 @@ void CMario::Render()
 	tail->ani = aniId;
 	animations->Get(aniId)->Render(x, y);
 	
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);
 }
@@ -897,6 +904,7 @@ void CMario::SetState(int state)
 		}
 		break;
 	case MARIO_STATE_ATTACK:
+		temp_nx = nx;
 		isAttack = true;
 		attackStart->Start();
 		tail->SetPosition(x, y);
@@ -949,6 +957,7 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			bottom = top + MARIO_RACOON_BBOX_HEIGHT;
 		}
 	}
+	
 }
 
 void CMario::SetLevel(int l)
