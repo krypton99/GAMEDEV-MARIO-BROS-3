@@ -33,8 +33,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 	isOnPlatform = false;
-	if (flyTime->IsTimeUp())
+	if (flyTime->GetStartTime() != 0 && flyTime->IsTimeUp()) {
 		flyTime->Stop();
+		isFlying = false;
+		ay = MARIO_GRAVITY;
+	}
 	if (collide_Platform) {
 		float l, r, b, t;
 		float ml, mr, mb, mt;
@@ -897,7 +900,7 @@ void CMario::SetState(int state)
 		if (isSitting) break;
 		if (level == MARIO_LEVEL_RACOON) {
 			isFlying = true;
-			ay = -0.001;
+			ay = -0.0002f;
 			vy = 0;
 			isOnPlatform = false;
 			flyTime->Start();

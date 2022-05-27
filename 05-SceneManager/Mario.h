@@ -7,7 +7,7 @@
 #include "debug.h"
 #include "MarioTail.h"
 #define MARIO_TIME_ATTACK 400
-#define TIME_FLY					3000
+#define TIME_FLY					2000
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
 #define MARIO_RACOON_FALLING_SLOW_SPEED -0.04f

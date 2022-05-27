@@ -326,12 +326,20 @@ void CPlayScene::Update(DWORD dt)
 			if (platform->isBlockingX == 1) {
 				float l, t, r, b, ml, mt, mr, mb;
 				platform->GetBoundingBox(l,t,r,b);
-				player->GetBoundingBox(ml, mt, mr, mb);;
+				player->GetBoundingBox(ml, mt, mr, mb);
 				if (mb > t-6) {
 					player->isBlocking = true;
 				}
 				//else player->isBlocking = true;
 			}
+			 
+				float l, t, r, b, ml, mt, mr, mb;
+				platform->GetBoundingBox(l, t, r, b);
+				player->GetBoundingBox(ml, mt, mr, mb);
+				if (mr < l || ml>r) {
+					player->isBlocking = true;
+				}
+			
 			//else
 				//player->isBlocking = true;
 	
