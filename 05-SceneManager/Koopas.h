@@ -12,6 +12,8 @@
 #define TROOPA_BBOX_HEIGHT_DIE 16
 #define TROOPA_BBOX_WIDTH_DIE 18
 
+#define SHELL_THROW_DISTANCE_X 20
+
 #define MARIO_DISTANCE_KOOPAS 16
 #define TROOPA_STATE_WALKING 100
 //#define TROOPA_STATE_ROLL 300
@@ -58,7 +60,7 @@ protected:
 
 	ULONGLONG die_start;
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	
 	
 	virtual void Render();
 
@@ -70,6 +72,7 @@ protected:
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
 	bool canHoldingshell = false;
 	bool CheckDistancePlayer(D3DXVECTOR4 player);

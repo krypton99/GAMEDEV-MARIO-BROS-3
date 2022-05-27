@@ -22,8 +22,13 @@ CKoopas::CKoopas(float x, float y, float type) : CGameObject(x, y)
 }
 bool CKoopas::CheckDistancePlayer(D3DXVECTOR4 player)
 {
-	if (abs(player.x - x) < MARIO_DISTANCE_KOOPAS) // trong vung gan rua
+	float kl, kt, kr, kb;
+	GetBoundingBox(kl, kt, kr, kb);
+	if ((abs(player.x - kr) < MARIO_DISTANCE_KOOPAS)|| (abs(player.z - kl) < MARIO_DISTANCE_KOOPAS))
+	{
 		return true;
+	}// trong vung gan rua
+		
 	return false;
 }
 int CKoopas::CheckNxShell(D3DXVECTOR4 player)
@@ -34,7 +39,7 @@ int CKoopas::CheckNxShell(D3DXVECTOR4 player)
 }
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT)
+	if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT || state == TROOPA_STATE_DIE_UP)
 	{
 		left = x - TROOPA_BBOX_WIDTH_DIE / 2;
 		top = y - TROOPA_BBOX_HEIGHT_DIE / 2;
@@ -128,18 +133,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 		}
 	}
 	if (state == TROOPA_STATE_DIE_UP) {
-		if (n > 0) {
-			if (x > temp_x + 30) {
+		if (n < 0) {
+			if (x > temp_x + SHELL_THROW_DISTANCE_X) {
 				vx = 0;
 
 			}
 		}
 		else
-			 {
-				if (x < temp_x - 30) {
+			if (x < temp_x - SHELL_THROW_DISTANCE_X) {
 					vx = 0;
 
-				}
 			}
 	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
