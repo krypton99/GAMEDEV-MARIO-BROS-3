@@ -64,7 +64,6 @@ void CKoopas::OnNoCollision(DWORD dt)
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 	/*if (dynamic_cast<CPlatform*>(e->obj)) return;*/
@@ -109,7 +108,7 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
 {
 	canHoldingshell = CheckDistancePlayer(player);
-	n = CheckNxShell(player);
+	////n = CheckNxShell(player);
 	//DebugOut(L"canHoldingshell %d \n", canHoldingshell);
 	vy += ay * dt;
 	vx += ax * dt;
@@ -133,7 +132,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 		}
 	}
 	if (state == TROOPA_STATE_DIE_UP) {
-		if (n < 0) {
+		if (n > 0) {
 			if (x > temp_x + SHELL_THROW_DISTANCE_X) {
 				vx = 0;
 
@@ -146,11 +145,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 			}
 	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
-		if (ghost_koopas->isOnGround == false && (state != TROOPA_STATE_DIE && state != TROOPA_STATE_ROLL_LEFT && state != TROOPA_STATE_ROLL_RIGHT)) {
+		if (ghost_koopas->isOnGround == false ) {
 			vx = -vx;
+		}
+		if (state != TROOPA_STATE_DIE && state != TROOPA_STATE_ROLL_LEFT && state != TROOPA_STATE_ROLL_RIGHT && state != TROOPA_STATE_DIE_UP) {
 			if (vx > 0) {
 				ghost_koopas->SetSpeed(vx, vy);
-				ghost_koopas->SetPos(this->x + 17, y+((TROOPA_BBOX_HEIGHT-GHOST_KOOPAS_BBOX_HEIGHT) / 2) );
+				ghost_koopas->SetPos(this->x + 17, y + ((TROOPA_BBOX_HEIGHT - GHOST_KOOPAS_BBOX_HEIGHT) / 2));
 			}
 			else if (vx < 0) {
 				ghost_koopas->SetSpeed(vx, vy);
@@ -267,7 +268,7 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		ax = 0;
 		//ghost_koopas->SetVx(0);
-		ghost_koopas->type = GHOST_TYPE_SHELL;
+		//ghost_koopas->type = GHOST_TYPE_SHELL;
 		ghost_koopas->SetPosition(x, y + 5);
 		//ay = 0;
 		//timeStartJump->Stop();
@@ -284,7 +285,7 @@ void CKoopas::SetState(int state)
 		break;
 	case TROOPA_STATE_DIE_UP:
 		
-		vy = -0.4f;
+		vy = -0.2f;
 		ax = 0;
 		if (n > 0) {
 			vx = 0.05f;
