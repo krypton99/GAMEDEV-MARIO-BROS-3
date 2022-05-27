@@ -99,8 +99,6 @@ void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-		vx = -vx;
-
 	}
 	if (dynamic_cast<CKoopas*>(e->obj))
 	{
@@ -117,7 +115,7 @@ void CGhost::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->shell=koopas;
 	
 }
-void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )
 {
 	
 	vy += ay * dt ;

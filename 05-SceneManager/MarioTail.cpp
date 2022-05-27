@@ -3,7 +3,7 @@
 #include "Utils.h"
 #include "Goomba.h"
 #include "Brick.h"
-
+#include "PlayScene.h"
 CMarioTail* CMarioTail::__instance = nullptr;
 
 CMarioTail* CMarioTail::GetInstance(float x, float y)
@@ -94,12 +94,13 @@ void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
 	float ml, mr, mb, mt;
 	float kl, kr, kb, kt;
-	GetBoundingBox(ml, mt, mr, mb);
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetBoundingBox(ml,mt,mr,mb);
+	//GetBoundingBox(ml, mt, mr, mb);
 	koopas->GetBoundingBox(kl, kt, kr, kb);
-	if (kr < ml) {
+	if (kr <= ml) {
 		koopas->n = -1;
 	}
-	else if (kl > mr) {
+	else if (kl >= mr) {
 		koopas->n = 1;
 	}
 	float x, y;
