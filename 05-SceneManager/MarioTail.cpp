@@ -2,6 +2,7 @@
 #include "Mario.h"
 #include "Utils.h"
 #include "Goomba.h"
+#include "Brick.h"
 
 CMarioTail* CMarioTail::__instance = nullptr;
 
@@ -20,38 +21,38 @@ void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,D3DXVECTOR2 pl
 	
 	
 	if (state == TAIL_STATE_HIT) {
-		vx = 0.3f * playerNx;
+		vx = 0.15f * playerNx;
 		x += vx * dt;
 	}
 	
 	/*this->x = playerPos.x;
 	this->y = playerPos.y;*/
-	if (ani) {
-		CAnimations* animations = CAnimations::GetInstance();
-		int frame = 0;
-		if (animations->Get(ani)->getCurrentFrame() != NULL) {
-			animations->Get(ani)->getFrames();
-			frame = animations->Get(ani)->getCurrentFrame();
-			DebugOut(L"frame %d \n", frame);
-		}
-		if ((frame == 3||frame == 1) /*&& isAttack*/) {
-			if (nx > 0) {
-				this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;				
-			}
-			else {
-				this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;			
-			}
-		}
-		else {
-			if (nx > 0) {
-				this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;
-				
-			}
-			else {
-				this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
-			}
-		}
-	}
+	//if (ani) {
+	//	CAnimations* animations = CAnimations::GetInstance();
+	//	int frame = 0;
+	//	if (animations->Get(ani)->getCurrentFrame() != NULL) {
+	//		animations->Get(ani)->getFrames();
+	//		frame = animations->Get(ani)->getCurrentFrame();
+	//		DebugOut(L"frame %d \n", frame);
+	//	}
+	//	if ((frame == 3||frame == 1) /*&& isAttack*/) {
+	//		if (nx > 0) {
+	//			this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;				
+	//		}
+	//		else {
+	//			this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;			
+	//		}
+	//	}
+	//	else {
+	//		if (nx > 0) {
+	//			this->x = x - MARIO_RACOON_BBOX_WIDTH / 2;
+	//			
+	//		}
+	//		else {
+	//			this->x = x + MARIO_RACOON_BBOX_WIDTH / 2;
+	//		}
+	//	}
+	//}
 
 	this->y = y + MARIO_RACOON_BBOX_HEIGHT / 4;
 	
@@ -68,9 +69,12 @@ void CMarioTail::OnCollisionWith(LPCOLLISIONEVENT e)
 	//if (dynamic_cast<CMarioTail*>(e->obj)) return;
 	if (dynamic_cast<CKoopas*>(e->obj) /*&& isAttack*/) {
 		OnCollisionWithKoopas(e);
-	}
-	if (dynamic_cast<CGoomba*>(e->obj) && isAttack) {
+	} else
+	if (dynamic_cast<CGoomba*>(e->obj) ) {
 		OnCollisionWithGoomba(e);
+	} else
+	if (dynamic_cast<CBrick*>(e->obj) ) {
+		OnCollisionWithBrick(e);
 	}
 
 }
@@ -79,9 +83,25 @@ void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	
 	goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
 }
+void CMarioTail::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (brick->GetState() != BRICK_STATE_EMPTY) {
+		brick->isFallingItem = true;
+		brick->SetState(BRICK_STATE_EMPTY);
+	}
+}
 void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-	/*koopas->n = nx;*/
+	float ml, mr, mb, mt;
+	float kl, kr, kb, kt;
+	GetBoundingBox(ml, mt, mr, mb);
+	koopas->GetBoundingBox(kl, kt, kr, kb);
+	if (kr < ml) {
+		koopas->n = -1;
+	}
+	else if (kl > mr) {
+		koopas->n = 1;
+	}
 	float x, y;
 	koopas->GetPosition(x, y);
 	koopas->temp_x = x;

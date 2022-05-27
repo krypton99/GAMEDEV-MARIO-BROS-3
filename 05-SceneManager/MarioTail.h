@@ -10,7 +10,7 @@
 #define TAIL_ANI_LEFT			1
 
 #define TAIL_BBOX_HEIGHT		6
-#define TAIL_BBOX_WIDTH			10
+#define TAIL_BBOX_WIDTH			6
 #define DISTANCE_XTAIL_MARIO	7
 
 class CMarioTail : public CGameObject {
@@ -22,6 +22,7 @@ private:
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 public:
 	CMarioTail(float x, float y);
 	void Render();

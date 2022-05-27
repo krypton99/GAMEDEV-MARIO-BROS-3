@@ -126,8 +126,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				changeNx = 0;
 				nx = -nx;
 			}
-			tail->SetPosition(x, y);
-			tail->Update(dt, coObjects, { x,y }, nx);
+			tail->SetPosition(x+5*nx, y);
+			tail->Update(dt, coObjects, { x + 5 * nx,y }, nx);
 
 		}
 		else {
