@@ -163,10 +163,10 @@ void CMario::DecreaseSpeed() {
 		ax = 0;
 	}
 	else if (vx > 0 && nx == 1) {
-		ax = -MARIO_ACCEL_STOP_X;
+		ax = -MARIO_ACCEL_STOP_X/2;
 	}
 	else if (vx < 0 && nx == -1) {
-		ax = MARIO_ACCEL_STOP_X;
+		ax = MARIO_ACCEL_STOP_X/2;
 	}
 	else {
 		vx = 0;
@@ -891,6 +891,7 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE:
 		/*ax = 0.0f;
 		vx = 0.0f;*/
+		//ax=0;
 		DecreaseSpeed();
 		//isFlying = false;
 		break;
