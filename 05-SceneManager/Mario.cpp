@@ -163,10 +163,10 @@ void CMario::DecreaseSpeed() {
 		ax = 0;
 	}
 	else if (vx > 0 && nx == 1) {
-		ax = -MARIO_ACCEL_STOP_X/2;
+		ax = -MARIO_ACCEL_STOP_X;
 	}
 	else if (vx < 0 && nx == -1) {
-		ax = MARIO_ACCEL_STOP_X/2;
+		ax = MARIO_ACCEL_STOP_X;
 	}
 	else {
 		vx = 0;
@@ -282,16 +282,49 @@ void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetType() == GOOMBA_TYPE_RED_WING) {
 
-	// jump on top >> kill Goomba and deflect a bit 
-	if (e->ny < 0)
-	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		if (e->ny < 0)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				goomba->SetType(GOOMBA_TYPE_RED);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+		}
+		else if (untouchable == 0)
+		{
+			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				if (level == MARIO_LEVEL_RACOON)
+				{
+					level = MARIO_LEVEL_BIG;
+					StartUntouchable();
+				}
+				else if (level == MARIO_LEVEL_BIG)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+
 		}
 	}
+	else
+		// jump on top >> kill Goomba and deflect a bit 
+		if (e->ny < 0)
+		{
+			if (goomba->GetState() != GOOMBA_STATE_DIE)
+			{
+				goomba->SetState(GOOMBA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+		}
 	else // hit by Goomba
 	{
 		if (untouchable == 0)
@@ -415,7 +448,9 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				if (e->nx <= 0) {
 					koopas->SetState(TROOPA_STATE_ROLL_RIGHT);
 				}
-				else { koopas->SetState(TROOPA_STATE_ROLL_LEFT); }
+				else { 
+					koopas->SetState(TROOPA_STATE_ROLL_LEFT); 
+				}
 		}
 		else  // hit by Koopas
 		{

@@ -240,7 +240,8 @@ public:
 	//float platform_PosX(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
-	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0 ); }
+	int IsBlocking() { return 0; }
+	int IsBlockingY() {return 1;}
 	CGhost* ghost_mario = nullptr;
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
