@@ -6,6 +6,7 @@
 #define TROOPA_WALKING_SPEED 0.05f
 #define TROOPA_ROLLING_SPEED 0.1f
 #define TROOPA_JUMP_SPEED 0.4f
+#define TROOPA_FLY_SPEED 0.3f
 
 #define TROOPA_BBOX_WIDTH 16
 #define TROOPA_BBOX_HEIGHT 26
@@ -61,7 +62,7 @@ protected:
 	ULONGLONG die_start;
 
 	
-	
+	BOOLEAN isFly = false;
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
@@ -88,9 +89,11 @@ public:
 	void SetKoopasType(float koopa_type) { this->koopa_type = koopa_type; };
 	virtual void SetState(int state);
 	Timer* timeReborn = new Timer(5000);
+	Timer* timeStartJump = new Timer(2000);
 	bool isMariohold = false;
 	bool isShellUp = false;
 	int n; //0: left, 1:right
 	float temp_x;
 	float temp_y;
+	bool isOnGround = false;
 };

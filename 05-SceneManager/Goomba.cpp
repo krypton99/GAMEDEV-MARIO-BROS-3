@@ -136,7 +136,7 @@ void CGoomba::SetState(int state)
 		ay = 0;
 		break;
 	case GOOMBA_STATE_WALKING:
-		vx = GOOMBA_WALKING_SPEED;
+		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DIE_BY_OBJECT:
 		vy = -GOOMBA_DIE_DEFLECT_SPEED;
