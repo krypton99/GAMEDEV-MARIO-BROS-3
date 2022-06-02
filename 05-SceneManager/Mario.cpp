@@ -37,6 +37,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		flyTime->Stop();
 		isFlying = false;
 		ay = MARIO_GRAVITY;
+		
+	}
+	if (vy > 0) {
+		isFlying = false;
 	}
 	if (collide_Platform) {
 		float l, r, b, t;
@@ -170,7 +174,7 @@ void CMario::DecreaseSpeed() {
 		
 	}
 	//ay = MARIO_GRAVITY;
-	isFlying = false;
+	//isFlying = false;
 }
 void CMario::OnNoCollision(DWORD dt)
 {
