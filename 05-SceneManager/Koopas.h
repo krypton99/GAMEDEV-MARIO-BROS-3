@@ -66,7 +66,7 @@ protected:
 	virtual void Render();
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP) { return 1; } else return 0; }
+	virtual int IsBlocking() { if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP || state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) { return 1; } else return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
