@@ -203,6 +203,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
 	}
+	cam = Camera::GetInstance();
 }
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
@@ -395,10 +396,12 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
-
 	if (cx < 0) cx = 0;
+	cam->Update(dt, cx, cy, 0, 0, float(map->getWidthMap() - SCREEN_WIDTH), float(map->getHeighthMap()-SCREEN_HEIGHT+30), player->GetIsFlying(), player->GetIsOnPlatform());
 
-	CGame::GetInstance()->SetCamPos(cx, cy);
+	/*if (cx < 0) cx = 0;*/
+
+	//CGame::GetInstance()->SetCamPos(cx, cy);
 	for (size_t i = 0; i < listItems.size(); i++) {
 		if (listItems[i]->GetState() == STATE_ERASE) {
 
