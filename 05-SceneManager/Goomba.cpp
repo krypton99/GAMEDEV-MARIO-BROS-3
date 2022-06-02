@@ -49,7 +49,11 @@ void CGoomba::OnNoCollision(DWORD dt)
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return; 
-	if (dynamic_cast<CGoomba*>(e->obj)) return; 
+	if (dynamic_cast<CGoomba*>(e->obj)) {
+		isBlocking = true;
+		return;
+	}
+	else isBlocking = false;
 
 	if (e->ny != 0 )
 	{

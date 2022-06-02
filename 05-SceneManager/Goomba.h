@@ -53,10 +53,11 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public: 	
+	int isBlocking = true;
 	CGoomba(float x, float y, float type);
 	virtual void SetState(int state);
-	float GetType() { return type; };
-	void SetType(float type) { this->type = type; };
+	float GetType() { return goomba_type; };
+	void SetType(float goomba_type) { this->goomba_type = goomba_type; };
 	Timer* timeStartJump = new Timer(2000);
 	bool isOnGround = false;
 };
