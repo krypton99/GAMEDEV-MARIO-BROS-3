@@ -33,7 +33,7 @@ public:
 	float GetPosY() { return y; };
 	virtual void SetState(int state);
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 1; };
+	virtual int IsBlocking() { return 0; };
 	boolean isBlocking = 1;
 	static CMarioTail* GetInstance(float x, float y);
 	int ani;
