@@ -23,7 +23,7 @@ assets\bullet.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	20	10
+0	20	384
 
 # BRICKS
 1	192	352	100	0
