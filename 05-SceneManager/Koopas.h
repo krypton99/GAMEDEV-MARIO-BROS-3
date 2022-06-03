@@ -93,7 +93,6 @@ public:
 	Timer* timeStartJump = new Timer(2000);
 	bool isMariohold = false;
 	bool isShellUp = false;
-	int n; //0: left, 1:right
 	float temp_x;
 	float temp_y;
 	bool isOnGround = false;
