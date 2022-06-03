@@ -31,7 +31,6 @@ public:
 
 	Timer* disapperTimer = new Timer(ITEM_DISAPPEAR_TIME);
 	float GetItemType() { return ItemType; }
-
 	virtual void Render() = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);

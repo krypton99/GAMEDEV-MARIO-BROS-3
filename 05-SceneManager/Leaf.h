@@ -10,7 +10,7 @@ class CLeaf : public Item
 private:
 	float ax;
 	float ay;
-	virtual int IsCollidable() { return 1; };
+	virtual int IsCollidable() { return 0; };
 	virtual int IsBlocking() { return 0; };
 	virtual void OnNoCollision(DWORD dt);
 
