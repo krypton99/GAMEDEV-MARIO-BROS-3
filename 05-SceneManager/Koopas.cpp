@@ -117,8 +117,6 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
 {
 	canHoldingshell = CheckDistancePlayer(player);
-	////n = CheckNxShell(player);
-	//DebugOut(L"canHoldingshell %d \n", canHoldingshell);
 	vy += ay * dt;
 	vx += ax * dt;
 	if (isMariohold) {
@@ -147,17 +145,18 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 		}
 	}
 	if (state == TROOPA_STATE_DIE_UP) {
-		if (n > 0) {
+		if (nx > 0) {
 			if (x > temp_x + SHELL_THROW_DISTANCE_X) {
 				vx = 0;
 
 			}
 		}
-		else
+		else {
 			if (x < temp_x - SHELL_THROW_DISTANCE_X) {
-					vx = 0;
+				vx = 0;
 
 			}
+		}
 	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
 		if (ghost_koopas->isOnGround == false ) {
@@ -230,7 +229,7 @@ void CKoopas::Render()
 
 		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 	}
-	else/* if(koopa_type == KOOPAS_TYPE_GREEN)*/ {
+	else if(koopa_type == KOOPAS_TYPE_GREEN) {
 		int aniId = ID_ANI_GREEN_TROOPA_WALKING_LEFT;
 		//int ani = KOOPA_TROOPA_ANI_WALKING_LEFT;
 		if ((state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP) && vx == 0) {
@@ -302,7 +301,7 @@ void CKoopas::SetState(int state)
 		
 		vy = -0.2f;
 		ax = 0;
-		if (n > 0) {
+		if (nx > 0) {
 			vx = 0.05f;
 		}
 		else {

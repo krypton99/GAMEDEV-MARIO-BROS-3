@@ -98,10 +98,10 @@ void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	//GetBoundingBox(ml, mt, mr, mb);
 	koopas->GetBoundingBox(kl, kt, kr, kb);
 	if (kr <= ml) {
-		koopas->n = -1;
+		koopas->SetNx(-1);
 	}
 	else if (kl >= mr) {
-		koopas->n = 1;
+		koopas->SetNx(1);
 	}
 	float x, y;
 	koopas->GetPosition(x, y);

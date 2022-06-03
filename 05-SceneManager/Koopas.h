@@ -13,11 +13,10 @@
 #define TROOPA_BBOX_HEIGHT_DIE 16
 #define TROOPA_BBOX_WIDTH_DIE 18
 
-#define SHELL_THROW_DISTANCE_X 20
+#define SHELL_THROW_DISTANCE_X 25
 
 #define MARIO_DISTANCE_KOOPAS 16
 #define TROOPA_STATE_WALKING 100
-//#define TROOPA_STATE_ROLL 300
 #define TROOPA_STATE_DIE 200
 #define TROOPA_STATE_ROLL_LEFT 400
 #define TROOPA_STATE_ROLL_RIGHT 600
@@ -83,6 +82,8 @@ public:
 	CKoopas(float x, float y, float type);
 	int GetLevel() { return level; };
 	void SetLevel(int level) { this->level = level; };
+	int GetNx() { return nx; };
+	void SetNx(int nx) { this->nx = nx; };
 	float GetType() { return type; };
 	void SetType(float type) { this->type = type; };
 	float GetKoopasType() { return koopa_type; };
