@@ -5,6 +5,7 @@
 #include "AssetIDs.h"
 #define PLATFORM_TYPE_BLOCK 0
 #define PLATFORM_TYPE_GROUND 1
+#define PLATFORM_TYPE_DEATHZONE 2
 // 
 // The most popular type of object in Mario! 
 // 
@@ -18,9 +19,14 @@ protected:
 	int filterY = 0;
 	int platform_type;
 public: 
+	int GetPlatformType() { return this->platform_type; };
+	void SetPlatformType(int platform_type) { this->platform_type = platform_type; };
 	CGhostPlatform* ghost = NULL;
 	int isBlockingX=-1;
-	int IsBlocking() { return 1; }
+	int IsBlocking() {
+		if (platform_type != PLATFORM_TYPE_DEATHZONE) { return 1; }
+		else { return 0;}
+	}
 	int IsBlockingX() { return isBlockingX; }
 	CPlatform(float x, float y,
 		float cell_width, float cell_height, int length,int type) :CGameObject(x, y)

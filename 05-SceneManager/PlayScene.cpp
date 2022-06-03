@@ -261,7 +261,7 @@ void CPlayScene::Load()
 
 	ifstream f;
 	f.open(sceneFilePath);
-
+	
 	// current resource section flag
 	int section = SCENE_SECTION_UNKNOWN;					
 
@@ -288,7 +288,8 @@ void CPlayScene::Load()
 	}
 
 	f.close();
-
+	CGameObject* obj = NULL;
+	CPlatform* platform = NULL;
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
 }
 

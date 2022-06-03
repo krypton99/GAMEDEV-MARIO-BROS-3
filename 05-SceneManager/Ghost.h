@@ -28,7 +28,7 @@ protected:
 	float cellHeight;
 
 public:
-	
+
 	CGhostPlatform(float x, float y,
 		float cell_width, float cell_height, int length) :CGameObject(x, y)
 	{

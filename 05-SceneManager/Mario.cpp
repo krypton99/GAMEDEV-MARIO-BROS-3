@@ -222,8 +222,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireBullet(e);
 	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
 		OnCollisionWithVenus(e);
-	/*else if (dynamic_cast<CPlatform*>(e->obj))
-		OnCollisionWithPlatform(e);*/
+	else if (dynamic_cast<CPlatform*>(e->obj))
+		OnCollisionWithPlatform(e);
 	/*else 
 		canHold = false;*/
 	
@@ -270,14 +270,16 @@ void CMario::OnCollisionWithGhostKoopas(LPCOLLISIONEVENT e) {
 void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
 {
 	CGhostPlatform* ghost = dynamic_cast<CGhostPlatform*>(e->obj);
-	/*isHitY = 1;
-	if (e->ny >= 0) {
-		
-	
-	}*/
 	collide_Platform = ghost;
 }
-
+void CMario::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
+{
+	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+	if(platform->GetPlatformType()==PLATFORM_TYPE_DEATHZONE)
+	{
+		SetState(MARIO_STATE_DIE);
+	}
+}
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
