@@ -10,15 +10,13 @@ private:
 	static Camera* __instance;
 	float position_x;
 	float position_y;
-
+	bool islockUpdate = false;	// lock when mario die
+	bool islockY;				// lock when mario isOnGround and jump to get higher ->cam not move
 	int width;
 	int height;
 
 public:
 	static Camera* GetInstance();
-
-	bool islockUpdate = false;	// lock when mario die
-	bool islockY;				// lock when mario isOnGround and jump to get higher ->cam not move
 
 	Camera();
 	void Update(DWORD dt, float playerPosX, float playerPosY, float start_x, float start_y, float end_x, float end_y, bool isFlying, bool isOnGround);

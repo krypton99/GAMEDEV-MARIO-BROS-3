@@ -67,18 +67,24 @@ protected:
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP || state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) { return 1; } else return 0; }
 	virtual void OnNoCollision(DWORD dt);
-
+	bool isMariohold = false;
+	bool isShellUp = false;
+	float temp_x;
+	float temp_y;
+	bool isOnGround = false;
+	Timer* timeReborn = new Timer(5000);
+	Timer* timeStartJump = new Timer(2000);
+	bool canHoldingshell = false;
+	bool isGhostFollow = false;
+	CGhost* ghost_koopas = nullptr;
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
-	bool canHoldingshell = false;
 	bool CheckDistancePlayer(D3DXVECTOR4 player);
 	int CheckNxShell(D3DXVECTOR4 player);
-	CGhost* ghost_koopas = nullptr;
-	bool isGhostFollow = false;
 	CKoopas(float x, float y, float type);
 	int GetLevel() { return level; };
 	void SetLevel(int level) { this->level = level; };
@@ -86,14 +92,19 @@ public:
 	void SetNx(int nx) { this->nx = nx; };
 	float GetType() { return type; };
 	void SetType(float type) { this->type = type; };
+	float GetTempX() { return temp_x; };
+	void SetTempX(float temp_x) { this->temp_x = temp_x; };
 	float GetKoopasType() { return koopa_type; };
 	void SetKoopasType(float koopa_type) { this->koopa_type = koopa_type; };
 	virtual void SetState(int state);
-	Timer* timeReborn = new Timer(5000);
-	Timer* timeStartJump = new Timer(2000);
-	bool isMariohold = false;
-	bool isShellUp = false;
-	float temp_x;
-	float temp_y;
-	bool isOnGround = false;
+	bool GetIsMariohold() { return isMariohold; };
+	void SetIsMariohold(bool isMariohold) { this->isMariohold = isMariohold; };
+	bool GetIsShellUp() { return isShellUp; };
+	void SetIsShellUp(bool isShellUp) { this->isShellUp = isShellUp; };
+	bool GetCanHoldingShell() { return canHoldingshell; };
+	void SetCanHoldingShell(bool canHoldingshell) { this->canHoldingshell = canHoldingshell; };
+	bool GetIsGhostFollow() { return isGhostFollow; };
+	void SetIsGhostFollow(bool isGhostFollow) { this->isGhostFollow = isGhostFollow; };
+	CGhost* GetGhost_koopas() { return ghost_koopas; };
+	void SetGhost_koopas(CGhost* ghost_koopas) { this->ghost_koopas = ghost_koopas; };
 };

@@ -24,7 +24,6 @@ private:
 	virtual void OnNoCollision(DWORD dt);
 
 public:
-	bool isFallingItem = false;
 	CBullet(float x, float y, int nx);
 	void Render();
 	void Update(DWORD dt) {}

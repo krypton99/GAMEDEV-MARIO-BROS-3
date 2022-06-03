@@ -50,11 +50,8 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return; 
 	if (dynamic_cast<CGoomba*>(e->obj)) {
-		isBlocking = true;
 		return;
 	}
-	else isBlocking = false;
-
 	if (e->ny != 0 )
 	{
 		vy = 0;

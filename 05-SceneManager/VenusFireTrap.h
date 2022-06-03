@@ -61,8 +61,10 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 	bool CheckDistancePlayer(D3DXVECTOR4 player);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-public:
 	bool isAttack;
+public:
+	bool GetIsAttack() { return isAttack; }
+	void SetIsAttack(bool isAttack) { this->isAttack = isAttack; }
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
 	CVenusFireTrap(float x, float y, int plant_type);
 	virtual void SetState(int state);

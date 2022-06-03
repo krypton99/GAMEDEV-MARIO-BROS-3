@@ -28,12 +28,13 @@ class CBrick : public CGameObject {
 private:
 	float brickType;
 	int itemType;
+	bool isFallingItem = false;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnNoCollision(DWORD dt);
 	
 public:
-	bool isFallingItem = false;
+	
 	CBrick(float x, float y, float type, int itemType);
 	void Render();
 	void Update(DWORD dt) {}
@@ -42,11 +43,11 @@ public:
 	void SetBrickType(float brickType) { this->brickType = brickType; }
 	int GetItemType() { return itemType; };
 	void SetItemType(int itemType) { this->itemType = itemType; };
+	bool GetIsFallingItem() { return isFallingItem; };
+	void SetIsFallingItem(bool isFallingItem) { this->isFallingItem = isFallingItem; };
 	float GetPosX() { return x; };
 	float GetPosY() { return y; };
 	virtual void SetState(int state);
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 1; };
-	boolean isBlocking = 1;
-	bool isBroken = false;
 };

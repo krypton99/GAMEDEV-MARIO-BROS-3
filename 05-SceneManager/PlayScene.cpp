@@ -119,11 +119,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = new CMario(x,y); 
 		player = (CMario*)obj;  
-		player->tail->GetInstance(x, y);
-		player->ghost_mario = new CGhost(x, y);
-		player->ghost_mario->type=GHOST_TYPE_MARIO;
-		objects.push_back(player->tail);
-		objects.push_back(player->ghost_mario);
+		player->GetTail()->GetInstance(x, y);
+		player->SetGhostMario(new CGhost(x, y));
+		player->GetGhostMario()->SetGhostType(GHOST_TYPE_MARIO);
+		objects.push_back(player->GetTail());
+		objects.push_back(player->GetGhostMario());
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: {
@@ -304,7 +304,7 @@ void CPlayScene::Update(DWORD dt)
 			CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
 
 
-			if (brick->isFallingItem ) {
+			if (brick->GetIsFallingItem() ) {
 				//CREATE ITEM FOLLOW MARIO LEVEL
 				Item* item = NULL;
 				CGameObject* obj = NULL;
@@ -320,7 +320,7 @@ void CPlayScene::Update(DWORD dt)
 				if (obj != NULL) {
 					objects.push_back(obj);
 				} /*else return;*/
-				brick->isFallingItem = false;
+				brick->SetIsFallingItem(false);
 			}
 		}
 		if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
@@ -330,7 +330,7 @@ void CPlayScene::Update(DWORD dt)
 				platform->GetBoundingBox(l,t,r,b);
 				player->GetBoundingBox(ml, mt, mr, mb);
 				if (mb > t-6) {
-					player->isBlocking = true;
+					player->SetIsBlocking ( true);
 				}
 				//else player->isBlocking = true;
 			}
@@ -339,7 +339,7 @@ void CPlayScene::Update(DWORD dt)
 				platform->GetBoundingBox(l, t, r, b);
 				player->GetBoundingBox(ml, mt, mr, mb);
 				if (mr < l || ml>r) {
-					player->isBlocking = true;
+					player->SetIsBlocking(true);
 				}
 			
 			//else
@@ -351,14 +351,14 @@ void CPlayScene::Update(DWORD dt)
 			
 			float x, y;
 			koopas->GetPosition(x, y);
-			if (koopas->isGhostFollow) {
-				koopas->ghost_koopas = new CGhost(x + 16, y);
-				koopas->ghost_koopas->type = GHOST_TYPE_KOOPAS;
-				if (koopas->ghost_koopas != NULL) {
-					objects.push_back(koopas->ghost_koopas);
+			if (koopas->GetIsGhostFollow()) {
+				koopas->SetGhost_koopas(new CGhost(x + 16, y));
+				koopas->GetGhost_koopas()->SetGhostType(GHOST_TYPE_KOOPAS);
+				if (koopas->GetGhost_koopas() != NULL) {
+					objects.push_back(koopas->GetGhost_koopas());
 				}
 				else return;
-				koopas->isGhostFollow = false;
+				koopas->SetIsGhostFollow(false);
 			}
 			float l, t, r, b;
 			player->GetBoundingBox(l, t, r, b);

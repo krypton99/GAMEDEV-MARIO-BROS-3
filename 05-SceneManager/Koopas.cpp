@@ -103,7 +103,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopas::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 	if (brick->GetState() != BRICK_STATE_EMPTY) {
-		brick->isFallingItem = true;
+		brick->SetIsFallingItem(true);
 		brick->SetState(BRICK_STATE_EMPTY);
 	}
 }
@@ -137,7 +137,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 				SetState(TROOPA_STATE_WALKING);
 				y -= 10;
 				if (koopa_type == KOOPAS_TYPE_RED) {
-					ghost_koopas->type = GHOST_TYPE_KOOPAS;
+					ghost_koopas->SetGhostType(GHOST_TYPE_KOOPAS);
 					ghost_koopas->SetPosition(x + 16, y);
 					ghost_koopas->SetSpeed(vx, vy);
 				}
@@ -159,7 +159,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 play
 		}
 	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
-		if (ghost_koopas->isOnGround == false ) {
+		if (ghost_koopas->GetIsOnGround() == false ) {
 			vx = -vx;
 		}
 		if (state != TROOPA_STATE_DIE && state != TROOPA_STATE_ROLL_LEFT && state != TROOPA_STATE_ROLL_RIGHT && state != TROOPA_STATE_DIE_UP) {

@@ -41,11 +41,11 @@ protected:
 	float ay; 
 	float goomba_type;
 	ULONGLONG die_start;
-
+	bool isOnGround = false;
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
-
+	Timer* timeStartJump = new Timer(2000);
 	virtual int IsCollidable() { return (state != GOOMBA_STATE_DIE_BY_OBJECT && state != GOOMBA_STATE_DIE); };
 	virtual int IsBlocking() { return 1; }
 	virtual void OnNoCollision(DWORD dt);
@@ -53,11 +53,8 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 public: 	
-	int isBlocking = true;
 	CGoomba(float x, float y, float type);
 	virtual void SetState(int state);
 	float GetType() { return goomba_type; };
 	void SetType(float goomba_type) { this->goomba_type = goomba_type; };
-	Timer* timeStartJump = new Timer(2000);
-	bool isOnGround = false;
 };

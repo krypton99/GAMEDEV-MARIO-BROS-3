@@ -203,13 +203,17 @@ class CMario : public CGameObject
 	int GetAniIdRacoon();
 	void DecreaseSpeed();
 	bool isFallLower = false;
-public:
-	float platform_posY = NULL;
-	float platform_posX = NULL;
 	CKoopas* shell = nullptr;
 	int changeNx = 0;
-	bool isAttack = false;
 	bool isHitY = false;
+	CMarioTail* tail = CMarioTail::GetInstance(x, y);
+	CGhost* ghost_mario = nullptr;
+	boolean isBlocking = true;
+	int temp_nx;
+	bool isAttack;
+	CGhostPlatform* collide_Platform = nullptr;
+public:
+	
 	void setAy(float ay) { this->ay = ay; }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
@@ -223,26 +227,23 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
-		
-
 	}
-	CMarioTail* tail = CMarioTail::GetInstance(x,y);
+	
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
-	boolean isBlocking = true;
+	
 	int IsCollidable()
 	{ 
 		return (state != MARIO_STATE_DIE && isBlocking);
 	}
-	int temp_nx;
-	CGhostPlatform* collide_Platform=nullptr;
+	
 	//float platform_PosX(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
 	int IsBlocking() { return 0; }
 	int IsBlockingY() {return 1;}
-	CGhost* ghost_mario = nullptr;
+	
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	int GetLevel() { return level; };
@@ -259,4 +260,16 @@ public:
 	void SetFallLower(bool isFallLower) { this->isFallLower = isFallLower; }
 	float GetVy() { return vy; }
 	void SetVy(float vy) { this->vy = vy; }
+	CMarioTail* GetTail() { return tail; }
+	void SetTail(CMarioTail* tail) { this->tail = tail; }
+	CKoopas* GetShell() { return shell; }
+	void SetShell(CKoopas* shell) { this->shell = shell; }
+	bool GetIsAttack() { return isAttack; }
+	void SetIsAttack(bool isAttack) { this->isAttack = isAttack; }
+	bool GetIsBlocking() { return isBlocking; }
+	void SetIsBlocking(bool isBlocking) { this->isBlocking = isBlocking; }
+	CGhostPlatform* GetCollidePlatform() { return collide_Platform; }
+	void SetCollidePlatform(CGhostPlatform* collide_Platform) { this->collide_Platform = collide_Platform; }
+	CGhost* GetGhostMario() { return ghost_mario; }
+	void SetGhostMario(CGhost* ghost_mario) { this->ghost_mario = ghost_mario; }
 };

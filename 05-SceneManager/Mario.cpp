@@ -22,7 +22,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-	ghost_mario->nx = nx;
+	ghost_mario->SetNx(nx);
 	//DebugOut(L"state %f \n", state);
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
@@ -82,9 +82,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//}
 	
 	if (shell != nullptr) {
-		if (ghost_mario->holdingShell == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
+		if (ghost_mario->GetHoldingShell() == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
 			isHolding = true;
-			shell->isMariohold = true;
+			shell->SetIsMariohold(true);
 			if (level == MARIO_LEVEL_SMALL) {
 				if (nx > 0) {
 					shell->SetPosition(x + 10, y - 5);
@@ -103,11 +103,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 				}
 				else shell->SetPosition(x - 12, y - 5);
 			}
-		} else if (ghost_mario->holdingShell == false) {
+		} else if (ghost_mario->GetHoldingShell() == false) {
 			isHolding = false;
 
-			if (shell->isMariohold == true) {
-				shell->isMariohold = false;
+			if (shell->GetIsMariohold() == true) {
+				shell->SetIsMariohold(false);
 				if (nx > 0)
 				{
 					shell->SetState(TROOPA_STATE_ROLL_RIGHT);
@@ -850,7 +850,7 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_RACOON)
 		aniId = GetAniIdRacoon();
 
-	tail->ani = aniId;
+	tail->SetAni(aniId);
 	animations->Get(aniId)->Render(x, y);
 	
 	RenderBoundingBox();
@@ -953,7 +953,7 @@ void CMario::SetState(int state)
 		isAttack = true;
 		attackStart->Start();
 		tail->SetPosition(x, y);
-		tail->isAttack = true;
+		tail->SetIsAttack(true);
 		break;
 	}
 

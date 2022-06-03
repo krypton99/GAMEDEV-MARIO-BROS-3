@@ -26,7 +26,7 @@ protected:
 	int length;				// Unit: cell 
 	float cellWidth;
 	float cellHeight;
-
+	int isHit = 0;
 public:
 
 	CGhostPlatform(float x, float y,
@@ -36,12 +36,9 @@ public:
 		this->cellWidth = cell_width;
 		this->cellHeight = cell_height;
 	}
-	int isHit = 0;
+	int GetIsHit() { return isHit; }
+	void SetIsHit(int isHit) { this->isHit = isHit; }
 	int IsBlocking() { return 0; }
-	/*int IsCollidable()
-	{
-		return (state != MARIO_STATE_DIE);
-	}*/
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
@@ -55,28 +52,33 @@ class CGhost : public CGameObject
 protected:
 	float ax;
 	float ay;
-	
+	bool isOnGround = false;
 	ULONGLONG die_start;
-
+	bool holdingShell = false;
+	int type;
+	int nx;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
-	//virtual int IsThrough() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
 public:
-	bool holdingShell=false;
-	int type;
-	int nx;
 	CGhost(float x, float y);
 	void SetPos(float x, float y) { this->x = x; this->y = y; }
 	void SetVx(float vx) { this->vx = vx; }
 	virtual void SetState(int state);
-	bool isOnGround = false;
 	virtual void Render();
+	bool GetHoldingShell() { return holdingShell; }
+	void SetHoldingShell(bool holdingShell) { this->holdingShell = holdingShell; }
+	bool GetIsOnGround() { return isOnGround; }
+	void SetIsOnGround(bool isOnGround) { this->isOnGround = isOnGround; }
+	int GetGhostType() { return type; }
+	void SetGhostType(int type) { this->type = type; }
+	int GetNx() { return nx; }
+	void SetNx(int nx) { this->nx = nx; }
 };

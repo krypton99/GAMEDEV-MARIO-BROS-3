@@ -109,10 +109,10 @@ void CGhost::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 void CGhost::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-	if (koopas->canHoldingshell == true) {
+	if (koopas->GetCanHoldingShell() == true) {
 		holdingShell = true;
 	}
-	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->shell=koopas;
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->SetShell(koopas);
 	
 }
 void CGhost::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects )

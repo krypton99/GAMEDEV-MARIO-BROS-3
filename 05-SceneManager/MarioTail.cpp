@@ -86,7 +86,7 @@ void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 void CMarioTail::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 	if (brick->GetState() != BRICK_STATE_EMPTY) {
-		brick->isFallingItem = true;
+		brick->SetIsFallingItem(true);
 		brick->SetState(BRICK_STATE_EMPTY);
 	}
 }
@@ -105,7 +105,7 @@ void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	}
 	float x, y;
 	koopas->GetPosition(x, y);
-	koopas->temp_x = x;
+	koopas->SetTempX(x);
 	koopas->SetState(TROOPA_STATE_DIE_UP);
 }
 void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b) {

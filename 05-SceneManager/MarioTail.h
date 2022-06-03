@@ -16,8 +16,8 @@
 class CMarioTail : public CGameObject {
 private:
 	static CMarioTail* __instance;
-	
-	
+	int ani;
+	BOOLEAN isAttack = false;
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnNoCollision(DWORD dt);
 	virtual void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
@@ -34,9 +34,9 @@ public:
 	virtual void SetState(int state);
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; };
-	boolean isBlocking = 1;
 	static CMarioTail* GetInstance(float x, float y);
-	int ani;
-	BOOLEAN isAttack = false;
-
+	bool GetIsAttack() { return isAttack; }
+	void SetIsAttack(bool isAttack) { this->isAttack = isAttack; }
+	int GetAni() { return ani; }
+	void SetAni(int ani) { this->ani = ani; }
 };

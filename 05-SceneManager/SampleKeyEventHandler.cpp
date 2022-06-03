@@ -45,10 +45,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_F:
 		float x, y;
 		mario->GetPosition(x, y);
-		mario->ghost_mario->SetPosition(x, y);
-		mario->ghost_mario->SetSpeed(0.2f*mario->ghost_mario->nx, 0);
-		if (mario->ghost_mario->holdingShell == true) {
-			mario->ghost_mario->holdingShell=false;
+		mario->GetGhostMario()->SetPosition(x, y);
+		mario->GetGhostMario()->SetSpeed(0.2f*mario->GetGhostMario()->GetNx(), 0);
+		if (mario->GetGhostMario()->GetHoldingShell() == true) {
+			mario->GetGhostMario()->SetHoldingShell(false);
 		} 
 		break;
 	}
@@ -87,7 +87,6 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float vx, vy;
 	mario->GetSpeed(vx, vy);
-	//if (mario->GetState() == MARIO_STATE_FLY) { return; }
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (game->IsKeyDown(DIK_A))
