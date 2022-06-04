@@ -49,7 +49,7 @@ void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x,
 	}
 	if (position_y > end_y)
 		position_y = end_y;
-	if (position_y > end_y)
+	if (position_y < start_y)
 		position_y = start_y;
 	DebugOut(L"playerPos X ==== %f \n", playerPosX);
 	DebugOut(L"playerPos y ==== %f \n", playerPosY);
