@@ -172,12 +172,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		if (type == PLATFORM_TYPE_BLOCK) {
 			platform->isBlockingX = 0;
 		} else platform->isBlockingX = 1;
-		CGhostPlatform* ghost = new CGhostPlatform(x, y+16,
+		/*CGhostPlatform* ghost = new CGhostPlatform(x, y+16,
 			cell_width+1, 16, length
 		);
-		platform->ghost = ghost;
+		platform->ghost = ghost;*/
 		objects.push_back(platform);
-		objects.push_back(ghost);
+		/*objects.push_back(ghost);*/
 		break;
 	}
 
@@ -323,29 +323,7 @@ void CPlayScene::Update(DWORD dt)
 				brick->SetIsFallingItem(false);
 			}
 		}
-		if (objects[i]->GetType() == OBJECT_TYPE_PLATFORM) {
-			CPlatform* platform = dynamic_cast<CPlatform*>(objects[i]);
-			if (platform->isBlockingX == 1) {
-				float l, t, r, b, ml, mt, mr, mb;
-				platform->GetBoundingBox(l,t,r,b);
-				player->GetBoundingBox(ml, mt, mr, mb);
-				if (mb > t-6) {
-					player->SetIsBlocking ( true);
-				}
-				//else player->isBlocking = true;
-			}
-			 
-				float l, t, r, b, ml, mt, mr, mb;
-				platform->GetBoundingBox(l, t, r, b);
-				player->GetBoundingBox(ml, mt, mr, mb);
-				if (mr < l || ml>r) {
-					player->SetIsBlocking(true);
-				}
-			
-			//else
-				//player->isBlocking = true;
-	
-			}
+		
 		if (objects[i]->GetType() == OBJECT_TYPE_KOOPAS) {
 			CKoopas* koopas = dynamic_cast<CKoopas*>(objects[i]);
 			

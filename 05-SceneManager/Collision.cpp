@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 #include "debug.h"
+#include "AssetIDs.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
 
@@ -207,9 +208,13 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 				}
 			}
 			if (filterBlock == 1 && c->obj->IsBlockingY()) {
-				if (c->t < min_ty && c->ny != 0 && filterY == 1) {
-					min_ty = c->t; min_iy = i;
+				if (c->t < min_ty && c->ny > 0 && c->obj->GetType()==OBJECT_TYPE_PLATFORM && filterY == 1) {
+					return;
 				}
+				else
+					if (c->t < min_ty && c->ny != 0 && filterY == 1) {
+						min_ty = c->t; min_iy = i;
+					}
 			}
 		}
 	}
@@ -242,7 +247,7 @@ void CCollision::Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* co
 	}
 	else
 	{
-		Filter(objSrc, coEvents, colX, colY,1, objSrc->IsFilterX(),1);
+		Filter(objSrc, coEvents, colX, colY,1, objSrc->IsFilterX(), objSrc->IsFilterY());
 
 		float x, y, vx, vy, dx, dy;
 		objSrc->GetPosition(x, y);

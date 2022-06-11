@@ -42,44 +42,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	if (vy > 0) {
 		isFlying = false;
 	}
-	if (collide_Platform) {
-		float l, r, b, t;
-		float ml, mr, mb, mt;
-		GetBoundingBox(ml, mt, mr, mb);
-		collide_Platform->GetBoundingBox(l, t, r, b);
-		if ((mr < l || ml < r)&&(mt<b-16 || mb>t-16))
-		{
-			isHitY = true;
-		}
-		else
-		{
-			isHitY = false;
-
-		}
-		if (mt < b-16 && isHitY)
-		{
-			isBlocking = true;
-			//isHitY = false;
-		}
-		else if (/*y > platform_posY &&*/ isHitY && vy < 0)
-		{
-			isBlocking = false;
-
-		}
-	}
-	//if (platform_posY) {
-	//	if (y < platform_posY && isHitY  )
-	//	{
-	//		isBlocking = true;
-	//		//isHitY = false;
-	//	}
-	//	else if (/*y > platform_posY &&*/ isHitY && vy<0)
-	//	{ 
-	//		isBlocking = false; 
-	//		
-	//	}
-
-	//}
+	
 	
 	if (shell != nullptr) {
 		if (ghost_mario->GetHoldingShell() == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
@@ -206,8 +169,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
-	else if (dynamic_cast<CGhostPlatform*>(e->obj) )
-		OnCollisionWithGhostPlatform(e);
 	else if (dynamic_cast<CGhost*>(e->obj))
 		OnCollisionWithGhostKoopas(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
@@ -267,11 +228,7 @@ void CMario::OnCollisionWithGhostKoopas(LPCOLLISIONEVENT e) {
 		shell->isMariohold = true;
 	}*/
 }
-void CMario::OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e)
-{
-	CGhostPlatform* ghost = dynamic_cast<CGhostPlatform*>(e->obj);
-	collide_Platform = ghost;
-}
+
 void CMario::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 {
 	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
