@@ -13,6 +13,7 @@
 #define ID_ANI_SPEED_5 9914
 #define ID_ANI_SPEED_6 9915
 #define ID_ANI_SPEED_7 9916
+#define ID_ANI_SPEED_POWERUP 9918
 
 #define	SPEED_0 0
 #define SPEED_1 1
@@ -22,12 +23,13 @@
 #define SPEED_5 5
 #define	SPEED_6 6
 #define SPEED_7 7
+#define STATE_POWER_UP 8
 
 class CSpeedBar : public CGameObject {
 public:
 	CSpeedBar(float x, float y) : CGameObject(x, y) {
 	}
-	void Render(float vx);
+	void Render(float vx,bool isPowerUp);
 	virtual void Render() {};
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b) {};

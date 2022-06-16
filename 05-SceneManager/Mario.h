@@ -8,12 +8,13 @@
 #include "MarioTail.h"
 #define MARIO_TIME_ATTACK 400
 #define TIME_FLY					2000
+#define TIME_POWER_UP	2000
 #define MARIO_WALKING_SPEED		0.1f
 #define MARIO_RUNNING_SPEED		0.2f
 #define MARIO_RACOON_FALLING_SLOW_SPEED -0.04f
 #define MARIO_ACCEL_WALK_X	0.0005f
 #define MARIO_ACCEL_RUN_X	0.0007f
-#define MARIO_ACCEL_STOP_X 0.0003f
+#define MARIO_ACCEL_STOP_X 0.0005f
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
 
@@ -40,6 +41,8 @@
 #define MARIO_STATE_RELEASE_FLY     800
 
 #define MARIO_STATE_ATTACK	900
+
+#define MARIO_STATE_POWER_UP	990
 
 #pragma region ANIMATION_ID
 
@@ -181,6 +184,7 @@ class CMario : public CGameObject
 	float ay;				// acceleration on y 
 	bool isHolding = false;
 	int level; 
+	bool isPowerUp;
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
@@ -241,6 +245,7 @@ public:
 	//float platform_PosX(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
+	Timer* PowerUp = new Timer(TIME_POWER_UP);
 	int IsBlocking() { return 0; }
 	int IsBlockingY() {return 1;}
 	
@@ -251,6 +256,8 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	bool GetIsHolding() { return isHolding; }
 	void SetIsHolding(bool isHolding) { this->isHolding = isHolding; }
+	bool GetIsPowerUp() { return isPowerUp; }
+	void SetIsPowerUp(bool isPowerUp) { this->isPowerUp = isPowerUp; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	bool GetIsFlying() { return isFlying; }
 	void SetIsFlying(bool isFlying) { this->isFlying = isFlying; }

@@ -21,10 +21,22 @@
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
-	vx += ax * dt;
+	vx += ax * (dt/((1+ abs(vx*30))));
 	ghost_mario->SetNx(nx);
 	//DebugOut(L"state %f \n", state);
-	if (abs(vx) > abs(maxVx)) vx = maxVx;
+	if (abs(vx) > abs(maxVx)) {
+		vx = maxVx;
+		if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
+		{
+			isPowerUp = true;
+			PowerUp->Start();
+		}
+	}
+	else {
+		if (PowerUp->GetStartTime() != 0 && PowerUp->IsTimeUp()) {
+			isPowerUp = false;
+		}
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
@@ -33,11 +45,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable = 0;
 	}
 	isOnPlatform = false;
+	
+	if (PowerUp->GetStartTime() != 0 && PowerUp->IsTimeUp()) {
+		PowerUp->Stop();
+		isPowerUp = false;
+		//ay = MARIO_GRAVITY;
+
+	}
 	if (flyTime->GetStartTime() != 0 && flyTime->IsTimeUp()) {
 		flyTime->Stop();
 		isFlying = false;
-		ay = MARIO_GRAVITY;
-		
+		ay = MARIO_GRAVITY;		
 	}
 	if (vy > 0) {
 		isFlying = false;
