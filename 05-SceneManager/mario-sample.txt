@@ -20,5 +20,7 @@ height	240
 30	textures\misc-2.png
 40	textures\plant.png
 50	textures\enemy.png
+60	textures\board.png
+80	textures\black.png
 90	textures\mario-holding-shell.png
 10000	textures\tilesheet_background_1-1.png

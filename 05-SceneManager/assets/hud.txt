@@ -1,0 +1,15 @@
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+#BOARD
+99001	3	3	236	32	60
+
+#BACKGROUND
+99999	0	0	320	90	80
+
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+#BOARD
+9901	99001	100
+
+#BACKGROUND
+9999	99999	100

@@ -11,6 +11,7 @@ assets\funnel.txt
 assets\venus.txt
 assets\koopas.txt
 assets\bullet.txt
+assets\hud.txt
 #
 #
 #map_id	matrix_path	width	height
