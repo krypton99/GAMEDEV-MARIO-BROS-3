@@ -17,11 +17,14 @@
 #include "VenusFireTrap.h"
 #include "Koopas.h"
 #include "Leaf.h"
+#include "HUD.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
+
+	hud = NULL;
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
 }
@@ -125,6 +128,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		objects.push_back(player->GetTail());
 		objects.push_back(player->GetGhostMario());
 		DebugOut(L"[INFO] Player object has been created!\n");
+		hud = new HUD();
 		break;
 	case OBJECT_TYPE_GOOMBA: {
 		float goomba_type = (float)atof(tokens[3].c_str());
@@ -376,7 +380,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 	if (cx < 0) cx = 0;
-	cam->Update(dt, cx, cy, 0, 0, float(map->getWidthMap() - SCREEN_WIDTH), float(map->getHeighthMap()-SCREEN_HEIGHT+30), player->GetIsFlying(), player->GetIsOnPlatform());
+	cam->Update(dt, cx, cy, 0, 0, float(map->getWidthMap() - SCREEN_WIDTH), float(map->getHeighthMap()-SCREEN_HEIGHT+HUD_HEIGHT), player->GetIsFlying(), player->GetIsOnPlatform());
 
 	/*if (cx < 0) cx = 0;*/
 
@@ -398,7 +402,7 @@ void CPlayScene::Render()
 		objects[i]->Render();
 	for (int i = 0; i < listItems.size(); i++)
 		listItems[i]->Render();
-
+	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player);
 }
 
 /*

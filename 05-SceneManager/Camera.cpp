@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Utils.h"
+#include "AssetIDs.h"
 
 
 Camera* Camera::__instance = nullptr;
@@ -10,7 +11,9 @@ Camera* Camera::GetInstance() {
 
 Camera::Camera() {
 	this->width = SCREEN_WIDTH;
-	this->height = SCREEN_HEIGHT;
+	this->height = SCREEN_HEIGHT ;
+	this->islockUpdate = false;
+	this->islockY = true;
 	CGame::GetInstance()->SetCamPos(0, 250);
 }
 
@@ -39,9 +42,9 @@ void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x,
 
 	// Update pos_cam_y
 	if (!islockY) { // pos_mario in center cam  < end.y (map) -> pos_cam = pos_mario...
-		if (int(playerPosY - height / 4) < end_y )
+		if (int(playerPosY - height / 4 ) < end_y )
 		{
-			position_y = float(int(playerPosY - height / 8 + 30));
+			position_y = float(int(playerPosY - height / 8 + 30 ));
 		}
 	}
 	else if (islockY) { // id pos_cam in end-bbox of map-> pos_cam = end_map_y

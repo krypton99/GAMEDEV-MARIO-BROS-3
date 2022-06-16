@@ -8,6 +8,7 @@
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
 
+#define HUD_HEIGHT	92
 
 #define OBJECT_TYPE_MARIO	0
 #define OBJECT_TYPE_BRICK	1
