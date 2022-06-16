@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "Mario.h"
+#include "SpeedBar.h"
 #define ID_ANI_BOARD 9901
 #define ID_ANI_BACKGROUND 9999
 
@@ -12,6 +13,7 @@
 
 class HUD
 {
+	CSpeedBar* speedBar = nullptr;
 	CAnimations* board = nullptr;
 	CAnimations* background = nullptr;
 public:
