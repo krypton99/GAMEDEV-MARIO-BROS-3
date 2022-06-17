@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Camera.h"
 #include "HUD.h"
+#include "Grid.h"
 //#include "Koopas.h"
 
 
@@ -22,6 +23,10 @@ protected:
 	LPCAMERA cam = nullptr;
 	vector<LPGAMEOBJECT> objects;
 	vector<LPGAMEOBJECT> listItems;
+	vector<LPGAMEOBJECT> listMoving;
+	vector<LPGAMEOBJECT> listGrid;
+	//vector<LPGAMEOBJECT> listObject;
+	LPGRID grid;
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_MAPS(string line);
@@ -42,7 +47,7 @@ public:
 
 	void Clear();
 	void PurgeDeletedObjects();
-
+	void GetObjectToGrid();
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
 };
 

@@ -23,7 +23,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
-
+	grid = NULL;
 	hud = NULL;
 	player = NULL;
 	key_handler = new CSampleKeyHandler(this);
@@ -132,7 +132,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: {
 		float goomba_type = (float)atof(tokens[3].c_str());
-		obj = new CGoomba(x, y,goomba_type); break;
+		int top = atoi(tokens[4].c_str());
+		int bot = atoi(tokens[5].c_str());
+		int left = atoi(tokens[6].c_str());
+		int right = atoi(tokens[7].c_str());
+		obj = new CGoomba(x, y,goomba_type); 
+		obj->SetPosition(x, y);
+		listMoving.push_back(obj);
+		for (int row = top; row < bot; row++) {
+			for (int col = left; col < right; col++)
+				grid->PushObjectsIntoGrid(obj, row, col);
+		}
+		break;
 	}
 	case OBJECT_TYPE_FUNNEL: {
 		int funnelType = (int)atoi(tokens[3].c_str());
@@ -146,12 +157,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS:
 	{
 		float type = (float)atof(tokens[3].c_str());
+		int top = atoi(tokens[4].c_str());
+		int bot = atoi(tokens[5].c_str());
+		int left = atoi(tokens[6].c_str());
+		int right = atoi(tokens[7].c_str());
 		obj = new CKoopas(x, y, type);
 		obj->SetPosition(x, y);
-		
-		/*objects.push_back(obj);*/
-
+		listMoving.push_back(obj);
+		for (int row = top; row < bot; row++) {
+			for (int col = left; col < right; col++)
+				grid->PushObjectsIntoGrid(obj, row, col);
+		}
 		break;
+		
 	}
 	case OBJECT_TYPE_BRICK: 
 	{
@@ -203,7 +221,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	// General object setup
 	
 
-	if (object_type != OBJECT_TYPE_PLATFORM) {
+	if (object_type != OBJECT_TYPE_PLATFORM && object_type != OBJECT_TYPE_GOOMBA && object_type != OBJECT_TYPE_KOOPAS) {
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
 	}
@@ -257,7 +275,21 @@ void CPlayScene::_ParseSection_MAPS(string line)
 
 	map = new CMap(map_id, matrix_path.c_str(), widthMap, heightMap);
 	CMaps::GetInstance()->Add(map_id, map);
+	if (map) {
+		grid = new CGrid(map->getWidthMap(), map->getHeighthMap());
+	}
+}
+void CPlayScene::GetObjectToGrid() {
+	// xoa het cac object
+	//listItems.clear();
+	//objects.clear();
+	listGrid.clear();
 	
+	grid->GetObjectFromGrid(listGrid, player);
+
+	//for (UINT i = 0; i < listGrid.size(); i++) {
+	//	listObject.push_back(listGrid[i]);
+	//}
 }
 void CPlayScene::Load()
 {
@@ -301,8 +333,10 @@ void CPlayScene::Update(DWORD dt)
 {
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-
+	grid->ResetGrid(listMoving);
+	GetObjectToGrid();
 	vector<LPGAMEOBJECT> coObjects;
+	
 	for (size_t i = 0; i < objects.size(); i++) {
 		if (objects[i]->GetType() == OBJECT_TYPE_BRICK) {
 			CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
@@ -328,9 +362,18 @@ void CPlayScene::Update(DWORD dt)
 			}
 		}
 		
-		if (objects[i]->GetType() == OBJECT_TYPE_KOOPAS) {
-			CKoopas* koopas = dynamic_cast<CKoopas*>(objects[i]);
-			
+		
+		if (objects[i]->GetType() == OBJECT_TYPE_VENUS) {
+			float l, t, r, b;
+			player->GetBoundingBox(l, t, r, b);
+			CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(objects[i]);
+			venus->Update(dt, &objects, { l,t,r,b });
+		}
+		}
+	for (size_t i = 0; i < listGrid.size(); i++) { // update listGrid objects 
+		if (listGrid[i]->GetType() == OBJECT_TYPE_KOOPAS) {
+			CKoopas* koopas = dynamic_cast<CKoopas*>(listGrid[i]);
+
 			float x, y;
 			koopas->GetPosition(x, y);
 			if (koopas->GetIsGhostFollow()) {
@@ -346,14 +389,7 @@ void CPlayScene::Update(DWORD dt)
 			player->GetBoundingBox(l, t, r, b);
 			koopas->Update(dt, &objects, { l,t,r,b });
 		}
-		if (objects[i]->GetType() == OBJECT_TYPE_VENUS) {
-			float l, t, r, b;
-			player->GetBoundingBox(l, t, r, b);
-			CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(objects[i]);
-			venus->Update(dt, &objects, { l,t,r,b });
-		}
-		}
-
+	}
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
@@ -362,12 +398,19 @@ void CPlayScene::Update(DWORD dt)
 	{
 		coObjects.push_back(listItems[i]);
 	}
+	for (size_t i = 0; i < listGrid.size(); i++)
+	{
+		coObjects.push_back(listGrid[i]);
+	}
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
 	for (size_t i = 0; i < listItems.size(); i++) {
 		listItems[i]->Update(dt, &coObjects);
+	}
+	for (size_t i = 0; i < listGrid.size(); i++) {
+		listGrid[i]->Update(dt, &coObjects);
 	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
@@ -383,7 +426,7 @@ void CPlayScene::Update(DWORD dt)
 	cam->Update(dt, cx, cy, 0, 0, float(map->getWidthMap() - SCREEN_WIDTH), float(map->getHeighthMap()-SCREEN_HEIGHT+HUD_HEIGHT), player->GetIsFlying(), player->GetIsOnPlatform());
 
 	/*if (cx < 0) cx = 0;*/
-
+	grid->UpdateOnGrid(listMoving);
 	//CGame::GetInstance()->SetCamPos(cx, cy);
 	for (size_t i = 0; i < listItems.size(); i++) {
 		if (listItems[i]->GetState() == STATE_ERASE) {
@@ -402,6 +445,8 @@ void CPlayScene::Render()
 		objects[i]->Render();
 	for (int i = 0; i < listItems.size(); i++)
 		listItems[i]->Render();
+	for (int i = 0; i < listGrid.size(); i++)
+		listGrid[i]->Render();
 	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player);
 }
 
