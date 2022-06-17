@@ -11,7 +11,15 @@ void CFunnel::Render()
 	case FUNNEL_TYPE_SHORT:
 		ani = ID_ANI_SHORT_FUNNEL;
 		break;
-	
+	case FUNNEL_TYPE_BLACK:
+		ani = ID_ANI_BLACK_FUNNEL;
+		break;
+	case FUNNEL_TYPE_SHORT_WOOD:
+		ani = ID_ANI_SHORT_WOOD_FUNNEL;
+		break;
+	case FUNNEL_TYPE_LONG_WOOD:
+		ani = ID_ANI_LONG_WOOD_FUNNEL;
+		break;
 	}
 	animations->Get(ani)->Render(x, y);
 
