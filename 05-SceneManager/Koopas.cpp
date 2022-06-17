@@ -28,6 +28,7 @@ CKoopas::CKoopas(float x, float y, float type) : CGameObject(x, y)
 }
 bool CKoopas::CheckDistancePlayer(D3DXVECTOR4 player)
 {
+
 	float kl, kt, kr, kb;
 	GetBoundingBox(kl, kt, kr, kb);
 	if ((abs(player.x - kr) < MARIO_DISTANCE_KOOPAS)|| (abs(player.z - kl) < MARIO_DISTANCE_KOOPAS))
@@ -95,7 +96,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		OnCollisionWithBrick(e);
 	}
-	else if(dynamic_cast<CGoomba*>(e->obj))
+	if(dynamic_cast<CGoomba*>(e->obj))
 	{
 		OnCollisionWithGoomba(e);
 	}
@@ -114,8 +115,11 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	}
 	
 }
-void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player)
+void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	float ml, mt, mr, mb;
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetBoundingBox(ml, mt, mr, mb);
+	D3DXVECTOR4 player(ml, mt, mr, mb);
 	canHoldingshell = CheckDistancePlayer(player);
 	vy += ay * dt;
 	vx += ax * dt;

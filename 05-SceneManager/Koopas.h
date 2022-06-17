@@ -82,7 +82,7 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 public:
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTOR4 player);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	bool CheckDistancePlayer(D3DXVECTOR4 player);
 	int CheckNxShell(D3DXVECTOR4 player);
 	CKoopas(float x, float y, float type);

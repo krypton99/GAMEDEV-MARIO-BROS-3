@@ -385,9 +385,6 @@ void CPlayScene::Update(DWORD dt)
 				else return;
 				koopas->SetIsGhostFollow(false);
 			}
-			float l, t, r, b;
-			player->GetBoundingBox(l, t, r, b);
-			koopas->Update(dt, &objects, { l,t,r,b });
 		}
 	}
 	for (size_t i = 1; i < objects.size(); i++)
@@ -411,6 +408,7 @@ void CPlayScene::Update(DWORD dt)
 	}
 	for (size_t i = 0; i < listGrid.size(); i++) {
 		listGrid[i]->Update(dt, &coObjects);
+
 	}
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
@@ -432,6 +430,13 @@ void CPlayScene::Update(DWORD dt)
 		if (listItems[i]->GetState() == STATE_ERASE) {
 
 			listItems.erase(listItems.begin() + i);
+			i--;
+		}
+	}
+	for (size_t i = 0; i < listGrid.size(); i++) {
+		if (listGrid[i]->GetState() == STATE_ERASE) {
+
+			listGrid.erase(listGrid.begin() + i);
 			i--;
 		}
 	}
