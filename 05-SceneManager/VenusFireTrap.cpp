@@ -101,17 +101,18 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTO
 		}
 		nx = 1;
 	}
-	if (isAttack) {
-		if (nx > 0) { // PHAI
-			fireBullet = new CFireBullet( x , y  , nx, mario_direction);
+	if (plant_type == PLANT_TYPE_RED_VENUS) {
+		if (isAttack) {
+			if (nx > 0) { // PHAI
+				fireBullet = new CFireBullet(x, y, nx, mario_direction);
+			}
+			else {
+				fireBullet = new CFireBullet(x, y, nx, mario_direction);
+			}
+			isAttack = false;
+			coObjects->push_back(fireBullet);
 		}
-		else {
-			fireBullet = new CFireBullet( x , y  , nx, mario_direction);
-		}
-		isAttack = false;
-		coObjects->push_back(fireBullet);
 	}
-
 	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -120,26 +121,55 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTO
 
 void CVenusFireTrap::Render()
 {
-	int ani = ID_ANI_REDVENUS_MOVE;
-	
-	switch (mario_direction)
-	{
-	case MARIO_LEFT_DOWN_FAR:
-	case MARIO_LEFT_DOWN_NEAR:
-		ani = ID_ANI_REDVENUS_LEFT_DOWN;
-		break;
-	case MARIO_LEFT_UP_FAR:
-	case MARIO_LEFT_UP_NEAR:
-		ani = ID_ANI_REDVENUS_LEFT_UP;
-		break;
-	case MARIO_RIGHT_DOWN_FAR:
-	case MARIO_RIGHT_DOWN_NEAR:
-		ani = ID_ANI_REDVENUS_RIGHT_DOWN;
-		break;
-	case MARIO_RIGHT_UP_FAR:
-	case MARIO_RIGHT_UP_NEAR:
-		ani = ID_ANI_REDVENUS_RIGHT_UP;
-		break;
+	int ani = -1;
+	if (plant_type == PLANT_TYPE_RED_VENUS) {
+		ani = ID_ANI_REDVENUS_MOVE;
+
+		switch (mario_direction)
+		{
+		case MARIO_LEFT_DOWN_FAR:
+		case MARIO_LEFT_DOWN_NEAR:
+			ani = ID_ANI_REDVENUS_LEFT_DOWN;
+			break;
+		case MARIO_LEFT_UP_FAR:
+		case MARIO_LEFT_UP_NEAR:
+			ani = ID_ANI_REDVENUS_LEFT_UP;
+			break;
+		case MARIO_RIGHT_DOWN_FAR:
+		case MARIO_RIGHT_DOWN_NEAR:
+			ani = ID_ANI_REDVENUS_RIGHT_DOWN;
+			break;
+		case MARIO_RIGHT_UP_FAR:
+		case MARIO_RIGHT_UP_NEAR:
+			ani = ID_ANI_REDVENUS_RIGHT_UP;
+			break;
+		}
+	}
+	else if (plant_type == PLANT_TYPE_GREEN_VENUS) {
+		ani = ID_ANI_GREENVENUS_MOVE;
+
+		switch (mario_direction)
+		{
+		case MARIO_LEFT_DOWN_FAR:
+		case MARIO_LEFT_DOWN_NEAR:
+			ani = ID_ANI_GREENVENUS_LEFT_DOWN;
+			break;
+		case MARIO_LEFT_UP_FAR:
+		case MARIO_LEFT_UP_NEAR:
+			ani = ID_ANI_GREENVENUS_LEFT_UP;
+			break;
+		case MARIO_RIGHT_DOWN_FAR:
+		case MARIO_RIGHT_DOWN_NEAR:
+			ani = ID_ANI_GREENVENUS_RIGHT_DOWN;
+			break;
+		case MARIO_RIGHT_UP_FAR:
+		case MARIO_RIGHT_UP_NEAR:
+			ani = ID_ANI_GREENVENUS_RIGHT_UP;
+			break;
+		}
+	}
+	else {
+		ani = ID_ANI_PIRANHA;
 	}
 	CAnimations::GetInstance()->Get(ani)->Render(x, y);
 	

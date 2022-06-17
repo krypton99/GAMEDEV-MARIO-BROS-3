@@ -21,8 +21,9 @@ void CBrick::Render()
 			ani = ID_ANI_QUESTION_BRICK_EMPTY;
 		}
 		else ani = ID_ANI_QUESTION_BRICK_ACTIVE;
-	}
-	animations->Get(ani)->Render(x, y);
+		animations->Get(ani)->Render(x, y);
+	} 
+	
 	//RenderBoundingBox();
 }
 
