@@ -28,13 +28,18 @@ void CFunnel::Render()
 
 void CFunnel::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	if ( funnelType == FUNNEL_TYPE_LONG) {
+	if (funnelType == FUNNEL_TYPE_SHORT_WOOD || funnelType == FUNNEL_TYPE_LONG) {
 		l = x - FUNNEL_BBOX_WIDTH / 2;
 		t = y - FUNNEL_BBOX_HEIGHT / 2;
 		r = l + FUNNEL_BBOX_WIDTH;
 		b = t + FUNNEL_BBOX_HEIGHT;
 	}
-	
+	else if (funnelType == FUNNEL_TYPE_LONG_WOOD) {
+		l = x - FUNNEL_LONG_WOOD_BBOX_WIDTH / 2;
+		t = y - FUNNEL_LONG_WOOD_BBOX_HEIGHT / 2;
+		r = l + FUNNEL_LONG_WOOD_BBOX_WIDTH;
+		b = t + FUNNEL_LONG_WOOD_BBOX_HEIGHT;
+	}
 	else {
 		l = x - FUNNEL_SMALL_BBOX_WIDTH / 2;
 		t = y - FUNNEL_SMALL_BBOX_HEIGHT / 2;
