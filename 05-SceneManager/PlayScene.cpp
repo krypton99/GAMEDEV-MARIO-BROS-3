@@ -18,6 +18,7 @@
 #include "Koopas.h"
 #include "Leaf.h"
 #include "HUD.h"
+#include "Pswitch.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -340,8 +341,6 @@ void CPlayScene::Update(DWORD dt)
 	for (size_t i = 0; i < objects.size(); i++) {
 		if (objects[i]->GetType() == OBJECT_TYPE_BRICK) {
 			CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
-
-
 			if (brick->GetIsFallingItem() ) {
 				//CREATE ITEM FOLLOW MARIO LEVEL
 				Item* item = NULL;
@@ -351,7 +350,9 @@ void CPlayScene::Update(DWORD dt)
 						item = new CLeaf({ brick->GetPosX(), brick->GetPosY() - ITEM_BBOX * 3 , ITEM_LEAF });
 					else item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_RED_MUSHROOM);
 				}
-
+				else if (brick->GetItemType() == CONTAIN_PSWITCH) {
+					obj = new CPswitch(brick->GetPosX(), brick->GetPosY());
+				}
 				if (item != NULL) {
 					listItems.push_back(item);
 				}

@@ -85,8 +85,9 @@ void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 }
 void CMarioTail::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	brick->SetIsFallingItem(true);
 	if (brick->GetState() != BRICK_STATE_EMPTY) {
-		brick->SetIsFallingItem(true);
+		
 		brick->SetState(BRICK_STATE_EMPTY);
 	}
 	if (brick->GetBrickType() == BRICK_TYPE_GOLD) {

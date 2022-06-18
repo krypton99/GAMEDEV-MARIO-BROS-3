@@ -20,6 +20,7 @@
 #define OBJECT_TYPE_KOOPAS 8
 #define OBJECT_TYPE_FIREBALL	9
 #define OBJECT_TYPE_PORTAL	50
+#define OBJECT_TYPE_PSWITCH	10
 
 
 #pragma region MARIO 

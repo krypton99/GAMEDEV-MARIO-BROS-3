@@ -17,6 +17,7 @@
 #include "Leaf.h"
 #include "FireBullet.h"
 #include "VenusFireTrap.h"
+#include "Pswitch.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -203,6 +204,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CPlatform*>(e->obj))
 		OnCollisionWithPlatform(e);
+	else if (dynamic_cast<CPswitch*>(e->obj))
+		OnCollisionWithPswitch(e);
 	/*else 
 		canHold = false;*/
 	
@@ -454,6 +457,12 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 
 			}
 		}
+}
+void CMario::OnCollisionWithPswitch(LPCOLLISIONEVENT e) {
+	CPswitch* pswitch = dynamic_cast<CPswitch*>(e->obj);
+	if (e->ny < 0) {
+		pswitch->SetState(SWITCH_STATE_OFF);
+	}
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {

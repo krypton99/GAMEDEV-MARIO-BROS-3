@@ -193,7 +193,6 @@ class CMario : public CGameObject
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
-	void OnCollisionWithGhostPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
@@ -202,6 +201,7 @@ class CMario : public CGameObject
 	void OnCollisionWithFireBullet(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
+	void OnCollisionWithPswitch(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRacoon();

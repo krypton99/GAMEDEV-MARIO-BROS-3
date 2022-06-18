@@ -105,7 +105,11 @@ void CBrick::SetState(int state) {
 		break;
 	case BRICK_STATE_BROKEN:
 	{
-		
+		if (itemType == CONTAIN_PSWITCH) {
+			isFallingItem = true;
+		}
+		else
+			isFallingItem = false;
 		brickBroken_start = GetTickCount64();
 		isBroken = true;
 		CBrickBrokenPieces* piece1 = new CBrickBrokenPieces(start_x, start_y, 1, 2.2f); //PHAI DUOI
