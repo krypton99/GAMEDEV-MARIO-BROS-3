@@ -20,7 +20,7 @@ void CBrick::Render()
 		return;
 	}
 	int ani = 0;
-	if (brickType != BRICK_TYPE_HIDDEN) {
+	if (brickType != BRICK_TYPE_HIDDEN && state != BRICK_STATE_INVISIBLE) {
 	if (brickType == BRICK_TYPE_QUESTION) {
 		ani = ID_ANI_QUESTION_BRICK_ACTIVE;
 		if (state == BRICK_STATE_EMPTY) {

@@ -30,7 +30,51 @@ void CPswitch::Render()
 
 void CPswitch::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT>* items) {
 	CGameObject::Update(dt, objects);
+	vector<LPGAMEOBJECT> goldBrick;
+	if (onChange) {// ktra nhan nut
+		// gach bien mat -> state coin
+		for (int i = 0; i < objects->size(); i++) {
+			if (objects->at(i)->GetType() == OBJECT_TYPE_BRICK) {
 
+				CBrick* brick = dynamic_cast<CBrick*>(objects->at(i));
+
+				if (brick->GetBrickType() == BRICK_TYPE_GOLD && brick->GetState() != BRICK_STATE_INVISIBLE) {
+					brick->SetState(BRICK_STATE_INVISIBLE);
+				}
+
+				CCoin* coin = new CCoin(brick->GetPosX(), brick->GetPosY());
+				coin->setIsPswitch(true);
+				objects->push_back(coin);
+				//coins->push_back(coin);
+			}
+		}
+		onChange = false;
+	}
+	if (changeTimer && changeTimer->IsTimeUp()) {
+		//tien bien lai thanh gach
+		for (int i = 0; i < objects->size(); i++) {
+			if (dynamic_cast<CBrick*>(objects->at(i))) {
+
+				CBrick* brick = dynamic_cast<CBrick*>(objects->at(i));
+
+				if (brick->GetBrickType() == BRICK_TYPE_GOLD && brick->GetState() == BRICK_STATE_INVISIBLE) {
+
+					brick->SetState(BRICK_STATE_ACTIVE);
+
+				}
+			}
+			if (dynamic_cast<CCoin*>(objects->at(i))) {
+				CCoin* coin = dynamic_cast<CCoin*>(objects->at(i));
+
+				if (coin->getIsPswitch() == true) {
+					coin->Delete();
+				}
+			}
+
+		}
+		//coins->clear();
+		changeTimer->Stop();
+	}
 	
 	CCollision::GetInstance()->Process(this, dt, objects);
 }
@@ -40,6 +84,9 @@ void CPswitch::SetState(int state) {
 	switch (state)
 	{
 	case SWITCH_STATE_OFF:
+		changeTimer->Start();
+		//gach bien thanh tien
+		onChange = true;
 		y = y + 10;
 		break;
 	case SWITCH_STATE_ON:

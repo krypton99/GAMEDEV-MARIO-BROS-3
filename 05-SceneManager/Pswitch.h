@@ -13,6 +13,9 @@ private:
 
 	virtual int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 1; };
+	bool onChange = false;
+	Timer* changeTimer = new Timer(12000);
+	vector<LPGAMEOBJECT>* coins;
 public:
 	CPswitch(float x, float y);
 	~CPswitch() {}

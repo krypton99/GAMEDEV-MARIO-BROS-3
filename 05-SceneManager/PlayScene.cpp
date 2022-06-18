@@ -339,6 +339,11 @@ void CPlayScene::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	
 	for (size_t i = 0; i < objects.size(); i++) {
+		if (objects[i]->GetType() == OBJECT_TYPE_PSWITCH) {
+			CPswitch* p_switch = dynamic_cast<CPswitch*>(objects[i]);
+			p_switch->Update(dt, &objects, &listItems);
+		}
+		else
 		if (objects[i]->GetType() == OBJECT_TYPE_BRICK) {
 			CBrick* brick = dynamic_cast<CBrick*>(objects[i]);
 			if (brick->GetIsFallingItem() ) {
