@@ -24,4 +24,5 @@ height	240
 70	textures\speedbar.png
 80	textures\black.png
 90	textures\mario-holding-shell.png
+100	textures\effect.png
 10000	textures\tilesheet_background_1-1.png

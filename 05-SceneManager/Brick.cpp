@@ -15,6 +15,7 @@ void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int ani = 0;
+	if (brickType != BRICK_TYPE_HIDDEN) {
 	if (brickType == BRICK_TYPE_QUESTION) {
 		ani = ID_ANI_QUESTION_BRICK_ACTIVE;
 		if (state == BRICK_STATE_EMPTY) {
@@ -22,8 +23,13 @@ void CBrick::Render()
 		}
 		else ani = ID_ANI_QUESTION_BRICK_ACTIVE;
 		animations->Get(ani)->Render(x, y);
-	} 
-	
+	}
+	else if (brickType == BRICK_TYPE_GOLD)
+	{
+		ani = ID_ANI_GOLD_BRICK_ACTIVE;
+		animations->Get(ani)->Render(x, y);
+	}
+	}
 	//RenderBoundingBox();
 }
 
