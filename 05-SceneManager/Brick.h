@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Animations.h"
+#include "BrickBrokenPieces.h"
 
 #define ID_ANI_BRICK 10000
 #define BRICK_WIDTH 16
@@ -21,6 +22,7 @@
 #define BRICK_STATE_ACTIVE 1
 #define BRICK_STATE_EMPTY 0
 #define BRICK_STATE_BOUND 2
+#define BRICK_STATE_BROKEN 3
 
 #define CONTAIN_NONE			0
 #define CONTAIN_MUSHROOM		1 
@@ -34,7 +36,9 @@ private:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnNoCollision(DWORD dt);
-	
+	vector<LPGAMEOBJECT> brokenPieces;
+	ULONGLONG brickBroken_start;
+	bool isBroken = false;
 public:
 	
 	CBrick(float x, float y, float type, int itemType);

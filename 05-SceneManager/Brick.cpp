@@ -14,6 +14,11 @@ CBrick::CBrick(float x, float y, float brickType, int itemType) :CGameObject(x, 
 void CBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
+	if (brokenPieces.size() > 0) {
+		for (int i = 0; i < brokenPieces.size(); i++)
+			brokenPieces[i]->Render();
+		return;
+	}
 	int ani = 0;
 	if (brickType != BRICK_TYPE_HIDDEN) {
 	if (brickType == BRICK_TYPE_QUESTION) {
@@ -47,7 +52,19 @@ void CBrick::OnNoCollision(DWORD dt)
 }
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//CGameObject::Update(dt);
-	
+	if ((state == BRICK_STATE_BROKEN) && (GetTickCount64() - brickBroken_start > 400))
+	{
+		isDeleted = true;
+		return;
+	}
+	if (brokenPieces.size() > 0) { // state broken
+		if (brokenPieces.size() == 4) {
+			for (int i = 0; i < brokenPieces.size(); i++)
+				brokenPieces[i]->Update(dt, coObjects);
+			//piece->Update(dt, coObjects);
+		}
+
+	}
 	
 	if (state == BRICK_STATE_BOUND) {
 		if (y < (start_y - BRICK_BOUNDING_X) && vy < 0) {
@@ -86,7 +103,18 @@ void CBrick::SetState(int state) {
 	case BRICK_STATE_EMPTY:
 		vy = 0;
 		break;
-	
+	case BRICK_STATE_BROKEN:
+	{
+		
+		brickBroken_start = GetTickCount64();
+		isBroken = true;
+		CBrickBrokenPieces* piece1 = new CBrickBrokenPieces(start_x, start_y, 1, 2.2f); //PHAI DUOI
+		CBrickBrokenPieces* piece2 = new CBrickBrokenPieces(start_x + BROKEN_DISTANCE_X, start_y + BROKEN_DISTANCE_X, 1, 1.0f); // PHAI TREN
+		CBrickBrokenPieces* piece3 = new CBrickBrokenPieces(start_x, start_y, -1, 2.2f); // TRAI DUOI
+		CBrickBrokenPieces* piece4 = new CBrickBrokenPieces(start_x, start_y + BROKEN_DISTANCE_X, -1, 1.0f); // TRAI TREN
+		brokenPieces = { piece1, piece2, piece3, piece4 };
+	}
+	break;
 	}
 
 }
