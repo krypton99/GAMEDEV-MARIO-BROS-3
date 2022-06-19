@@ -16,7 +16,7 @@ assets\hud.txt
 #
 #map_id	matrix_path	width	height
 [MAPS]
-10000	map\tilemap_1-1.txt	2832	432
+10000	map\tilemap_1-1.txt	3392	432
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -24,7 +24,7 @@ assets\hud.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	2100	384
+0	2800	384
 
 # BRICKS
 1	192	352	100	0
@@ -140,6 +140,16 @@ assets\hud.txt
 5	0	440	16	16	177	2
 5	2144	368	16	16	3	0
 5	2176	272	16	16	3	0
+5	2832	328	16	192	9	1
+5	2976	408	16	32	8	1
+5	3104	400	16	48	16	1
+5	3120	368	16	16	15	1
+5	3136	352	16	16	14	1
+5	3152	336	16	16	13	1
+5	3168	320	16	16	12	1
+5	3184	304	16	16	11	1
+5	3232	266	16	64	8	1
+5	3008	240	16	16	12	1
 
 #Portal 
 50	300	110	316	140	2

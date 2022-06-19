@@ -3,6 +3,7 @@
 
 #include "debug.h"
 #include "AssetIDs.h"
+#include "Platform.h"
 
 #define BLOCK_PUSH_FACTOR 0.4f
 
@@ -208,10 +209,15 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 				}
 			}
 			if (filterBlock == 1 && c->obj->IsBlockingY()) {
-				if (c->t < min_ty && c->ny > 0 && c->obj->GetType()==OBJECT_TYPE_PLATFORM && filterY == 1) {
-					return;
+
+				if (c->obj->GetType() == OBJECT_TYPE_PLATFORM)
+				{
+					CPlatform* platform = dynamic_cast<CPlatform*>(c->obj);
+					if (c->t < min_ty && c->ny > 0 && platform->GetPlatformType() == PLATFORM_TYPE_BLOCK && filterY == 1) {
+						return;
+					}
 				}
-				else
+				/*else*/
 					if (c->t < min_ty && c->ny != 0 && filterY == 1) {
 						min_ty = c->t; min_iy = i;
 					}
