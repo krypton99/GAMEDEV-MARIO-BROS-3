@@ -87,6 +87,27 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float vx, vy;
 	mario->GetSpeed(vx, vy);
+	if (game->IsKeyDown(DIK_UP)) {
+		mario->SetIsCanGoThroughPipeUp(true);
+		if (mario->GetIsInPipe())
+		{
+			mario->SetState(MARIO_STATE_TELEPORT);
+		}
+	}
+	else {
+		mario->SetIsCanGoThroughPipeUp(false);
+	}
+	if (game->IsKeyDown(DIK_DOWN)) {
+		mario->SetIsCanGoThroughPipeDown(true);
+		if (mario->GetIsInPipe())
+		{
+			mario->SetState(MARIO_STATE_TELEPORT);
+		}
+	}
+	else {
+		mario->SetIsCanGoThroughPipeDown(false);
+	}
+
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (game->IsKeyDown(DIK_A))

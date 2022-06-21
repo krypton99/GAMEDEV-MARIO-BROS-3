@@ -26,14 +26,28 @@ class CFunnel : public CGameObject
 {
 protected:
 	int funnelType;
+	bool isEntry;
+
+	float desX;
+	float desY;
+	bool direction; //0: down; 1: up
 public:
-	CFunnel(float x, float y, int funnelType) : CGameObject(x, y) {
+	CFunnel(float x, float y, int funnelType, bool isEntry, float desX, float desY, bool dir) : CGameObject(x, y) {
 		type = OBJECT_TYPE_FUNNEL;
 		this->funnelType = funnelType;
+		this->isEntry = isEntry;
+		this->desX = desX;
+		this->desY = desY;
+		this->direction = dir;
 	}
 	int GetFunnelType() { return funnelType; };
 	void SetFunnelType(int funnelType) { this->funnelType = funnelType; }
 	void Render();
 	void Update(DWORD dt) {}
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	bool GetDirection() { return this->direction; }
+	float GetDesX() { return this->desX; }
+	float GetDesY() { return this->desY; }
+	bool GetIsEntry() { return this->isEntry; }
+
 };

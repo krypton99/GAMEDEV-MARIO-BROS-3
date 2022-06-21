@@ -148,7 +148,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_FUNNEL: {
 		int funnelType = (int)atoi(tokens[3].c_str());
-		obj = new CFunnel(x, y, funnelType); break;
+		int isEntry = (int)atoi(tokens[4].c_str());
+		float desX = (float)atof(tokens[5].c_str());
+		float desY = (float)atof(tokens[6].c_str());
+		int direction = (int)atoi(tokens[7].c_str());
+		obj = new CFunnel(x, y, funnelType,isEntry,desX,desY,direction); break;
 	}
 	case OBJECT_TYPE_VENUS: {
 		int plant_type = (int)atoi(tokens[3].c_str());

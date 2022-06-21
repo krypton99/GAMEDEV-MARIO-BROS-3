@@ -18,6 +18,7 @@
 #include "FireBullet.h"
 #include "VenusFireTrap.h"
 #include "Pswitch.h"
+#include "Funnel.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -181,7 +182,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		vx = 0;
 		/*ax = 0;*/
 	}
-
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
@@ -206,6 +206,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPlatform(e);
 	else if (dynamic_cast<CPswitch*>(e->obj))
 		OnCollisionWithPswitch(e);
+	else if (dynamic_cast<CFunnel*>(e->obj))
+	{
+		OnCollisionWithFunnel(e);
+	}
+	
 	/*else 
 		canHold = false;*/
 	
@@ -225,6 +230,27 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
 
 		}
 	}
+}
+void CMario::OnCollisionWithFunnel(LPCOLLISIONEVENT e) {
+	CFunnel* funnel = dynamic_cast<CFunnel*>(e->obj);
+	if (funnel->GetIsEntry()) {
+		if (funnel->GetDirection()) {
+			isInHiddenMap = !this->isInHiddenMap;
+			desX = funnel->GetDesX();
+			desY= funnel->GetDesY();
+			isInPipe = true;
+			//state = MARIO_STATE_TELEPORT;
+		}
+		else if (!funnel->GetDirection() && this->canGoThroughPipe_down) {
+
+			isInHiddenMap = !this->isInHiddenMap;
+			desX = funnel->GetDesX();
+			desY = funnel->GetDesY();
+			isInPipe = true;
+			//state = MARIO_STATE_TELEPORT;
+		}
+	}
+	
 }
 void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e) {
 	CLeaf* item = dynamic_cast<CLeaf*>(e->obj);
@@ -915,6 +941,11 @@ void CMario::SetState(int state)
 		//ax=0;
 		DecreaseSpeed();
 		//isFlying = false;
+		break;
+	case MARIO_STATE_TELEPORT:
+		x = desX;
+		y = desY;
+		isInPipe = false;
 		break;
 
 	case MARIO_STATE_DIE:

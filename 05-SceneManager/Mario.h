@@ -44,6 +44,8 @@
 
 #define MARIO_STATE_POWER_UP	990
 
+#define MARIO_STATE_TELEPORT	980
+
 #pragma region ANIMATION_ID
 
 #define ID_ANI_MARIO_IDLE_RIGHT 400
@@ -202,6 +204,10 @@ class CMario : public CGameObject
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithPswitch(LPCOLLISIONEVENT e);
+	void OnCollisionWithFunnel(LPCOLLISIONEVENT e);
+	float desX;
+	float desY;
+	float isInPipe;
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRacoon();
@@ -215,7 +221,10 @@ class CMario : public CGameObject
 	boolean isBlocking = true;
 	int temp_nx;
 	bool isAttack;
+	bool isInHiddenMap=false;
 	CGhostPlatform* collide_Platform = nullptr;
+	bool canGoThroughPipe_down;
+	bool canGoThroughPipe_up;
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
@@ -256,6 +265,12 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	bool GetIsHolding() { return isHolding; }
 	void SetIsHolding(bool isHolding) { this->isHolding = isHolding; }
+	bool GetIsInPipe() { return isInPipe; }
+	void SetIsInPipe(bool isInPipe) { this->isInPipe = isInPipe; }
+	bool GetIsCanGoThroughPipeDown() { return canGoThroughPipe_down; }
+	void SetIsCanGoThroughPipeDown(bool canGoThroughPipe_down) { this->canGoThroughPipe_down = canGoThroughPipe_down; }
+	bool GetIsCanGoThroughPipeUp() { return canGoThroughPipe_up; }
+	void SetIsCanGoThroughPipeUp(bool canGoThroughPipe_up) { this->canGoThroughPipe_up = canGoThroughPipe_up; }
 	bool GetIsPowerUp() { return isPowerUp; }
 	void SetIsPowerUp(bool isPowerUp) { this->isPowerUp = isPowerUp; }
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

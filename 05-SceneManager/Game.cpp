@@ -13,7 +13,7 @@ CGame * CGame::__instance = NULL;
 /*
 	Initialize DirectX, create a Direct3D device for rendering within the window, initial Sprite library for
 	rendering 2D images
-	- hWnd: Application window handle
+	- hWnd: Application window handlesqqq
 */
 void CGame::Init(HWND hWnd, HINSTANCE hInstance)
 {
