@@ -26,7 +26,9 @@
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING_RIGHT	100
 #define MARIO_STATE_WALKING_LEFT	200
-
+#define MARIO_STATE_WALKING_UP		150 //mario in world map
+#define MARIO_STATE_WALKING_DOWN	250 //mario in world map
+#define MARIO_STATE_IDLE_WORLD_MAP	350
 
 #define MARIO_STATE_JUMP			300
 #define MARIO_STATE_RELEASE_JUMP    301
@@ -111,6 +113,7 @@
 #define ID_ANI_MARIO_SMALL_WALK_HOLDING_LEFT_RED 1621
 #define ID_ANI_MARIO_SMALL_WALK_HOLDING_RIGHT_GREEN 1622
 #define ID_ANI_MARIO_SMALL_WALK_HOLDING_LEFT_GREEN 1623
+#define ID_ANI_MARIO_SMALL_WORLDMAP			2500
 // RACOON MARIO
 
 #define ID_ANI_RACOON_MARIO_IDLE_RIGHT 1701
@@ -225,6 +228,7 @@ class CMario : public CGameObject
 	CGhostPlatform* collide_Platform = nullptr;
 	bool canGoThroughPipe_down;
 	bool canGoThroughPipe_up;
+	bool canSwitchScene = false;
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
@@ -294,4 +298,6 @@ public:
 	void SetCollidePlatform(CGhostPlatform* collide_Platform) { this->collide_Platform = collide_Platform; }
 	CGhost* GetGhostMario() { return ghost_mario; }
 	void SetGhostMario(CGhost* ghost_mario) { this->ghost_mario = ghost_mario; }
+	void SetCanSwitchScene(BOOLEAN canSwitchScene) { this->canSwitchScene = canSwitchScene; }
+	bool GetCanSwitchScene() { return this->canSwitchScene; }
 };

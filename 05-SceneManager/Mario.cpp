@@ -970,6 +970,16 @@ void CMario::SetState(int state)
 		tail->SetPosition(x, y);
 		tail->SetIsAttack(true);
 		break;
+	case MARIO_STATE_IDLE_WORLD_MAP:
+		vx = 0;
+		vy = 0;
+		break;
+	case MARIO_STATE_WALKING_UP:
+		vy = -MARIO_WALKING_SPEED / 2;
+		break;
+	case MARIO_STATE_WALKING_DOWN:
+		vy = MARIO_WALKING_SPEED / 2;
+		break;
 	}
 
 	CGameObject::SetState(state);
