@@ -26,8 +26,10 @@
 #define MARIO_STATE_IDLE			0
 #define MARIO_STATE_WALKING_RIGHT	100
 #define MARIO_STATE_WALKING_LEFT	200
-#define MARIO_STATE_WALKING_UP		150 //mario in world map
-#define MARIO_STATE_WALKING_DOWN	250 //mario in world map
+#define MARIO_STATE_WALKING_UP_WORLD_MAP		150 //mario in world map
+#define MARIO_STATE_WALKING_DOWN_WORLD_MAP		151 //mario in world map
+#define MARIO_STATE_WALKING_RIGHT_WORLD_MAP		152 //mario in world map
+#define MARIO_STATE_WALKING_LEFT_WORLD_MAP		153 //mario in world map
 #define MARIO_STATE_IDLE_WORLD_MAP	350
 
 #define MARIO_STATE_JUMP			300
@@ -197,6 +199,10 @@ class CMario : public CGameObject
 	BOOLEAN isOnPlatform;
 	int coin; 
 	bool isFlying = false;
+	bool mLeft;	// mario in worldmap
+	bool mRight;
+	bool mUp;
+	bool mDown;
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
@@ -320,4 +326,9 @@ public:
 	void SetGhostMario(CGhost* ghost_mario) { this->ghost_mario = ghost_mario; }
 	void SetCanSwitchScene(BOOLEAN canSwitchScene) { this->canSwitchScene = canSwitchScene; }
 	bool GetCanSwitchScene() { return this->canSwitchScene; }
+	bool getMLeft() { return this->mLeft; }
+	bool getMRight() { return this->mRight; }
+	bool getMUp() { return this->mUp; }
+	bool getMDown() { return this->mDown; }
+	void setMRight(bool mRight) { this->mRight = mRight; }
 };

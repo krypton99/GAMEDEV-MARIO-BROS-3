@@ -193,8 +193,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
-	else if (dynamic_cast<CPortal*>(e->obj))
-		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CPortal*>(e->obj)) {
+		if (stage == WORLD_MAP_SCENE) {
+			OnCollisionWithPortal(e);
+		}
+	}
 	else if (dynamic_cast<CGhost*>(e->obj))
 		OnCollisionWithGhostKoopas(e);
 	else if (dynamic_cast<CBrick*>(e->obj))
@@ -524,8 +527,16 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
-	CPortal* p = (CPortal*)e->obj;
-	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+	CPortal* portal = dynamic_cast<CPortal*>(e->obj);
+	this->mLeft = portal->getMLeft();
+	this->mRight = portal->getMRight();
+	this->mUp = portal->getMUp();
+	this->mDown = portal->getMDown();
+	/*CPortal* p = (CPortal*)e->obj;*/
+	if (portal->IsHasPortal())
+	{
+		CGame::GetInstance()->InitiateSwitchScene(portal->GetSceneId());
+	}
 }
 
 //
@@ -989,11 +1000,17 @@ void CMario::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
-	case MARIO_STATE_WALKING_UP:
-		vy = -MARIO_WALKING_SPEED / 2;
+	case MARIO_STATE_WALKING_UP_WORLD_MAP:
+		vy = -MARIO_WALKING_SPEED/2;
 		break;
-	case MARIO_STATE_WALKING_DOWN:
-		vy = MARIO_WALKING_SPEED / 2;
+	case MARIO_STATE_WALKING_DOWN_WORLD_MAP:
+		vy = MARIO_WALKING_SPEED/2; 
+		break;
+	case MARIO_STATE_WALKING_RIGHT_WORLD_MAP:
+		vx = MARIO_WALKING_SPEED/2;
+		break;
+	case MARIO_STATE_WALKING_LEFT_WORLD_MAP:
+		vx = -MARIO_WALKING_SPEED/2;
 		break;
 	}
 
