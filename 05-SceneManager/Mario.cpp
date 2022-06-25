@@ -19,12 +19,19 @@
 #include "VenusFireTrap.h"
 #include "Pswitch.h"
 #include "Funnel.h"
+void CMario::UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
+	vy += ay * dt;
+	vx += ax * dt;
 
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * (dt/((1+ abs(vx*30))));
-	ghost_mario->SetNx(nx);
+	if (stage != WORLD_MAP_SCENE) {
+		ghost_mario->SetNx(nx);
+	}
 	//DebugOut(L"state %f \n", state);
 	if (abs(vx) > abs(maxVx)) {
 		vx = maxVx;
@@ -850,7 +857,15 @@ void CMario::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
+	if (stage == WORLD_MAP_SCENE) {
+		if (GetLevel() == MARIO_LEVEL_RACOON)
+			aniId = ID_ANI_MARIO_RACOON_WORLDMAP;
+		else if (GetLevel() == MARIO_LEVEL_BIG)
+			aniId = ID_ANI_MARIO_BIG_WORLDMAP;
+		else
+			aniId = ID_ANI_MARIO_SMALL_WORLDMAP;
 
+	} else
 	if (state == MARIO_STATE_DIE)
 		aniId = ID_ANI_MARIO_DIE;
 	else if (level == MARIO_LEVEL_BIG)

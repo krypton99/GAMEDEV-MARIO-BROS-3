@@ -152,6 +152,7 @@
 
 #define ID_ANI_RACOON_MARIO_ATTACK_RIGHT	2301
 #define ID_ANI_RACOON_MARIO_ATTACK_LEFT		2300
+#define ID_ANI_MARIO_RACOON_WORLDMAP		2502
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -183,6 +184,7 @@
 
 class CMario : public CGameObject
 {
+	int stage = NULL;
 	BOOLEAN isSitting;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -239,14 +241,31 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 		tail = new CMarioTail(x, y);
-		level = MARIO_LEVEL_BIG;
+		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
 	}
-	
+	CMario(float x, float y, int stage) : CGameObject(x, y)
+	{
+		this->stage = stage;
+		isSitting = false;
+		maxVx = 0.0f;
+		ax = 0.0f;
+		if (stage == WORLD_MAP_SCENE) {
+			ay = 0;
+		}
+		else ay = MARIO_GRAVITY;
+		tail = new CMarioTail(x, y);
+		level = MARIO_LEVEL_SMALL;
+		untouchable = 0;
+		untouchable_start = -1;
+		isOnPlatform = false;
+		coin = 0;
+	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects); //update mario khi o worldmap
 	void Render();
 	void SetState(int state);
 	
@@ -261,7 +280,8 @@ public:
 	Timer* PowerUp = new Timer(TIME_POWER_UP);
 	int IsBlocking() { return 0; }
 	int IsBlockingY() {return 1;}
-	
+	void SetStage(int stage) { this->stage = stage; }
+	int GetStage() { return this->stage; }
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	int GetLevel() { return level; };
