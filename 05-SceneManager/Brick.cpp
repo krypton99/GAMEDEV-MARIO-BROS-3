@@ -88,7 +88,7 @@ void CBrick::SetState(int state) {
 	switch (state) {
 	case BRICK_STATE_BOUND:
 	{
-		if (itemType == CONTAIN_MUSHROOM) {
+		if (itemType == CONTAIN_MUSHROOM || itemType==CONTAIN_COIN) {
 			isFallingItem = true;
 		}
 		else

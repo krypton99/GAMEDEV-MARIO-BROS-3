@@ -19,6 +19,7 @@
 #include "Leaf.h"
 #include "HUD.h"
 #include "Pswitch.h"
+#include "CoinEffect.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -364,10 +365,16 @@ void CPlayScene::Update(DWORD dt)
 				else if (brick->GetItemType() == CONTAIN_PSWITCH) {
 					obj = new CPswitch(brick->GetPosX(), brick->GetPosY());
 				}
-				if (item != NULL) {
+				else if (brick->GetItemType() == CONTAIN_COIN) {
+					float b_x, b_y;
+					brick->GetPosition(b_x, b_y); // vi tri cua brick
+					obj = new CCoinEffect({ b_x,b_y });
+					listEffects.push_back(obj);
+				}
+				if (item != NULL && brick->GetItemType() != CONTAIN_COIN) {
 					listItems.push_back(item);
 				}
-				if (obj != NULL) {
+				if (obj != NULL && brick->GetItemType() != CONTAIN_COIN) {
 					objects.push_back(obj);
 				} /*else return;*/
 				brick->SetIsFallingItem(false);
@@ -398,6 +405,18 @@ void CPlayScene::Update(DWORD dt)
 				koopas->SetIsGhostFollow(false);
 			}
 		}
+	}
+	for (size_t i = 0; i < listEffects.size(); i++) {
+		listEffects[i]->Update(dt);
+
+		// effect score effect after hit money
+		if (listEffects[i]->GetType() == OBJECT_TYPE_COIN && listEffects[i]->GetState() == STATE_ERASE) {
+			float c_x, c_y;
+			listEffects[i]->GetPosition(c_x, c_y);
+			//CGameObject* score = new ScoreEffect({ c_x, c_y }, 100);
+			//listEffects.push_back(score);
+		}
+
 	}
 	for (size_t i = 1; i < objects.size(); i++)
 	{
@@ -452,6 +471,13 @@ void CPlayScene::Update(DWORD dt)
 			i--;
 		}
 	}
+	for (size_t i = 0; i < listEffects.size(); i++) {
+		if (listEffects[i]->GetState() == STATE_ERASE) {
+
+			listEffects.erase(listEffects.begin() + i);
+			i--;
+		}
+	}
 	PurgeDeletedObjects();
 }
 
@@ -464,6 +490,8 @@ void CPlayScene::Render()
 		listItems[i]->Render();
 	for (int i = 0; i < listGrid.size(); i++)
 		listGrid[i]->Render();
+	for (size_t i = 0; i < listEffects.size(); i++)
+		listEffects[i]->Render();
 	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player);
 }
 
