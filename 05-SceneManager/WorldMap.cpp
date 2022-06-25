@@ -11,6 +11,7 @@
 #include "Scene.h"
 #include "SampleKeyEventHandler.h"
 #include "Platform.h"
+#include "WorldMapObjects.h"
 using namespace std;
 
 CWorldMap::CWorldMap(int id, LPCWSTR filePath) : CScene(id, filePath)
@@ -137,13 +138,36 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_WORLDMAPOBJ:
+	{
+		float type = (float)atof(tokens[3].c_str());
+		obj = new CWorldMapObjects(x, y, type);
 
+		// General object setup
+		obj->SetPosition(x, y);
+		listObjects.push_back(obj);
+		break;
+	}
+	
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
+		int hasPortal = atof(tokens[5].c_str());
+		int scene_id = atof(tokens[6].c_str());
+		int left = atof(tokens[7].c_str());
+		int right = atof(tokens[8].c_str());
+		int up = atof(tokens[9].c_str());
+		int down = atof(tokens[10].c_str());
+		obj = new CPortal(hasPortal, x,y,r,b,scene_id, left, right, up, down);
+		// General object setup
+		//obj->SetPosition(x, y);
+
+		/*listObjects.push_back(obj);
+		float r = (float)atof(tokens[3].c_str());
+		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
+		obj = new CPortal(x, y, r, b, scene_id);*/
 	}
 	break;
 
@@ -154,7 +178,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	}
 
 	// General object setup
-	if (object_type != OBJECT_TYPE_MARIO) {
+	if (object_type != OBJECT_TYPE_MARIO && object_type != OBJECT_TYPE_WORLDMAPOBJ) {
 		obj->SetPosition(x, y);
 
 		listObjects.push_back(obj);
