@@ -121,9 +121,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
+
 		obj = new CMario(x,y); 
 		player = (CMario*)obj;  
 		player->GetTail()->GetInstance(x, y);
+		player->SetStage(this->id);
 		player->SetGhostMario(new CGhost(x, y));
 		player->GetGhostMario()->SetGhostType(GHOST_TYPE_MARIO);
 		objects.push_back(player->GetTail());
