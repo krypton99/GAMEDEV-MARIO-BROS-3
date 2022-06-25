@@ -1,0 +1,57 @@
+# list of object assets to load in this scene
+[ASSETS]
+assets\mario.txt
+assets\background-worldmap.txt
+assets\worldmap_object.txt
+assets\hud.txt
+#
+#map_id	matrix_path	width	height
+[MAPS]
+30000	map\matrix_worldmap.txt	272	176
+#
+[OBJECTS]
+# type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
+# See OBJECT_TYPE constants in AssetIDs.h
+
+# MARIO
+0	36	48
+
+# BRICKS
+1	32	96	200	0
+1	48	96	200	0
+1	16	112	200	0
+1	32	112	200	0
+1	48	112	200	0
+1	16	128	200	0
+1	32	128	200	0
+1	48	128	200	0
+1	16	144	200	0
+1	32	144	200	0
+1	48	144	200	0
+1	80	96	200	0
+1	64	160	200	0
+1	80	160	200	0
+1	96	160	200	0
+1	112	160	200	0
+1	128	160	200	0
+1	144	144	200	0
+1	144	128	200	0
+1	112	128	200	0
+1	96	128	200	0
+1	80	128	200	0
+1	144	96	200	0
+1	160	128	200	0
+1	176	128	200	0
+1	192	128	200	0
+1	80	112	200	0
+1	160	96	200	0
+1	176	96	200	0
+1	192	96	200	0
+1	208	112	200	0
+
+# PLATFORM
+
+
+#Portal 
+50	16	48	32	80	1
