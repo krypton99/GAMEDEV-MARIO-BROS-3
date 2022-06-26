@@ -8,6 +8,7 @@
 #include "Animations.h"
 #include "PlayScene.h"
 #include "WorldMap.h"
+#include "TitleScreen.h"
 CGame * CGame::__instance = NULL;
 
 /*
@@ -459,6 +460,9 @@ void CGame::_ParseSection_SCENES(string line)
 	LPSCENE scene = nullptr;
 	if (id == WORLD_MAP_SCENE) {
 		scene = new CWorldMap(id, path);
+	}
+	else if (id == TITLE_MAP_SCENE) {
+		scene = new CTitleScreen(id, path);
 	}
 	else
 	{
