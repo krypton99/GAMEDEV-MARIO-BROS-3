@@ -2,6 +2,7 @@
 
 #include "KeyEventHandler.h"
 #define WORLD_MAP_SCENE 3
+#define TITLE_MAP_SCENE 4
 /*
 *  Abstract class for a game scene
 */
@@ -25,6 +26,8 @@ public:
 	virtual void Unload() = 0;
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0; 
+	int getId() { return this->id; }
+
 };
 typedef CScene * LPSCENE;
 
