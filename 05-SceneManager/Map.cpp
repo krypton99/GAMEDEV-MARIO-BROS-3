@@ -5,6 +5,7 @@
 #include "Textures.h"
 #include "Game.h"
 #include "debug.h"
+#include "Camera.h"
 
 // ANIMATION 
 CMap::CMap(int mapID, LPCWSTR matrix_path, int widthMap, int heightMap) {
@@ -70,6 +71,10 @@ void CMap::LoadMap() {
 
 void CMap::Render()
 {
+	if (CGame::GetInstance()->GetCamPosX() != NULL)
+	{
+		CGame::GetInstance()->SetCamPosX(0);
+	}
 	int col_begin = CGame::GetInstance()->GetCamPosX() / TILE_SIZE;
 	int col_end = ceil(CGame::GetInstance()->GetCamPosX() / TILE_SIZE) + (SCREEN_WIDTH / TILE_SIZE); //fixing map was't render fast enough 
 	/*int col_end = widthMap / TILE_SIZE;*/
@@ -79,7 +84,7 @@ void CMap::Render()
 
 	for (int i = 0; i < numRow; i++) {
 		for (int j = col_begin; j < col_end; j++) {
-			float x = TILE_SIZE * (j - col_begin) - (int)game->GetCamPosX() % TILE_SIZE + game->GetCamPosX();
+			float x = TILE_SIZE * (j - col_begin) - (int)game->GetCamPosX() % TILE_SIZE + game->GetCamPosX() + CAMERA_X_OFFSET;
 			float y = TILE_SIZE * i;
 
 
