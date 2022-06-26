@@ -85,48 +85,50 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 {
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	float vx, vy;
-	mario->GetSpeed(vx, vy);
-	if (game->IsKeyDown(DIK_UP)) {
-		mario->SetIsCanGoThroughPipeUp(true);
-		if (mario->GetIsInPipe())
-		{
-			mario->SetState(MARIO_STATE_TELEPORT);
+	CScene* scene = (CScene*)(CGame::GetInstance()->GetCurrentScene());
+	if (scene->getId()!=TITLE_MAP_SCENE) {
+		float vx, vy;
+		mario->GetSpeed(vx, vy);
+		if (game->IsKeyDown(DIK_UP)) {
+			mario->SetIsCanGoThroughPipeUp(true);
+			if (mario->GetIsInPipe())
+			{
+				mario->SetState(MARIO_STATE_TELEPORT);
+			}
 		}
-	}
-	else {
-		mario->SetIsCanGoThroughPipeUp(false);
-	}
-	if (game->IsKeyDown(DIK_DOWN)) {
-		mario->SetIsCanGoThroughPipeDown(true);
-		if (mario->GetIsInPipe())
-		{
-			mario->SetState(MARIO_STATE_TELEPORT);
+		else {
+			mario->SetIsCanGoThroughPipeUp(false);
 		}
-	}
-	else {
-		mario->SetIsCanGoThroughPipeDown(false);
-	}
+		if (game->IsKeyDown(DIK_DOWN)) {
+			mario->SetIsCanGoThroughPipeDown(true);
+			if (mario->GetIsInPipe())
+			{
+				mario->SetState(MARIO_STATE_TELEPORT);
+			}
+		}
+		else {
+			mario->SetIsCanGoThroughPipeDown(false);
+		}
 
-	if (game->IsKeyDown(DIK_RIGHT))
-	{
-		if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+		if (game->IsKeyDown(DIK_RIGHT))
+		{
+			if (game->IsKeyDown(DIK_A))
+				mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+			else
+				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
+		else if (game->IsKeyDown(DIK_LEFT))
+		{
+			if (game->IsKeyDown(DIK_A))
+				mario->SetState(MARIO_STATE_RUNNING_LEFT);
+			else
+				mario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
 		else
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
-	}
-	else if (game->IsKeyDown(DIK_LEFT))
-	{
-		if (game->IsKeyDown(DIK_A))
-			mario->SetState(MARIO_STATE_RUNNING_LEFT);
-		else
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
-	}
-	else
-		mario->SetState(MARIO_STATE_IDLE);
+			mario->SetState(MARIO_STATE_IDLE);
 		if (game->IsKeyDown(DIK_S) && mario->GetLevel() == MARIO_LEVEL_RACOON && abs(vx) >= MARIO_RUNNING_SPEED && mario->GetIsOnPlatform()) {
 
 			mario->SetState(MARIO_STATE_FLY);
 		}
-		
+	}
 }
