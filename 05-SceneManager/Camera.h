@@ -4,6 +4,7 @@
 #include "Mario.h"
 #define SCREEN_WIDTH 272
 #define SCREEN_HEIGHT 240
+#define CAMERA_X_OFFSET 10
 class Camera
 {
 private:
