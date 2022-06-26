@@ -502,6 +502,7 @@ void CMario::OnCollisionWithPswitch(LPCOLLISIONEVENT e) {
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
+	AddScore(100);
 	e->obj->Delete();
 	coin++;
 }

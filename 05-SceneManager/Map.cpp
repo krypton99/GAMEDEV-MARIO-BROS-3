@@ -71,7 +71,7 @@ void CMap::LoadMap() {
 
 void CMap::Render()
 {
-	if (CGame::GetInstance()->GetCamPosX() != NULL)
+	if (CGame::GetInstance()->GetCamPosX() == NULL)
 	{
 		CGame::GetInstance()->SetCamPosX(0);
 	}

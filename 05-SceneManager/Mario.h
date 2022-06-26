@@ -186,6 +186,7 @@
 
 class CMario : public CGameObject
 {
+	float score;
 	int stage = NULL;
 	BOOLEAN isSitting;
 	float maxVx;
@@ -242,6 +243,7 @@ public:
 	void setAy(float ay) { this->ay = ay; }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		score = 0;
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
@@ -331,4 +333,6 @@ public:
 	bool getMUp() { return this->mUp; }
 	bool getMDown() { return this->mDown; }
 	void setMRight(bool mRight) { this->mRight = mRight; }
+	float getScore() { return this->score; }
+	void AddScore(int score) { this->score += score; }
 };

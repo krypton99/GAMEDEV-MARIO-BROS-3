@@ -367,6 +367,7 @@ void CPlayScene::Update(DWORD dt)
 				}
 				else if (brick->GetItemType() == CONTAIN_COIN) {
 					float b_x, b_y;
+					player->AddScore(100);
 					brick->GetPosition(b_x, b_y); // vi tri cua brick
 					obj = new CCoinEffect({ b_x,b_y });
 					listEffects.push_back(obj);
