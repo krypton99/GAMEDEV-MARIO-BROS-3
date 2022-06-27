@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "TitleScreen.h"
 #include "Scene.h"
+#include "SelectArrow.h"
 using namespace std;
 
 CTitleScreen::CTitleScreen(int id, LPCWSTR filePath) : CScene(id, filePath)
@@ -98,7 +99,22 @@ void CTitleScreen::_ParseSection_OBJECTS(string line)
 	
 	
 	
+	case OBJECT_TYPE_SELECTARROW:
+	{
+		int scene_id = atof(tokens[3].c_str());
+		
+		obj = new CSelectArrow(x,y,scene_id);
+		arrow = (CSelectArrow*)obj;
+		// General object setup
+		//obj->SetPosition(x, y);
 
+		/*listObjects.push_back(obj);
+		float r = (float)atof(tokens[3].c_str());
+		float b = (float)atof(tokens[4].c_str());
+		int scene_id = atoi(tokens[5].c_str());
+		obj = new CPortal(x, y, r, b, scene_id);*/
+	}
+	break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
@@ -246,20 +262,32 @@ void CTitleScreen::Render()
 
 void CTitleScreenKeyHandler::OnKeyDown(int KeyCode)
 {
+	CSelectArrow* arrow = (CSelectArrow*)((LPTITLESCENE)CGame::GetInstance()->GetCurrentScene())->GetArrow();
 	CGame* game = CGame::GetInstance();
+	float x, y;
+	arrow->GetPosition(x, y);
 	switch (KeyCode)
 	{
-	case DIK_RIGHT:
-		
+	case DIK_X:
+		CGame::GetInstance()->InitiateSwitchScene(arrow->GetSceneId());
 		break;
-	case DIK_LEFT:
-		
-		break;
+	
 	case DIK_UP:
-		
+		if (arrow->GetCanUp())
+		{
+			arrow->SetPosition(x, y - STEP_DISTANCE);
+			arrow->SetCanDown(true);
+			arrow->SetCanUp(false);
+		}
 		break;
 	case DIK_DOWN:
 		
+		if (arrow->GetCanDown())
+		{
+			arrow->SetPosition(x, y + STEP_DISTANCE);
+			arrow->SetCanDown(false);
+			arrow->SetCanUp(true);
+		}
 		break;
 	}
 	

@@ -23,6 +23,7 @@ height	240
 50	textures\enemy.png
 60	textures\board.png
 70	textures\speedbar.png
+71	textures\selectarrow.png
 80	textures\black.png
 90	textures\mario-holding-shell.png
 100	textures\effect.png

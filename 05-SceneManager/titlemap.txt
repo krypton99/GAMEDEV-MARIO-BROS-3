@@ -1,6 +1,7 @@
 # list of object assets to load in this scene
 [ASSETS]
 assets\background_titlescreen.txt
+assets\hud.txt
 #
 #map_id	matrix_path	width	height
 [MAPS]
@@ -12,4 +13,5 @@ assets\background_titlescreen.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 
-#Portal 
+#SELECT_ARROW
+12	75	140	3
