@@ -6,6 +6,7 @@
 #include "Koopas.h"
 #include "debug.h"
 #include "MarioTail.h"
+#include "Funnel.h"
 #define MARIO_TIME_ATTACK 400
 #define TIME_FLY					2000
 #define TIME_POWER_UP	2000
@@ -220,6 +221,7 @@ class CMario : public CGameObject
 	float desX;
 	float desY;
 	float isInPipe;
+	float isOutPipe;
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRacoon();
@@ -238,6 +240,8 @@ class CMario : public CGameObject
 	bool canGoThroughPipe_down;
 	bool canGoThroughPipe_up;
 	bool canSwitchScene = false;
+	Timer* getInPipe=new Timer(2000);
+	CFunnel* funnel = nullptr;
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
@@ -254,6 +258,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		getInPipe = new Timer(2000);
 	}
 	CMario(float x, float y, int stage) : CGameObject(x, y)
 	{
@@ -271,6 +276,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		getInPipe = new Timer(2000);
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects); //update mario khi o worldmap
@@ -299,6 +305,8 @@ public:
 	void SetIsHolding(bool isHolding) { this->isHolding = isHolding; }
 	bool GetIsInPipe() { return isInPipe; }
 	void SetIsInPipe(bool isInPipe) { this->isInPipe = isInPipe; }
+	bool GetIsOutPipe() { return isOutPipe; }
+	void SetIsOutPipe(bool isOutPipe) { this->isOutPipe = isOutPipe; }
 	bool GetIsCanGoThroughPipeDown() { return canGoThroughPipe_down; }
 	void SetIsCanGoThroughPipeDown(bool canGoThroughPipe_down) { this->canGoThroughPipe_down = canGoThroughPipe_down; }
 	bool GetIsCanGoThroughPipeUp() { return canGoThroughPipe_up; }

@@ -25,12 +25,62 @@ void CMario::UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
-void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
+void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
-	vx += ax * (dt/((1+ abs(vx*30))));
+	vx += ax * (dt / ((1 + abs(vx * 30))));
 	if (stage != WORLD_MAP_SCENE) {
 		ghost_mario->SetNx(nx);
+	}
+	if (getInPipe->Timeleft() < 1000 && getInPipe->Timeleft() > 0) {
+		if (funnel->GetIsEntry() && isInPipe) {
+			if (funnel->GetDirection()) {
+				y -= 1.0f;
+			}
+			else {
+				y += 1.0f;
+			}
+			ay = 0;
+			vy = 0;
+		}
+		else if (funnel->GetIsEntry() && !isInPipe) {
+			if (funnel->GetDirection()) {
+				y -= 1.0f;
+			}
+			else {
+				y += 1.0f;
+			}
+			ay = 0;
+			vy = 0;
+		
+		}
+	}
+	if (getInPipe->GetStartTime() != 0 && getInPipe->IsTimeUp()) {
+		if (funnel->GetDirection()) {
+			if (isOutPipe) {
+				getInPipe->Stop();
+				ay = MARIO_GRAVITY;
+				return;
+			} else { getInPipe->Start(); }
+			isOutPipe = true;
+			isInPipe = false;
+		}
+		else {
+			if (isInPipe) {
+				getInPipe->Start();
+				
+			}
+			else { 
+			getInPipe->Stop();
+			ay = MARIO_GRAVITY;
+			return;
+			}
+			isOutPipe = false;
+			isInPipe = true;
+		}
+		
+		ay = MARIO_GRAVITY;
+		SetState(MARIO_STATE_TELEPORT);
 	}
 	//DebugOut(L"state %f \n", state);
 	if (abs(vx) > abs(maxVx)) {
@@ -249,7 +299,8 @@ void CMario::OnCollisionWithFunnel(LPCOLLISIONEVENT e) {
 			desX = funnel->GetDesX();
 			desY= funnel->GetDesY();
 			isInPipe = true;
-			//state = MARIO_STATE_TELEPORT;
+			this->funnel = funnel;
+			getInPipe->Start();
 		}
 		else if (!funnel->GetDirection() && this->canGoThroughPipe_down) {
 
@@ -257,6 +308,8 @@ void CMario::OnCollisionWithFunnel(LPCOLLISIONEVENT e) {
 			desX = funnel->GetDesX();
 			desY = funnel->GetDesY();
 			isInPipe = true;
+			this->funnel = funnel;
+			getInPipe->Start();
 			//state = MARIO_STATE_TELEPORT;
 		}
 	}

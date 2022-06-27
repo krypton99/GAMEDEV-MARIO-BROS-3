@@ -95,7 +95,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			mario->SetIsCanGoThroughPipeUp(true);
 			if (mario->GetIsInPipe())
 			{
-				mario->SetState(MARIO_STATE_TELEPORT);
+				//mario->SetState(MARIO_STATE_TELEPORT);
 			}
 		}
 		else {
@@ -105,7 +105,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 			mario->SetIsCanGoThroughPipeDown(true);
 			if (mario->GetIsInPipe())
 			{
-				mario->SetState(MARIO_STATE_TELEPORT);
+				//mario->SetState(MARIO_STATE_TELEPORT);
 			}
 		}
 		else {
