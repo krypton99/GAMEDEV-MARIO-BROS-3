@@ -76,11 +76,11 @@ void CMap::Render()
 		CGame::GetInstance()->SetCamPosX(0);
 	}
 	int col_begin = CGame::GetInstance()->GetCamPosX() / TILE_SIZE;
-	int col_end = ceil(CGame::GetInstance()->GetCamPosX() / TILE_SIZE) + (SCREEN_WIDTH / TILE_SIZE); //fixing map was't render fast enough 
+	int col_end = ceil(CGame::GetInstance()->GetCamPosX() / TILE_SIZE) + (SCREEN_WIDTH / TILE_SIZE)-1; //fixing map was't render fast enough 
 	/*int col_end = widthMap / TILE_SIZE;*/
 
 	CGame* game = CGame::GetInstance();
-
+	
 
 	for (int i = 0; i < numRow; i++) {
 		for (int j = col_begin; j < col_end; j++) {
