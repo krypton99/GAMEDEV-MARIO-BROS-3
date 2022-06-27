@@ -10,75 +10,77 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
-
-	switch (KeyCode)
-	{
-	case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT);
-		break;
-	case DIK_S:
-		if (!mario->GetIsOnPlatform()) {
-			mario->SetVy(MARIO_RACOON_FALLING_SLOW_SPEED);
-			mario->SetFallLower(true);
-		} if (!mario->GetIsFlying()) {
-			mario->SetState(MARIO_STATE_JUMP);
+	CScene* scene = (CScene*)(CGame::GetInstance()->GetCurrentScene());
+	if (scene->getId() != TITLE_MAP_SCENE) {
+		switch (KeyCode)
+		{
+		case DIK_DOWN:
+			mario->SetState(MARIO_STATE_SIT);
+			break;
+		case DIK_S:
+			if (!mario->GetIsOnPlatform()) {
+				mario->SetVy(MARIO_RACOON_FALLING_SLOW_SPEED);
+				mario->SetFallLower(true);
+			} if (!mario->GetIsFlying()) {
+				mario->SetState(MARIO_STATE_JUMP);
+			}
+			break;
+		case DIK_A:
+			mario->SetState(MARIO_STATE_ATTACK);
+			break;
+		case DIK_1:
+			mario->SetLevel(MARIO_LEVEL_SMALL);
+			break;
+		case DIK_2:
+			mario->SetLevel(MARIO_LEVEL_BIG);
+			break;
+		case DIK_3:
+			mario->SetLevel(MARIO_LEVEL_RACOON);
+			break;
+		case DIK_0:
+			mario->SetState(MARIO_STATE_DIE);
+			break;
+		case DIK_R: // reset
+			//Reload();
+			break;
+		case DIK_F:
+			float x, y;
+			mario->GetPosition(x, y);
+			mario->GetGhostMario()->SetPosition(x, y);
+			mario->GetGhostMario()->SetSpeed(0.2f * mario->GetGhostMario()->GetNx(), 0);
+			if (mario->GetGhostMario()->GetHoldingShell() == true) {
+				mario->GetGhostMario()->SetHoldingShell(false);
+			}
+			break;
 		}
-		break;
-	case DIK_A:
-		mario->SetState(MARIO_STATE_ATTACK);
-		break;
-	case DIK_1:
-		mario->SetLevel(MARIO_LEVEL_SMALL);
-		break;
-	case DIK_2:
-		mario->SetLevel(MARIO_LEVEL_BIG);
-		break;
-	case DIK_3:
-		mario->SetLevel(MARIO_LEVEL_RACOON);
-		break;
-	case DIK_0:
-		mario->SetState(MARIO_STATE_DIE);
-		break;
-	case DIK_R: // reset
-		//Reload();
-		break;
-	case DIK_F:
-		float x, y;
-		mario->GetPosition(x, y);
-		mario->GetGhostMario()->SetPosition(x, y);
-		mario->GetGhostMario()->SetSpeed(0.2f*mario->GetGhostMario()->GetNx(), 0);
-		if (mario->GetGhostMario()->GetHoldingShell() == true) {
-			mario->GetGhostMario()->SetHoldingShell(false);
-		} 
-		break;
 	}
-
 }
 
 void CSampleKeyHandler::OnKeyUp(int KeyCode)
 {
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
-
+	CScene* scene = (CScene*)(CGame::GetInstance()->GetCurrentScene());
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	switch (KeyCode)
-	{
-	case DIK_S:	 
-		if (mario->GetState() == MARIO_STATE_FLY)
+	if (scene->getId() != TITLE_MAP_SCENE) {
+		switch (KeyCode)
 		{
-			//mario->setAy(MARIO_GRAVITY);
-			//mario->SetState(MARIO_STATE_RELEASE_FLY);
+		case DIK_S:
+			if (mario->GetState() == MARIO_STATE_FLY)
+			{
+				//mario->setAy(MARIO_GRAVITY);
+				//mario->SetState(MARIO_STATE_RELEASE_FLY);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_RELEASE_JUMP);
+				mario->setAy(MARIO_GRAVITY);
+			}
+			break;
+		case DIK_DOWN:
+			mario->SetState(MARIO_STATE_SIT_RELEASE);
+			break;
 		}
-		else
-		{
-			mario->SetState(MARIO_STATE_RELEASE_JUMP);
-			mario->setAy(MARIO_GRAVITY);
-		}
-		break;
-	case DIK_DOWN:
-		mario->SetState(MARIO_STATE_SIT_RELEASE);
-		break;
 	}
-
 }
 
 void CSampleKeyHandler::KeyState(BYTE *states)
