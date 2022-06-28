@@ -46,8 +46,8 @@ public:
 class CWorldMapKeyHandler : public CSampleKeyHandler
 {
 public:
-	//virtual void KeyState(BYTE* states);
-	virtual void OnKeyDown(int KeyCode);
+	virtual void KeyState(BYTE* states);
+	//virtual void OnKeyDown(int KeyCode);
 	CWorldMapKeyHandler(CScene* s) :CSampleKeyHandler(s) {};
 };
 

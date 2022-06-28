@@ -300,11 +300,11 @@ void CWorldMap::Render()
 }
 
 
-void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
+void CWorldMapKeyHandler::KeyState(BYTE* states)
 {
 	CGame* game = CGame::GetInstance();
 	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
-	switch (KeyCode)
+	/*switch (KeyCode)
 	{
 	case DIK_RIGHT:
 		if (mario->getMRight())
@@ -322,8 +322,8 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 		if (mario->getMUp())
 			mario->SetState(MARIO_STATE_WALKING_DOWN_WORLD_MAP);
 		break;
-	}
-	/*if (game->IsKeyDown(DIK_RIGHT))
+	}*/
+	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (mario->getMRight())
 		{
@@ -357,9 +357,53 @@ void CWorldMapKeyHandler::OnKeyDown(int KeyCode)
 		}
 		else {
 			mario->SetCanSwitchScene(false);
-			mario->SetState(MARIO_STATE_IDLE);
-		}*/
+			mario->SetState(MARIO_STATE_IDLE_WORLD_MAP);
+			/*mario->setAy(0);
+			mario->setAx(0);*/
+		}
 }
+//void CWorldMapKeyHandler::KeyState(BYTE* states)
+//{
+//	CGame* game = CGame::GetInstance();
+//	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
+//	
+//	/*if (game->IsKeyDown(DIK_RIGHT))
+//	{
+//		if (mario->getMRight())
+//		{
+//			mario->SetState(MARIO_STATE_WALKING_RIGHT_WORLD_MAP);
+//		}
+//	}
+//	else if (game->IsKeyDown(DIK_LEFT))
+//	{
+//		if (mario->getMLeft())
+//		{
+//			mario->SetState(MARIO_STATE_WALKING_LEFT_WORLD_MAP);
+//		}
+//	}
+//	else*/ if (game->IsKeyDown(DIK_DOWN))
+//	{
+//		if (mario->getMDown())
+//		{
+//			mario->SetState(MARIO_STATE_WALKING_DOWN_WORLD_MAP);
+//		}
+//	}
+//	else if (game->IsKeyDown(DIK_UP))
+//	{
+//		if (mario->getMUp())
+//		{
+//			mario->SetState(MARIO_STATE_WALKING_UP_WORLD_MAP);
+//		}
+//	}
+//	/*else
+//		if (game->IsKeyDown(DIK_S)) {
+//			mario->SetCanSwitchScene(true);
+//		}
+//		else {
+//			mario->SetCanSwitchScene(false);
+//			mario->SetState(MARIO_STATE_IDLE);
+//		}*/
+//}
 void CWorldMap::Unload()
 {
 	for (int i = 0; i < listObjects.size(); i++)

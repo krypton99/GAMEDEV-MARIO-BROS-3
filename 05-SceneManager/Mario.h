@@ -193,6 +193,7 @@ class CMario : public CGameObject
 	int stage = NULL;
 	BOOLEAN isSitting;
 	float maxVx;
+	float maxVy;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 	bool isHolding = false;
@@ -247,6 +248,7 @@ class CMario : public CGameObject
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
+	void setAx(float ax) { this->ax = ax; }
 	CMario(float x, float y) : CGameObject(x, y)
 	{
 		score = 0;

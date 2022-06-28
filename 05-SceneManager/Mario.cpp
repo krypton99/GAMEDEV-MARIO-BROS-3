@@ -32,6 +32,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (stage != WORLD_MAP_SCENE) {
 		ghost_mario->SetNx(nx);
 	}
+	if(stage)
 	if (getInPipe->Timeleft() < 1000 && getInPipe->Timeleft() > 0) {
 		if (funnel->GetIsEntry() && isInPipe) {
 			if (funnel->GetDirection()) {
@@ -88,6 +89,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(MARIO_STATE_TELEPORT);
 	}
 	//DebugOut(L"state %f \n", state);
+	if (stage==WORLD_MAP_SCENE) {
+		if (abs(vy) > abs(maxVy)) vy = maxVy;
+	}
 	if (abs(vx) > abs(maxVx)) {
 		vx = maxVx;
 		if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
@@ -586,6 +590,7 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
+	
 	CPortal* portal = dynamic_cast<CPortal*>(e->obj);
 	this->mLeft = portal->getMLeft();
 	this->mRight = portal->getMRight();
@@ -596,6 +601,7 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	{
 		CGame::GetInstance()->InitiateSwitchScene(portal->GetSceneId());
 	}
+	
 }
 
 //
@@ -1034,7 +1040,11 @@ void CMario::SetState(int state)
 		/*ax = 0.0f;
 		vx = 0.0f;*/
 		//ax=0;
-		DecreaseSpeed();
+		
+		if (stage == WORLD_MAP_SCENE) {
+			ax = 0.0f;
+			vx = 0.0f;
+		} else DecreaseSpeed();
 		//isFlying = false;
 		break;
 	case MARIO_STATE_TELEPORT:
@@ -1066,20 +1076,26 @@ void CMario::SetState(int state)
 		tail->SetIsAttack(true);
 		break;
 	case MARIO_STATE_IDLE_WORLD_MAP:
+		ax = 0;
 		vx = 0;
+		ay = 0;
 		vy = 0;
 		break;
 	case MARIO_STATE_WALKING_UP_WORLD_MAP:
-		vy = -MARIO_WALKING_SPEED/2;
+		maxVy = -MARIO_WALKING_SPEED/2;
+		ay = -MARIO_ACCEL_WALK_X;
 		break;
 	case MARIO_STATE_WALKING_DOWN_WORLD_MAP:
-		vy = MARIO_WALKING_SPEED/2; 
+		maxVy = MARIO_WALKING_SPEED/2;
+		ay = MARIO_ACCEL_WALK_X;
 		break;
 	case MARIO_STATE_WALKING_RIGHT_WORLD_MAP:
-		vx = MARIO_WALKING_SPEED/2;
+		maxVx = MARIO_WALKING_SPEED/2;
+		ax = MARIO_ACCEL_WALK_X;
 		break;
 	case MARIO_STATE_WALKING_LEFT_WORLD_MAP:
-		vx = -MARIO_WALKING_SPEED/2;
+		maxVx = -MARIO_WALKING_SPEED/2;
+		ax = -MARIO_ACCEL_WALK_X;
 		break;
 	}
 

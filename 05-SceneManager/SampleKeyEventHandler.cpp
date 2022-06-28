@@ -11,7 +11,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
 	CScene* scene = (CScene*)(CGame::GetInstance()->GetCurrentScene());
-	if (scene->getId() != TITLE_MAP_SCENE) {
+	if (scene->getId() != TITLE_MAP_SCENE && scene->getId() != WORLD_MAP_SCENE) {
 		switch (KeyCode)
 		{
 		case DIK_DOWN:
@@ -61,7 +61,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 	CScene* scene = (CScene*)(CGame::GetInstance()->GetCurrentScene());
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	if (scene->getId() != TITLE_MAP_SCENE) {
+	if (scene->getId() != TITLE_MAP_SCENE && scene->getId() != WORLD_MAP_SCENE) {
 		switch (KeyCode)
 		{
 		case DIK_S:
@@ -88,7 +88,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CScene* scene = (CScene*)(CGame::GetInstance()->GetCurrentScene());
-	if (scene->getId()!=TITLE_MAP_SCENE) {
+	if (scene->getId()!=TITLE_MAP_SCENE && scene->getId()!=WORLD_MAP_SCENE) {
 		float vx, vy;
 		mario->GetSpeed(vx, vy);
 		if (game->IsKeyDown(DIK_UP)) {
@@ -127,7 +127,13 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 		else
+		{
 			mario->SetState(MARIO_STATE_IDLE);
+			if (scene->getId() == WORLD_MAP_SCENE)
+			{
+				mario->SetSpeed(0, 0);
+			}
+		}
 		if (game->IsKeyDown(DIK_S) && mario->GetLevel() == MARIO_LEVEL_RACOON && abs(vx) >= MARIO_RUNNING_SPEED && mario->GetIsOnPlatform()) {
 
 			mario->SetState(MARIO_STATE_FLY);
