@@ -14,6 +14,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	if (scene->getId() != TITLE_MAP_SCENE && scene->getId() != WORLD_MAP_SCENE) {
 		switch (KeyCode)
 		{
+			if (mario->GetIsOutPipe() || mario->GetIsInPipe()) return;
 		case DIK_DOWN:
 			mario->SetState(MARIO_STATE_SIT);
 			break;
@@ -67,6 +68,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	if (scene->getId() != TITLE_MAP_SCENE && scene->getId() != WORLD_MAP_SCENE) {
 		switch (KeyCode)
 		{
+			if (mario->GetIsOutPipe() || mario->GetIsInPipe()) return;
 		case DIK_S:
 			if (mario->GetState() == MARIO_STATE_FLY)
 			{
@@ -94,6 +96,7 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 	if (scene->getId()!=TITLE_MAP_SCENE && scene->getId()!=WORLD_MAP_SCENE) {
 		float vx, vy;
 		mario->GetSpeed(vx, vy);
+		if (mario->GetIsOutPipe() || mario->GetIsInPipe()) return;
 		if (game->IsKeyDown(DIK_UP)) {
 			mario->SetIsCanGoThroughPipeUp(true);
 			if (mario->GetIsInPipe())

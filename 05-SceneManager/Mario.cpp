@@ -36,10 +36,17 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (getInPipe->Timeleft() < 1000 && getInPipe->Timeleft() > 0) {
 		if (funnel->GetIsEntry() && isInPipe) {
 			if (funnel->GetDirection()) {
-				y -= 1.0f;
+				if (level == MARIO_LEVEL_SMALL) {
+					y -= 0.6f;
+				} else 
+				y -= 0.86f;
 			}
 			else {
-				y += 1.0f;
+				if (level == MARIO_LEVEL_SMALL) {
+					y += 0.6f;
+				}
+				else
+				y += 0.86f;
 			}
 			ay = 0;
 			vy = 0;
@@ -47,10 +54,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (funnel->GetIsEntry() && !isInPipe) {
 			isOutPipe = true;
 			if (funnel->GetDirection()) {
-				y -= 1.0f;
+				if (level == MARIO_LEVEL_SMALL) {
+					y -= 0.6f;
+				}
+				else y -= 0.86f;
 			}
 			else {
-				y += 1.0f;
+				if (level == MARIO_LEVEL_SMALL) {
+					y += 0.6f;
+				}
+				else y += 0.86f;
 			}
 			ay = 0;
 			vy = 0;
