@@ -18,11 +18,14 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_SIT);
 			break;
 		case DIK_S:
-			if (!mario->GetIsOnPlatform()) {
+			if (!mario->GetIsOnPlatform() && !mario->GetIsFlying()) {
 				mario->SetVy(MARIO_RACOON_FALLING_SLOW_SPEED);
 				mario->SetFallLower(true);
 			} if (!mario->GetIsFlying()) {
 				mario->SetState(MARIO_STATE_JUMP);
+			}
+			if (mario->GetIsFlying()) {
+				mario->SetState(MARIO_STATE_FLY);
 			}
 			break;
 		case DIK_A:
@@ -134,9 +137,9 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 				mario->SetSpeed(0, 0);
 			}
 		}
-		if (game->IsKeyDown(DIK_S) && mario->GetLevel() == MARIO_LEVEL_RACOON && abs(vx) >= MARIO_RUNNING_SPEED && mario->GetIsOnPlatform()) {
+		/*if (game->IsKeyDown(DIK_S) && mario->GetLevel() == MARIO_LEVEL_RACOON && abs(vx) >= MARIO_RUNNING_SPEED && mario->GetIsOnPlatform()) {
 
 			mario->SetState(MARIO_STATE_FLY);
-		}
+		}*/
 	}
 }

@@ -32,7 +32,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (stage != WORLD_MAP_SCENE) {
 		ghost_mario->SetNx(nx);
 	}
-	if(stage)
+
 	if (getInPipe->Timeleft() < 1000 && getInPipe->Timeleft() > 0) {
 		if (funnel->GetIsEntry() && isInPipe) {
 			if (funnel->GetDirection()) {
@@ -98,6 +98,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			isPowerUp = true;
 			PowerUp->Start();
+			if (level == MARIO_LEVEL_RACOON) {
+				flyTime->Start();
+				isFlying = true;
+			}
 		}
 	}
 	else {
@@ -125,9 +129,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isFlying = false;
 		ay = MARIO_GRAVITY;		
 	}
-	if (vy > 0) {
+	/*if (vy > 0) {
 		isFlying = false;
-	}
+	}*/
 	
 	
 	if (shell != nullptr) {
@@ -682,11 +686,11 @@ int CMario::GetAniIdSmall()
 			{
 				if (ax < 0 && nx < 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X) {
+				else if (ax == MARIO_ACCEL_RUN_X && isPowerUp)  {
 					if (nx > 0) aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
 					else  aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
 				}
-				else if (ax <= MARIO_ACCEL_WALK_X) {
+				else if (ax <= MARIO_ACCEL_RUN_X) {
 					if (nx > 0) aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
 					else aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
 				}
@@ -695,11 +699,11 @@ int CMario::GetAniIdSmall()
 			{
 				if (ax > 0 && nx > 0)
 					aniId = ID_ANI_MARIO_SMALL_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X) {
+				else if (ax == -MARIO_ACCEL_RUN_X && isPowerUp) {
 					if (nx < 0) aniId = ID_ANI_MARIO_SMALL_RUNNING_LEFT;
 					else  aniId = ID_ANI_MARIO_SMALL_RUNNING_RIGHT;
 				}
-				else if (ax >= -MARIO_ACCEL_WALK_X) {
+				else if (ax >= -MARIO_ACCEL_RUN_X) {
 					if (nx < 0) aniId = ID_ANI_MARIO_SMALL_WALKING_LEFT;
 					else aniId = ID_ANI_MARIO_SMALL_WALKING_RIGHT;
 				}
@@ -789,11 +793,11 @@ int CMario::GetAniIdBig()
 			{
 				if (ax < 0 && nx < 0)
 					aniId = ID_ANI_MARIO_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X) {
+				else if (ax == MARIO_ACCEL_RUN_X && isPowerUp) {
 					if (nx > 0) aniId = ID_ANI_MARIO_RUNNING_RIGHT;
 					else  aniId = ID_ANI_MARIO_RUNNING_LEFT;
 				}
-				else if (ax <= MARIO_ACCEL_WALK_X) {
+				else if (ax <= MARIO_ACCEL_RUN_X) {
 					if (nx > 0) aniId = ID_ANI_MARIO_WALKING_RIGHT;
 					else aniId = ID_ANI_MARIO_WALKING_LEFT;
 				}
@@ -802,11 +806,11 @@ int CMario::GetAniIdBig()
 			{
 				if (ax > 0 && nx > 0)
 					aniId = ID_ANI_MARIO_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X) {
+				else if (ax == -MARIO_ACCEL_RUN_X && isPowerUp) {
 					if (nx < 0) aniId = ID_ANI_MARIO_RUNNING_LEFT;
 					else  aniId = ID_ANI_MARIO_RUNNING_RIGHT;
 				}
-				else if (ax >= -MARIO_ACCEL_WALK_X) {
+				else if (ax >= -MARIO_ACCEL_RUN_X) {
 					if (nx < 0) aniId = ID_ANI_MARIO_WALKING_LEFT;
 					else aniId = ID_ANI_MARIO_WALKING_RIGHT;
 				}
@@ -911,11 +915,11 @@ int CMario::GetAniIdRacoon()
 			{
 				if (ax < 0 && nx < 0)
 					aniId = ID_ANI_RACOON_MARIO_BRACE_RIGHT;
-				else if (ax == MARIO_ACCEL_RUN_X) {
+				else if (ax == MARIO_ACCEL_RUN_X && isPowerUp) {
 					if (nx > 0) aniId = ID_ANI_RACOON_MARIO_RUNNING_RIGHT;
 					else  aniId = ID_ANI_RACOON_MARIO_RUNNING_LEFT;
 				}
-				else if (ax <= MARIO_ACCEL_WALK_X) {
+				else if (ax <= MARIO_ACCEL_RUN_X) {
 					if (nx > 0) aniId = ID_ANI_RACOON_MARIO_WALKING_RIGHT;
 					else aniId = ID_ANI_RACOON_MARIO_WALKING_LEFT;
 				}
@@ -925,11 +929,11 @@ int CMario::GetAniIdRacoon()
 
 				if (ax > 0 && nx > 0)
 					aniId = ID_ANI_RACOON_MARIO_BRACE_LEFT;
-				else if (ax == -MARIO_ACCEL_RUN_X) {
+				else if (ax == -MARIO_ACCEL_RUN_X && isPowerUp) {
 					if (nx < 0) aniId = ID_ANI_RACOON_MARIO_RUNNING_LEFT;
 					else  aniId = ID_ANI_RACOON_MARIO_RUNNING_RIGHT;
 				}
-				else if (ax >= -MARIO_ACCEL_WALK_X) {
+				else if (ax >= -MARIO_ACCEL_RUN_X) {
 					if (nx < 0) aniId = ID_ANI_RACOON_MARIO_WALKING_LEFT;
 					else aniId = ID_ANI_RACOON_MARIO_WALKING_RIGHT;
 				}
@@ -1061,11 +1065,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_FLY:
 		if (isSitting) break;
 		if (level == MARIO_LEVEL_RACOON) {
-			isFlying = true;
-			ay = -0.0002f;
-			vy = 0;
+			ay = 0;
+			if (nx > 0)
+				vx = MARIO_WALKING_SPEED;
+			else
+				vx = -MARIO_WALKING_SPEED;
+			vy = -MARIO_JUMP_SPEED_Y * 0.75;
 			isOnPlatform = false;
-			flyTime->Start();
+			
 		}
 		break;
 	case MARIO_STATE_ATTACK:
