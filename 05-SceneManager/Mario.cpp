@@ -44,6 +44,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = 0;
 		}
 		else if (funnel->GetIsEntry() && !isInPipe) {
+			isOutPipe = true;
 			if (funnel->GetDirection()) {
 				y -= 1.0f;
 			}
@@ -59,6 +60,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (funnel->GetDirection()) {
 			if (isOutPipe) {
 				getInPipe->Stop();
+				isOutPipe = false;
+				isInPipe = false;
 				ay = MARIO_GRAVITY;
 				return;
 			} else { getInPipe->Start(); }
@@ -72,6 +75,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else { 
 			getInPipe->Stop();
+			isOutPipe = false;
+			isInPipe = false;
 			ay = MARIO_GRAVITY;
 			return;
 			}
@@ -599,7 +604,7 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 int CMario::GetAniIdSmall()
 {
 	int aniId = -1;
-	if (!isOnPlatform && !isHolding)
+	if (!isOnPlatform && !isHolding && !isInPipe && !isOutPipe)
 	{
 		if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
@@ -657,7 +662,11 @@ int CMario::GetAniIdSmall()
 					else aniId = ID_ANI_MARIO_SMALL_WALK_HOLDING_RIGHT_GREEN;
 				}
 			}
-		} else
+		}
+		else if (isInPipe || isOutPipe) {
+			aniId = ID_ANI_MARIO_SMALL_PIPE;
+		}
+		else
 			if (vx == 0)
 			{
 				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
@@ -702,7 +711,7 @@ int CMario::GetAniIdSmall()
 int CMario::GetAniIdBig()
 {
 	int aniId = -1;
-	if (!isOnPlatform && !isHolding)
+	if (!isOnPlatform && !isHolding && !isInPipe && !isOutPipe)
 	{
 		if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
@@ -761,6 +770,9 @@ int CMario::GetAniIdBig()
 				}
 			}
 		}
+		else if (isInPipe || isOutPipe) {
+			aniId = ID_ANI_MARIO_PIPE;
+		}
 		else
 			if (vx == 0)
 			{
@@ -801,7 +813,7 @@ int CMario::GetAniIdBig()
 int CMario::GetAniIdRacoon()
 {
 	int aniId = -1;
-	if (!isOnPlatform && !isHolding && !isAttack)
+	if (!isOnPlatform && !isHolding && !isAttack && !isInPipe && !isOutPipe)
 	{
 		if (abs(ax) == MARIO_ACCEL_RUN_X)
 		{
@@ -880,6 +892,9 @@ int CMario::GetAniIdRacoon()
 			}
 		}
 		
+		else if (isInPipe || isOutPipe) {
+			aniId = ID_ANI_MARIO_RACOON_PIPE;
+		}
 		else
 			if (vx == 0)
 			{
