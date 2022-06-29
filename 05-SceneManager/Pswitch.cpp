@@ -38,7 +38,7 @@ void CPswitch::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJE
 
 				CBrick* brick = dynamic_cast<CBrick*>(objects->at(i));
 
-				if (brick->GetBrickType() == BRICK_TYPE_GOLD && brick->GetState() != BRICK_STATE_INVISIBLE) {
+				if (brick->GetBrickType() == BRICK_TYPE_GOLD && brick->GetState() != BRICK_STATE_INVISIBLE && brick->GetItemType()!=CONTAIN_PSWITCH) {
 					brick->SetState(BRICK_STATE_INVISIBLE);
 				}
 
@@ -87,7 +87,7 @@ void CPswitch::SetState(int state) {
 		changeTimer->Start();
 		//gach bien thanh tien
 		onChange = true;
-		y = y + 10;
+		y = y + ((BRICK_BBOX-PSWITCH_OFF_BBOX)/2);
 		break;
 	case SWITCH_STATE_ON:
 		break;
@@ -98,7 +98,12 @@ void CPswitch::SetState(int state) {
 void CPswitch::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	if (state == SWITCH_STATE_OFF)
-		l = t = b = r = 0;
+	{
+		l = x - PSWITCH_OFF_BBOX / 2;
+		t = y - PSWITCH_OFF_BBOX / 2;
+		r = l + PSWITCH_OFF_BBOX;
+		b = t + PSWITCH_OFF_BBOX;
+	}
 	else
 	{
 		l = x - BRICK_BBOX / 2;

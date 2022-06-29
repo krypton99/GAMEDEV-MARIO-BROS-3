@@ -365,7 +365,7 @@ void CPlayScene::Update(DWORD dt)
 					else item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_RED_MUSHROOM);
 				}
 				else if (brick->GetItemType() == CONTAIN_PSWITCH) {
-					obj = new CPswitch(brick->GetPosX(), brick->GetPosY());
+					obj = new CPswitch(brick->GetPosX(), brick->GetPosY() - BRICK_BBOX);
 				}
 				else if (brick->GetItemType() == CONTAIN_COIN) {
 					float b_x, b_y;

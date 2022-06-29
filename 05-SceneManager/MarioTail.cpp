@@ -91,6 +91,7 @@ void CMarioTail::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 		brick->SetState(BRICK_STATE_EMPTY);
 	}
 	if (brick->GetBrickType() == BRICK_TYPE_GOLD) {
+		
 		brick->SetState(BRICK_STATE_BROKEN);
 	}
 }

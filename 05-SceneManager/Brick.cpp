@@ -31,6 +31,9 @@ void CBrick::Render()
 	}
 	else if (brickType == BRICK_TYPE_GOLD)
 	{
+		if (state == BRICK_STATE_EMPTY) {
+			ani = ID_ANI_QUESTION_BRICK_EMPTY;
+		} else
 		ani = ID_ANI_GOLD_BRICK_ACTIVE;
 		animations->Get(ani)->Render(x, y);
 	}
@@ -40,10 +43,16 @@ void CBrick::Render()
 
 void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 {
-	l = x - BRICK_BBOX_WIDTH/2;
-	t = y - BRICK_BBOX_HEIGHT/2;
-	r = l + BRICK_BBOX_WIDTH;
-	b = t + BRICK_BBOX_HEIGHT;
+	if (state == BRICK_STATE_INVISIBLE)
+	{
+		l = t = r = b = 0;
+	}
+	else {
+		l = x - BRICK_BBOX_WIDTH / 2;
+		t = y - BRICK_BBOX_HEIGHT / 2;
+		r = l + BRICK_BBOX_WIDTH;
+		b = t + BRICK_BBOX_HEIGHT;
+	}
 }
 void CBrick::OnNoCollision(DWORD dt)
 {
@@ -54,8 +63,12 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//CGameObject::Update(dt);
 	if ((state == BRICK_STATE_BROKEN) && (GetTickCount64() - brickBroken_start > 400))
 	{
-		isDeleted = true;
-		return;
+		if (itemType != CONTAIN_PSWITCH )
+		{
+			isDeleted = true;
+			return;
+		} else 
+		state=BRICK_STATE_EMPTY;
 	}
 	if (brokenPieces.size() > 0) { // state broken
 		if (brokenPieces.size() == 4) {
@@ -109,14 +122,17 @@ void CBrick::SetState(int state) {
 			isFallingItem = true;
 		}
 		else
+		{
 			isFallingItem = false;
-		brickBroken_start = GetTickCount64();
-		isBroken = true;
-		CBrickBrokenPieces* piece1 = new CBrickBrokenPieces(start_x, start_y, 1, 2.2f); //PHAI DUOI
-		CBrickBrokenPieces* piece2 = new CBrickBrokenPieces(start_x + BROKEN_DISTANCE_X, start_y + BROKEN_DISTANCE_X, 1, 1.0f); // PHAI TREN
-		CBrickBrokenPieces* piece3 = new CBrickBrokenPieces(start_x, start_y, -1, 2.2f); // TRAI DUOI
-		CBrickBrokenPieces* piece4 = new CBrickBrokenPieces(start_x, start_y + BROKEN_DISTANCE_X, -1, 1.0f); // TRAI TREN
-		brokenPieces = { piece1, piece2, piece3, piece4 };
+
+			brickBroken_start = GetTickCount64();
+			isBroken = true;
+			CBrickBrokenPieces* piece1 = new CBrickBrokenPieces(start_x, start_y, 1, 2.2f); //PHAI DUOI
+			CBrickBrokenPieces* piece2 = new CBrickBrokenPieces(start_x + BROKEN_DISTANCE_X, start_y + BROKEN_DISTANCE_X, 1, 1.0f); // PHAI TREN
+			CBrickBrokenPieces* piece3 = new CBrickBrokenPieces(start_x, start_y, -1, 2.2f); // TRAI DUOI
+			CBrickBrokenPieces* piece4 = new CBrickBrokenPieces(start_x, start_y + BROKEN_DISTANCE_X, -1, 1.0f); // TRAI TREN
+			brokenPieces = { piece1, piece2, piece3, piece4 };
+		}
 	}
 	break;
 	}

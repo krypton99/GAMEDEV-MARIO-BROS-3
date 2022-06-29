@@ -7,12 +7,13 @@
 #define ID_ITEM_ANI_PSWITCH_ON	9020
 #define ID_ITEM_ANI_PSWITCH_OFF	9021
 
+#define PSWITCH_OFF_BBOX 7
 class CPswitch : public CGameObject
 {
 private:
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 1; };
+	virtual int IsBlocking() { return 1; }
 	bool onChange = false;
 	Timer* changeTimer = new Timer(12000);
 	vector<LPGAMEOBJECT>* coins;
