@@ -25,7 +25,7 @@ public:
 	int isBlockingX=-1;
 	int IsBlocking() {
 		if (platform_type != PLATFORM_TYPE_DEATHZONE) { return 1; }
-		else { return 0;}
+		else { return 1;}
 	}
 	int IsBlockingX() { return isBlockingX; }
 	CPlatform(float x, float y,

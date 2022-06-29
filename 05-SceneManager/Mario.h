@@ -294,6 +294,7 @@ public:
 	
 	//float platform_PosX(CGhostPlatform* platform);
 	Timer* flyTime = new Timer(TIME_FLY);
+	Timer* flyStep = new Timer(500);
 	Timer* attackStart = new Timer(MARIO_TIME_ATTACK);
 	Timer* PowerUp = new Timer(TIME_POWER_UP);
 	int IsBlocking() { return 0; }

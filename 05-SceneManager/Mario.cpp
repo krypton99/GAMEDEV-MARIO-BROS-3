@@ -145,8 +145,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	/*if (vy > 0) {
 		isFlying = false;
 	}*/
-	
-	
+	if (flyStep->Timeleft() > 0 && flyStep->GetStartTime() != 0) {
+		ay = 0;
+	}
+	if (flyStep->GetStartTime() != 0 && flyStep->IsTimeUp()) {
+		flyStep->Stop();
+		ay = MARIO_GRAVITY;
+	}
 	if (shell != nullptr) {
 		if (ghost_mario->GetHoldingShell() == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
 			isHolding = true;
@@ -1032,7 +1037,7 @@ void CMario::SetState(int state)
 		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
 		break;
 	case MARIO_STATE_RELEASE_FLY:
-		if (ay < 0) ay = MARIO_GRAVITY ;
+		if (ay < 0) //ay = MARIO_GRAVITY ;
 		break;
 	case MARIO_STATE_SIT:
 		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
@@ -1083,7 +1088,7 @@ void CMario::SetState(int state)
 				vx = MARIO_WALKING_SPEED;
 			else
 				vx = -MARIO_WALKING_SPEED;
-			vy = -MARIO_JUMP_SPEED_Y * 0.75;
+			vy = -MARIO_JUMP_SPEED_Y * 0.7;
 			isOnPlatform = false;
 			
 		}

@@ -27,6 +27,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			}
 			if (mario->GetIsFlying()) {
 				mario->SetState(MARIO_STATE_FLY);
+				mario->flyStep->Start();
 			}
 			break;
 		case DIK_A:
