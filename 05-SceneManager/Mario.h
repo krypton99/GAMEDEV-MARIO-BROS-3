@@ -349,5 +349,6 @@ public:
 	bool getMDown() { return this->mDown; }
 	void setMRight(bool mRight) { this->mRight = mRight; }
 	float getScore() { return this->score; }
+	int getCoin() { return this->coin; }
 	void AddScore(int score) { this->score += score; }
 };

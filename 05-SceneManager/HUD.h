@@ -20,6 +20,9 @@
 #define money_margin_y		160
 
 #define time_margin_x		64
+#define number_offset	8
+#define coin_margin_y	152
+#define coin_margin_x	152
 class HUD
 {
 	CSpeedBar* speedBar = nullptr;
