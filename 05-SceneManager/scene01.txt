@@ -14,9 +14,9 @@ assets\bullet.txt
 assets\hud.txt
 #
 #
-#map_id	matrix_path	width	height
+#map_id	matrix_path	width	height	lockHiddenMapwidth
 [MAPS]
-10000	map\tilemap_1-1.txt	3392	432
+10000	map\tilemap_1-1.txt	3392	432	2560
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -24,7 +24,7 @@ assets\hud.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	20	224
+0	2000	224
 
 # BRICKS
 1	202	352	100	4

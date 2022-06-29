@@ -335,6 +335,8 @@ public:
 	void SetIsAttack(bool isAttack) { this->isAttack = isAttack; }
 	bool GetIsBlocking() { return isBlocking; }
 	void SetIsBlocking(bool isBlocking) { this->isBlocking = isBlocking; }
+	bool GetIsInHiddenMap() { return isInHiddenMap; }
+	void SetIsInHiddenMap(bool isInHiddenMap) { this->isInHiddenMap = isInHiddenMap; }
 	CGhostPlatform* GetCollidePlatform() { return collide_Platform; }
 	void SetCollidePlatform(CGhostPlatform* collide_Platform) { this->collide_Platform = collide_Platform; }
 	CGhost* GetGhostMario() { return ghost_mario; }

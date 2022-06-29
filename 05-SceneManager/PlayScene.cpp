@@ -280,8 +280,10 @@ void CPlayScene::_ParseSection_MAPS(string line)
 	wstring matrix_path = ToWSTR(tokens[1]);
 	int widthMap = atoi(tokens[2].c_str());
 	int heightMap = atoi(tokens[3].c_str());
+	int lockHiddenMap = atoi(tokens[4].c_str());
 
 	map = new CMap(map_id, matrix_path.c_str(), widthMap, heightMap);
+	map->setLockHiddenMapWidth(lockHiddenMap);
 	CMaps::GetInstance()->Add(map_id, map);
 	if (map) {
 		grid = new CGrid(map->getWidthMap(), map->getHeighthMap());
@@ -453,7 +455,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 	if (cx < 0) cx = 0;
-	cam->Update(dt, cx, cy, 0, 0, float(map->getWidthMap() - SCREEN_WIDTH), float(map->getHeighthMap()-SCREEN_HEIGHT+HUD_HEIGHT), player->GetIsFlying(), player->GetIsOnPlatform());
+	cam->Update(dt, cx, cy, 0, 0, float(map->getWidthMap() - SCREEN_WIDTH), float(map->getHeighthMap()-SCREEN_HEIGHT+HUD_HEIGHT), player->GetIsFlying(), player->GetIsOnPlatform(), player->GetIsInHiddenMap(), map->getLockHiddenMapWidth());
 
 	/*if (cx < 0) cx = 0;*/
 	grid->UpdateOnGrid(listMoving);

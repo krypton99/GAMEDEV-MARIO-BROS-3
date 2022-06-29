@@ -13,21 +13,20 @@ class CMap
 	int tileMaps[300][300];
 	int numCol;
 	int numRow;
-
-public:
+	int lockHiddenMapWidth;
 	int widthMap;
 	int heightMap;
-
+public:
+	
+	
 	float startHiddenMap_x;  // hidden map
-
 	CMap(int mapID, LPCWSTR matrix_path, int widthMap, int heightMap);
 	//CMap();
-
-
-
 	int getMapID();
 	LPCWSTR getMatrixPath();
 	int getWidthMap();
+	int getLockHiddenMapWidth() { return this->lockHiddenMapWidth; }
+	void setLockHiddenMapWidth(int width) { this->lockHiddenMapWidth = width; }
 	int getHeighthMap();
 	int getNumCol();
 	int getNumRow();

@@ -20,7 +20,7 @@ public:
 	static Camera* GetInstance();
 
 	Camera();
-	void Update(DWORD dt, float playerPosX, float playerPosY, float start_x, float start_y, float end_x, float end_y, bool isFlying, bool isOnGround);
+	void Update(DWORD dt, float playerPosX, float playerPosY, float start_x, float start_y, float end_x, float end_y, bool isFlying, bool isOnGround, bool isInHiddenMap, int lockHiddenMapwidth);
 
 	void ResetPosition() { position_x = 0; position_y = 0; }
 

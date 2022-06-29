@@ -40,6 +40,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					y -= 0.6f;
 				} else 
 				y -= 0.86f;
+
+				isInHiddenMap = true;
 			}
 			else {
 				if (level == MARIO_LEVEL_SMALL) {
@@ -47,6 +49,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else
 				y += 0.86f;
+				isInHiddenMap = false;
 			}
 			ay = 0;
 			vy = 0;
@@ -58,12 +61,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					y -= 0.6f;
 				}
 				else y -= 0.86f;
+				isInHiddenMap = false;
 			}
 			else {
 				if (level == MARIO_LEVEL_SMALL) {
 					y += 0.6f;
 				}
 				else y += 0.86f;
+				isInHiddenMap = true;
 			}
 			ay = 0;
 			vy = 0;

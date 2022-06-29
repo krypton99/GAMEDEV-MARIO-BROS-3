@@ -18,7 +18,7 @@ Camera::Camera() {
 }
 
 
-void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x, float start_y, float end_x, float end_y, bool isFlying, bool isOnGround) {
+void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x, float start_y, float end_x, float end_y, bool isFlying, bool isOnGround, bool isInHiddenMap, int lockHiddenMapwidth) {
 
 	if (islockUpdate)
 		return;
@@ -29,8 +29,14 @@ void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x,
 
 
 	// Check if camera out of screen map
-	if (position_x > end_x)
-		position_x = end_x;
+	if (isInHiddenMap) {
+		if (position_x > end_x)
+			position_x = end_x;
+	}
+	else {
+		if (position_x > lockHiddenMapwidth)
+			position_x = lockHiddenMapwidth;
+	}
 	if (position_x < start_x)
 		position_x = start_x;
 
