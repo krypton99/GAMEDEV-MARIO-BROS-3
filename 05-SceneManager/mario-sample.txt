@@ -30,6 +30,7 @@ height	240
 110	textures\mario_worldmap.png
 120	textures\WorldMapTileset.png
 130	textures\WorldMapTileset1.png
+140	textures\boardBW.png
 40000	textures\tile_titlescreen.png
 10000	textures\tilesheet_background_1-1.png
 30000	textures\tile_worldmap.png

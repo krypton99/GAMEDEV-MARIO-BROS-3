@@ -20,6 +20,7 @@
 #include "HUD.h"
 #include "Pswitch.h"
 #include "CoinEffect.h"
+#include "EndSceneItems.h"
 using namespace std;
 
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
@@ -187,10 +188,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CBrick(x, y, brickType, itemType); break;
 	}
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-
+	case OBJECT_TYPE_LASTITEM: obj = new CEndSceneItems(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
-
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
 		int length = atoi(tokens[5].c_str());
