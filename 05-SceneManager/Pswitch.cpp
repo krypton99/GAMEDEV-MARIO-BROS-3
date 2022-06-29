@@ -29,51 +29,52 @@ void CPswitch::Render()
 }
 
 void CPswitch::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJECT>* items) {
-	CGameObject::Update(dt, objects);
-	vector<LPGAMEOBJECT> goldBrick;
+	//CGameObject::Update(dt, objects);
 	if (onChange) {// ktra nhan nut
 		// gach bien mat -> state coin
 		for (int i = 0; i < objects->size(); i++) {
-			if (objects->at(i)->GetType() == OBJECT_TYPE_BRICK) {
+			if (objects->at(i)->GetType() == OBJECT_TYPE_BRICK ) {
 
 				CBrick* brick = dynamic_cast<CBrick*>(objects->at(i));
 
 				if (brick->GetBrickType() == BRICK_TYPE_GOLD && brick->GetState() != BRICK_STATE_INVISIBLE && brick->GetItemType()!=CONTAIN_PSWITCH) {
-					brick->SetState(BRICK_STATE_INVISIBLE);
+					brick->Delete();
+					CCoin* coin = new CCoin(brick->GetPosX(), brick->GetPosY());
+					coin->setIsPswitch(true);
+					objects->push_back(coin);
 				}
 
-				CCoin* coin = new CCoin(brick->GetPosX(), brick->GetPosY());
-				coin->setIsPswitch(true);
-				objects->push_back(coin);
+				
 				//coins->push_back(coin);
 			}
 		}
 		onChange = false;
 	}
-	if (changeTimer && changeTimer->IsTimeUp()) {
+	if (changeTimer->GetStartTime() != 0 && changeTimer->IsTimeUp()) {
 		//tien bien lai thanh gach
 		for (int i = 0; i < objects->size(); i++) {
-			if (dynamic_cast<CBrick*>(objects->at(i))) {
-
-				CBrick* brick = dynamic_cast<CBrick*>(objects->at(i));
-
-				if (brick->GetBrickType() == BRICK_TYPE_GOLD && brick->GetState() == BRICK_STATE_INVISIBLE) {
-
-					brick->SetState(BRICK_STATE_ACTIVE);
-
-				}
-			}
 			if (dynamic_cast<CCoin*>(objects->at(i))) {
+
 				CCoin* coin = dynamic_cast<CCoin*>(objects->at(i));
 
 				if (coin->getIsPswitch() == true) {
+					float x, y;
+					coin->GetPosition(x, y);
+					CBrick* brick = new CBrick(x, y, BRICK_TYPE_GOLD, CONTAIN_NONE);
+					brick->SetState(BRICK_STATE_ACTIVE);
+					objects->push_back(brick);
 					coin->Delete();
-				}
-			}
 
+				}
+				
+				/*if (coin->getIsPswitch() == true) {
+					coin->Delete();
+				}*/
+			}
 		}
 		//coins->clear();
 		changeTimer->Stop();
+		state == SWITCH_STATE_INACTIVE;
 	}
 	
 	CCollision::GetInstance()->Process(this, dt, objects);

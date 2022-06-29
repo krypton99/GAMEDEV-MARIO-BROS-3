@@ -154,6 +154,7 @@
     <ClCompile Include="CoinEffect.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
+    <ClCompile Include="EndSceneItems.cpp" />
     <ClCompile Include="FireBullet.cpp" />
     <ClCompile Include="Funnel.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="CoinEffect.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
+    <ClInclude Include="EndSceneItems.h" />
     <ClInclude Include="FireBullet.h" />
     <ClInclude Include="Funnel.h" />
     <ClInclude Include="Game.h" />

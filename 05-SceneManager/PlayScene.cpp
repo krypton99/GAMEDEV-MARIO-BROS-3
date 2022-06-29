@@ -491,6 +491,13 @@ void CPlayScene::Update(DWORD dt)
 			i--;
 		}
 	}
+	/*for (size_t i = 0; i < objects.size(); i++) {
+		if (objects[i]->GetState() == STATE_ERASE) {
+
+			objects.erase(objects.begin() + i);
+			i--;
+		}
+	}*/
 	PurgeDeletedObjects();
 }
 
