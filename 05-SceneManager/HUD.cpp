@@ -19,6 +19,7 @@ void HUD::Render(float x, float y, CMario* mario, int remainingTime) {
 	mario->GetSpeed(vx, vy);
 	board = CAnimations::GetInstance();
 	background = CAnimations::GetInstance();
+	card= CAnimations::GetInstance();
 	char buffer[3];
 	
 	if (mario->GetStage() == WORLD_MAP_SCENE) {
@@ -37,6 +38,33 @@ void HUD::Render(float x, float y, CMario* mario, int remainingTime) {
 		} else
 		text.Render(buffer, x + coin_margin_x, y + coin_margin_y);
 		text.Render(IntToChar(remainingTime, 3), x + time_margin_x, y + time_margin_y);
+		for (size_t i = 0; i < mario->GetCards().size(); i++)
+		{
+			int ani = 0;
+			if (mario->GetCards().at(i)== ID_SPRITE_STAR)
+			{
+				ani = ID_ANI_STAR;
+			}
+			else if (mario->GetCards().at(i) == ID_SPRITE_FLOWER) {
+				ani = ID_ANI_FLOWER;
+			}
+			else if (mario->GetCards().at(i) == ID_SPRITE_MUSHROOM) {
+				ani = ID_ANI_MUSHROOM;
+			}
+			switch (i)
+			{
+			case 0:
+				
+				card->Get(ani)->Render(x + card_1_margin_x, y + card_margin_y);
+				break;
+			case 1:
+				card->Get(ani)->Render(x + card_2_margin_x, y + card_margin_y);
+				break;
+			case 2:
+				card->Get(ani)->Render(x + card_3_margin_x, y + card_margin_y);
+				break;
+			}
+		}
 	}
 	
 	speedBar->Render(vx,mario->GetIsPowerUp());

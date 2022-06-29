@@ -25,11 +25,23 @@
 
 #define time_margin_y	160
 #define time_margin_x	136
+
+#define card_1_margin_x		180
+#define card_2_margin_x		205
+#define card_3_margin_x		228
+#define card_margin_y		155
+#define ID_ANI_STAR 9040	
+#define ID_ANI_MUSHROOM 9041
+#define ID_ANI_FLOWER 9042
+#define ID_SPRITE_STAR 90040
+#define ID_SPRITE_MUSHROOM 90041
+#define ID_SPRITE_FLOWER 90042
 class HUD
 {
 	CSpeedBar* speedBar = nullptr;
 	CAnimations* board = nullptr;
 	CAnimations* background = nullptr;
+	CAnimations* card;
 	Text text;
 public:
 	HUD() {};

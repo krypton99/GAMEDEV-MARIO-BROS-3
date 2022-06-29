@@ -19,6 +19,7 @@
 #include "VenusFireTrap.h"
 #include "Pswitch.h"
 #include "Funnel.h"
+#include "EndSceneItems.h"
 void CMario::UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vy += ay * dt;
 	vx += ax * dt;
@@ -306,6 +307,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		OnCollisionWithFunnel(e);
 	}
+	else if (dynamic_cast<CEndSceneItems*>(e->obj)) {
+		OnCollisionWithEndSceneItems(e);
+	}
 	
 	/*else 
 		canHold = false;*/
@@ -325,6 +329,19 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
 			SetLevel(MARIO_LEVEL_BIG);
 
 		}
+	}
+}
+void CMario::OnCollisionWithEndSceneItems(LPCOLLISIONEVENT e) {
+	CEndSceneItems* endsceneitem = dynamic_cast<CEndSceneItems*>(e->obj);
+	CAnimations* animations = CAnimations::GetInstance();
+	CAnimationFrame* animationsFrame;
+	//endsceneitem->
+	int frame = 0;
+	if (animations->Get(ID_ANI_ITEM_SHUFFLE)->getCurrentFrame() != NULL) {
+		frame = animations->Get(ID_ANI_ITEM_SHUFFLE)->getCurrentFrame();
+		animationsFrame = animations->Get(ID_ANI_ITEM_SHUFFLE)->getFrames().at(frame);
+		int aniId= animationsFrame->GetSprite()->GetId();
+		cards.push_back(aniId);
 	}
 }
 void CMario::OnCollisionWithFunnel(LPCOLLISIONEVENT e) {

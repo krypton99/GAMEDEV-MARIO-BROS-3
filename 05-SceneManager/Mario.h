@@ -221,6 +221,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithPswitch(LPCOLLISIONEVENT e);
 	void OnCollisionWithFunnel(LPCOLLISIONEVENT e);
+	void OnCollisionWithEndSceneItems(LPCOLLISIONEVENT e);
 	float desX;
 	float desY;
 	float isInPipe;
@@ -245,6 +246,7 @@ class CMario : public CGameObject
 	bool canSwitchScene = false;
 	Timer* getInPipe=new Timer(2000);
 	CFunnel* funnel = nullptr;
+	vector<int> cards;
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
@@ -351,4 +353,5 @@ public:
 	float getScore() { return this->score; }
 	int getCoin() { return this->coin; }
 	void AddScore(int score) { this->score += score; }
+	vector<int> GetCards() { return cards; }
 };
