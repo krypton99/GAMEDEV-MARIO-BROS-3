@@ -11,7 +11,7 @@
 #include "HUD.h"
 #include "Grid.h"
 //#include "Koopas.h"
-
+#define PLAY_TIME			300 //in second
 
 class CPlayScene: public CScene
 {
@@ -33,9 +33,9 @@ protected:
 	void _ParseSection_MAPS(string line);
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
-
+	Timer* playTime = new Timer(PLAY_TIME * 1000);
 	void LoadAssets(LPCWSTR assetFile);
-	
+	int remainingTime = 0;
 public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
@@ -45,7 +45,7 @@ public:
 	virtual void Unload();
 
 	CMario* GetPlayer() { return player; }
-
+	int getRemainingTime() { return remainingTime; }
 	void Clear();
 	void PurgeDeletedObjects();
 	void GetObjectToGrid();

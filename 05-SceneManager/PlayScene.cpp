@@ -25,6 +25,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
+	
 	grid = NULL;
 	hud = NULL;
 	player = NULL;
@@ -304,7 +305,7 @@ void CPlayScene::GetObjectToGrid() {
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene from : %s \n", sceneFilePath);
-
+	playTime->Start();
 	ifstream f;
 	f.open(sceneFilePath);
 	
@@ -346,7 +347,16 @@ void CPlayScene::Update(DWORD dt)
 	grid->ResetGrid(listMoving);
 	GetObjectToGrid();
 	vector<LPGAMEOBJECT> coObjects;
-	
+
+	if (player->GetState() != MARIO_STATE_DIE) {
+		this->remainingTime = PLAY_TIME - (int)((GetTickCount64() - playTime->GetStartTime()) / 1000);
+	}
+	if (this->remainingTime < 0)
+	{
+		player->SetState(MARIO_STATE_DIE); // mario die when playtime is up
+		this->remainingTime = 0;
+	}
+
 	for (size_t i = 0; i < objects.size(); i++) {
 		if (objects[i]->GetType() == OBJECT_TYPE_PSWITCH) {
 			CPswitch* p_switch = dynamic_cast<CPswitch*>(objects[i]);
@@ -495,7 +505,7 @@ void CPlayScene::Render()
 		listGrid[i]->Render();
 	for (size_t i = 0; i < listEffects.size(); i++)
 		listEffects[i]->Render();
-	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player);
+	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player, this->remainingTime);
 }
 
 /*

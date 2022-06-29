@@ -14,7 +14,7 @@ char* IntToChar(int value, int length)
 	return c;
 }
 
-void HUD::Render(float x, float y, CMario* mario) {
+void HUD::Render(float x, float y, CMario* mario, int remainingTime) {
 	float vx, vy;
 	mario->GetSpeed(vx, vy);
 	board = CAnimations::GetInstance();
@@ -30,12 +30,13 @@ void HUD::Render(float x, float y, CMario* mario) {
 		speedBar = new CSpeedBar(x + 92, y + SCREEN_HEIGHT / 2 + SPEEDBAR__OFFSET);
 		background->Get(ID_ANI_BACKGROUND)->Render(x + SCREEN_WIDTH / 2, y + SCREEN_HEIGHT / 2 + BACKGROUND_OFFSET);
 		board->Get(ID_ANI_BOARD)->Render(x + BOARD_WIDTH / 2 + 8, y + SCREEN_HEIGHT / 2 + BOARD_OFFSET);
-		text.Render(IntToChar(mario->getScore(),7),  x + time_margin_x, y + money_margin_y );
+		text.Render(IntToChar(mario->getScore(),7),  x + score_margin_x, y + score_margin_y);
 		_itoa_s(mario->getCoin(), buffer,3, 10);
 		if ((mario->getCoin() / 10) > 0) {
 			text.Render(buffer, x + coin_margin_x- number_offset, y + coin_margin_y);
 		} else
 		text.Render(buffer, x + coin_margin_x, y + coin_margin_y);
+		text.Render(IntToChar(remainingTime, 3), x + time_margin_x, y + time_margin_y);
 	}
 	
 	speedBar->Render(vx,mario->GetIsPowerUp());

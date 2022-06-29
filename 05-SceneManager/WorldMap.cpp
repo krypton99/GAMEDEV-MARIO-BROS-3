@@ -296,7 +296,7 @@ void CWorldMap::Render()
 		listObjects[i]->Render();
 
 	player->Render();
-	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player);
+	hud->Render(CGame::GetInstance()->GetCamPosX(), CGame::GetInstance()->GetCamPosY(), player,0);
 }
 
 

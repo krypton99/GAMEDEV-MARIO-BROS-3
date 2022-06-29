@@ -17,12 +17,14 @@
 
 #define WORLDMAP_OFFSET 28
 
-#define money_margin_y		160
-
-#define time_margin_x		64
+#define score_margin_y		160
+#define score_margin_x		64
 #define number_offset	8
 #define coin_margin_y	152
 #define coin_margin_x	152
+
+#define time_margin_y	160
+#define time_margin_x	136
 class HUD
 {
 	CSpeedBar* speedBar = nullptr;
@@ -32,6 +34,6 @@ class HUD
 public:
 	HUD() {};
 
-	void Render(float x, float y, CMario* mario);
+	void Render(float x, float y, CMario* mario, int remainingTime);
 };
 typedef HUD* LPHUD;
