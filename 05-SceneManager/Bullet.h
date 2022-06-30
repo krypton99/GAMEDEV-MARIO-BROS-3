@@ -4,8 +4,8 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define BULLET_BBOX_WIDTH	8
-#define BULLET_BBOX_HEIGHT	8
+#define BULLET_BBOX_WIDTH	4
+#define BULLET_BBOX_HEIGHT	4
 
 #define ID_ANI_BULLET_RIGHT 5901
 #define ID_ANI_BULLET_LEFT 5902
