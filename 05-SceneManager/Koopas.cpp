@@ -299,7 +299,7 @@ void CKoopas::SetState(int state)
 		break;
 	case TROOPA_STATE_WALKING:
 		isFly = false;
-		vx = TROOPA_WALKING_SPEED;
+		vx = -TROOPA_WALKING_SPEED;
 		break;
 	case TROOPA_STATE_ROLL_LEFT:
 		vx = -TROOPA_ROLLING_SPEED;
