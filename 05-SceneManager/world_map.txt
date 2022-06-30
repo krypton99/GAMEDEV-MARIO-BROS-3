@@ -15,7 +15,7 @@ assets\hud.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	32	48
+0	42	48
 
 #==============WORLDMAP OBJECTS==========
 #type	x	y	ani_set	GL_Obj_Type

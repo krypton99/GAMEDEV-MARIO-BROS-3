@@ -23,7 +23,31 @@
 void CMario::UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	
+	if (vy > 0) {
+		if (y > start_y + 32) {
+			y = start_y + 32;
+			vy = 0;
+		}
+	}
+	else if (vy < 0){
+		if (y < start_y - 32) {
+			y = start_y - 32;
+			vy = 0;
+		}
+	}
+	else if (vx > 0) {
+		if (x > start_x + 32) {
+			x = start_x + 32;
+			vx = 0;
+		}
+	}
+	else if (vx < 0) {
+		if (x < start_x - 32) {
+			x = start_x - 32;
+			vx = 0;
+		}
+	}
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -1154,22 +1178,30 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_WALKING_UP_WORLD_MAP:
 		maxVy = -MARIO_WALKING_SPEED/2;
+		start_x = x;
+		start_y = y;
 		//ay = -MARIO_ACCEL_WALK_X;
 		vy= -MARIO_WALKING_SPEED;
 		break;
 	case MARIO_STATE_WALKING_DOWN_WORLD_MAP:
 		maxVy = MARIO_WALKING_SPEED/2;
 		//ay = MARIO_ACCEL_WALK_X;
+		start_x = x;
+		start_y = y;
 		vy = MARIO_WALKING_SPEED;
 		break;
 	case MARIO_STATE_WALKING_RIGHT_WORLD_MAP:
 		maxVx = MARIO_WALKING_SPEED/2;
 		//ax = MARIO_ACCEL_WALK_X;
+		start_x = x;
+		start_y = y;
 		vx = MARIO_WALKING_SPEED;
 		break;
 	case MARIO_STATE_WALKING_LEFT_WORLD_MAP:
 		maxVx = -MARIO_WALKING_SPEED/2;
 		//ax = -MARIO_ACCEL_WALK_X;
+		start_x = x;
+		start_y = y;
 		vx = -MARIO_WALKING_SPEED;
 		break;
 	}
