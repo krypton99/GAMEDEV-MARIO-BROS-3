@@ -227,7 +227,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (isAttack && GetTickCount64() - attackStart->GetStartTime() <= MARIO_TIME_ATTACK) {
 			//this->state = MARIO_STATE_ATTACK;
 			tail->SetState(TAIL_STATE_HIT);
-
+			tail->SetIsAttack(true);
 			// Xet lai huong cho tail khi o frame 2
 			if (GetTickCount64() - attackStart->GetStartTime() < MARIO_TIME_ATTACK / 2 && changeNx == 0) {
 				nx = -nx;
@@ -237,8 +237,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				changeNx = 0;
 				nx = -nx;
 			}
-			tail->SetPosition(x+5*nx, y);
-			tail->Update(dt, coObjects, { x + 5 * nx,y }, nx);
+			tail->SetPosition(x+/*5**/nx, y);
+			tail->Update(dt, coObjects, { x + nx,y }, nx);
 
 		}
 		else {
@@ -252,6 +252,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 			isAttack = false;
+			tail->SetIsAttack(false);
 			attackStart->Stop();
 		}
 	}

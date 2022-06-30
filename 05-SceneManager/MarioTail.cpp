@@ -19,11 +19,11 @@ CMarioTail::CMarioTail(float x, float y) :CGameObject(x, y) {
 void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,D3DXVECTOR2 playerPos, int playerNx) {
 	//CGameObject::Update(dt);
 	this->nx = playerNx;
+	x += vx * dt;
 	
-	
-	if (state == TAIL_STATE_HIT) {
+	if (isAttack) {
 		vx = 0.15f * playerNx;
-		x += vx * dt;
+		
 	}
 	
 	/*this->x = playerPos.x;
@@ -111,7 +111,7 @@ void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
 	float ml, mr, mb, mt;
 	float kl, kr, kb, kt;
-	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetBoundingBox(ml,mt,mr,mb);
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetBoundingBox(ml, mt, mr, mb);
 	//GetBoundingBox(ml, mt, mr, mb);
 	koopas->GetBoundingBox(kl, kt, kr, kb);
 	if (kr <= ml) {
@@ -120,10 +120,17 @@ void CMarioTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 	else if (kl >= mr) {
 		koopas->SetNx(1);
 	}
-	float x, y;
-	koopas->GetPosition(x, y);
-	koopas->SetTempX(x);
-	koopas->SetState(TROOPA_STATE_DIE_UP);
+	if (koopas->GetKoopasType() == KOOPAS_TYPE_GREEN_WING)
+	{
+		koopas->SetKoopasType(KOOPAS_TYPE_GREEN);
+		koopas->SetState(TROOPA_STATE_WALKING);
+	}
+	else {
+		float x, y;
+		koopas->GetPosition(x, y);
+		koopas->SetTempX(x);
+		koopas->SetState(TROOPA_STATE_DIE_UP);
+	}
 }
 void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b) {
 

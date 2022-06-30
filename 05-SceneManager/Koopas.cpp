@@ -89,8 +89,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0)
 	{
-
-		vx = -vx;
+			vx = -vx;
 	}
 	if (dynamic_cast<CBrick*>(e->obj) && (state==TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT))
 	{
@@ -152,7 +151,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	if (state == TROOPA_STATE_DIE_UP) {
-		if (nx > 0) {
+		/*if (nx > 0) {
 			if (x > temp_x + SHELL_THROW_DISTANCE_X) {
 				vx = 0;
 
@@ -163,6 +162,10 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				vx = 0;
 
 			}
+		}*/
+		if (x > temp_x + SHELL_THROW_DISTANCE_X || x < temp_x - SHELL_THROW_DISTANCE_X) {
+			vx = 0;
+
 		}
 	}
 	if (koopa_type == KOOPAS_TYPE_RED) {
