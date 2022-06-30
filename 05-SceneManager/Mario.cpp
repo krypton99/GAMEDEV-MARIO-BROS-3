@@ -85,14 +85,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (level == MARIO_LEVEL_SMALL) {
 					y -= 0.6f;
 				}
-				else y -= 0.86f;
+				else y -= 0.87f;
 				isInHiddenMap = false;
 			}
 			else {
 				if (level == MARIO_LEVEL_SMALL) {
 					y += 0.6f;
 				}
-				else y += 0.86f;
+				else y += 0.87f;
 				isInHiddenMap = true;
 			}
 			ay = 0;
@@ -143,7 +143,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			PowerUp->Start();
 			if (level == MARIO_LEVEL_RACOON) {
 				flyTime->Start();
-				isFlying = true;
+				//isFlying = true;
 			}
 		}
 	}
@@ -248,7 +248,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else {
 					isFlying = false;
-					this->state = MARIO_STATE_JUMP;
+					//this->state = MARIO_STATE_JUMP;
 				}
 			}
 			isAttack = false;
@@ -259,33 +259,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CMario::DecreaseSpeed() {
-	if (vx < 0 && nx == 1 && lastnx == 1) {
+	if (vx < 0 && nx == 1) {
 		vx = 0;
 		ax = 0;
 	}
-	else if (vx > 0 && nx == -1 && lastnx == -1) {
+	else if (vx > 0 && nx == -1) {
 		vx = 0;
 		ax = 0;
 	}
-	else if (vx > 0 && nx == 1 && lastnx == 1) {
-		ax = -MARIO_ACCEL_STOP_X;
-		DebugOut(L"ax %f \n", ax);
-	}
-	else if (vx > 0 && nx == 1 && lastnx == -1) {
+	else if (vx > 0 && nx == 1) {
 		ax = -MARIO_ACCEL_STOP_X;
 	}
-	
-	else if (vx < 0 && nx == -1 && lastnx == -1) {
-		ax = MARIO_ACCEL_STOP_X;
-	}
-	else if (vx < 0 && nx == -1 && lastnx == 1)
-	{
+	else if (vx < 0 && nx == -1) {
 		ax = MARIO_ACCEL_STOP_X;
 	}
 	else {
 		vx = 0;
 		ax = 0;
-		
+
 	}
 	//ay = MARIO_GRAVITY;
 	//isFlying = false;
@@ -811,7 +802,7 @@ int CMario::GetAniIdBig()
 	int aniId = -1;
 	if (!isOnPlatform && !isHolding && !isInPipe && !isOutPipe)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (abs(vx)==abs(maxVx))
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
@@ -1083,14 +1074,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_RIGHT:
 		if (isSitting) break;
 		maxVx = MARIO_WALKING_SPEED;
-		lastnx = nx;
+		//lastnx = nx;
 		ax = MARIO_ACCEL_WALK_X;
 		nx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT:
 		if (isSitting) break;
 		maxVx = -MARIO_WALKING_SPEED;
-		lastnx = nx;
+		//lastnx = nx;
 		ax = -MARIO_ACCEL_WALK_X;
 		nx = -1;
 		break;
