@@ -23,6 +23,7 @@ private:
 	virtual void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	virtual void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 public:
 	CMarioTail(float x, float y);
 	void Render();

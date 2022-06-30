@@ -4,6 +4,7 @@
 #include "Goomba.h"
 #include "Brick.h"
 #include "PlayScene.h"
+#include "VenusFireTrap.h"
 CMarioTail* CMarioTail::__instance = nullptr;
 
 CMarioTail* CMarioTail::GetInstance(float x, float y)
@@ -75,6 +76,9 @@ void CMarioTail::OnCollisionWith(LPCOLLISIONEVENT e)
 	} else
 	if (dynamic_cast<CBrick*>(e->obj) ) {
 		OnCollisionWithBrick(e);
+	} else
+	if (dynamic_cast<CVenusFireTrap*>(e->obj)) {
+			OnCollisionWithVenus(e);
 	}
 
 }
@@ -82,6 +86,14 @@ void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	
 	goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
+}
+void CMarioTail::OnCollisionWithVenus(LPCOLLISIONEVENT e) {
+	CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(e->obj);
+	if (venus->GetState() == VENUS_STATE_UP || venus->GetState() == VENUS_STATE_DOWN)
+	{
+		venus->SetIsDeleted(true);
+	}
+	((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->AddScore(1000);
 }
 void CMarioTail::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);

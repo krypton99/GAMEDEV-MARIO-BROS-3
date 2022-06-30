@@ -42,6 +42,7 @@ public:
 	int GetState() { return this->state; }
 	virtual void Delete() { isDeleted = true;  }
 	bool IsDeleted() { return isDeleted; }
+	void SetIsDeleted(bool isDeleted) { this->isDeleted = isDeleted; }
 	bool GetIsInGrid() { return isInGrid; }
 	void SetIsInGrid(bool isInGrid) { this->isInGrid = isInGrid; }
 	void RenderBoundingBox();

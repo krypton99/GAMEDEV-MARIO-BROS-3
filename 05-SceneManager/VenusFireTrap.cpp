@@ -101,7 +101,7 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects, D3DXVECTO
 		}
 		nx = 1;
 	}
-	if (plant_type == PLANT_TYPE_RED_VENUS) {
+	if (plant_type == PLANT_TYPE_RED_VENUS || plant_type==PLANT_TYPE_GREEN_VENUS) {
 		if (isAttack) {
 			if (nx > 0) { // PHAI
 				fireBullet = new CFireBullet(x, y, nx, mario_direction);
