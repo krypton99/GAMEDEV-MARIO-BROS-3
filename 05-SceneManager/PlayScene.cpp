@@ -369,10 +369,15 @@ void CPlayScene::Update(DWORD dt)
 				//CREATE ITEM FOLLOW MARIO LEVEL
 				Item* item = NULL;
 				CGameObject* obj = NULL;
-				if (brick->GetItemType() == CONTAIN_MUSHROOM) {
+				if (brick->GetItemType() == CONTAIN_MUSHROOM || brick->GetItemType() == CONTAIN_GREEN_MUSHROOM) {
+					if(brick->GetItemType() == CONTAIN_MUSHROOM) {
 					if (player->GetLevel() == MARIO_LEVEL_BIG)
 						item = new CLeaf({ brick->GetPosX(), brick->GetPosY() - ITEM_BBOX * 3 , ITEM_LEAF });
 					else item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_RED_MUSHROOM);
+					}
+					else {
+						item = new CMushroom(brick->GetPosX(), brick->GetPosY() - ITEM_BBOX, ITEM_GREEN_MUSHROOM);
+					}
 				}
 				else if (brick->GetItemType() == CONTAIN_PSWITCH) {
 					obj = new CPswitch(brick->GetPosX(), brick->GetPosY() - BRICK_BBOX);
@@ -384,6 +389,7 @@ void CPlayScene::Update(DWORD dt)
 					obj = new CCoinEffect({ b_x,b_y });
 					listEffects.push_back(obj);
 				}
+	
 				if (item != NULL && brick->GetItemType() != CONTAIN_COIN) {
 					listItems.push_back(item);
 				}

@@ -24,8 +24,7 @@ assets\hud.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	2000	224
-
+0	1419	80
 # BRICKS
 1	202	352	100	4
 1	187	352	100	1
@@ -50,6 +49,7 @@ assets\hud.txt
 1	2106	384	300	0
 1	2106	400	300	0
 1	2122	400	300	0
+1	1419	128	100	5
 #wood brick
 1	1706	400	200	0
 1	1690	384	200	0

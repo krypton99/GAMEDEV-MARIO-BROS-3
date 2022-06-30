@@ -330,6 +330,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
 	CMushroom* item = dynamic_cast<CMushroom*>(e->obj);
 	if (item->GetItemType() == ITEM_RED_MUSHROOM) {
+		score += 500;
 		if (level > MARIO_LEVEL_SMALL)
 		{
 			e->obj->SetState(STATE_ERASE);
@@ -341,6 +342,9 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e) {
 			SetLevel(MARIO_LEVEL_BIG);
 
 		}
+	}
+	else {
+		score += 1000;
 	}
 }
 void CMario::OnCollisionWithEndSceneItems(LPCOLLISIONEVENT e) {

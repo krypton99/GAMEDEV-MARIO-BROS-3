@@ -30,6 +30,7 @@
 #define CONTAIN_LEAF	2
 #define CONTAIN_PSWITCH	3
 #define CONTAIN_COIN 4
+#define CONTAIN_GREEN_MUSHROOM	5
 
 class CBrick : public CGameObject {
 private:

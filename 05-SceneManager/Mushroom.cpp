@@ -38,7 +38,13 @@ void CMushroom::Render()
 {
 
 	CAnimations* animations = CAnimations::GetInstance();
-	int ani = ID_ITEM_ANI_MUSHROOM;
+	int ani = 0;
+	if (ItemType == GREEN_MUSHROOM) {
+		 ani = ID_ITEM_ANI_GREEN_MUSHROOM;
+	}
+	else {
+		ani = ID_ITEM_ANI_RED_MUSHROOM;
+	}
 
 	animations->Get(ani)->Render(x, y);
 	RenderBoundingBox();
