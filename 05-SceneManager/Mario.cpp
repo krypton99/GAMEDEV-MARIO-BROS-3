@@ -652,8 +652,12 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	this->mRight = portal->getMRight();
 	this->mUp = portal->getMUp();
 	this->mDown = portal->getMDown();
-	/*CPortal* p = (CPortal*)e->obj;*/
-	if (portal->IsHasPortal())
+	if (!portal->IsHasPortal())
+	{
+		/*vx = 0;
+		vy = 0;*/
+	}
+	else
 	{
 		CGame::GetInstance()->InitiateSwitchScene(portal->GetSceneId());
 	}
@@ -1146,19 +1150,23 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_WALKING_UP_WORLD_MAP:
 		maxVy = -MARIO_WALKING_SPEED/2;
-		ay = -MARIO_ACCEL_WALK_X;
+		//ay = -MARIO_ACCEL_WALK_X;
+		vy= -MARIO_WALKING_SPEED;
 		break;
 	case MARIO_STATE_WALKING_DOWN_WORLD_MAP:
 		maxVy = MARIO_WALKING_SPEED/2;
-		ay = MARIO_ACCEL_WALK_X;
+		//ay = MARIO_ACCEL_WALK_X;
+		vy = MARIO_WALKING_SPEED;
 		break;
 	case MARIO_STATE_WALKING_RIGHT_WORLD_MAP:
 		maxVx = MARIO_WALKING_SPEED/2;
-		ax = MARIO_ACCEL_WALK_X;
+		//ax = MARIO_ACCEL_WALK_X;
+		vx = MARIO_WALKING_SPEED;
 		break;
 	case MARIO_STATE_WALKING_LEFT_WORLD_MAP:
 		maxVx = -MARIO_WALKING_SPEED/2;
-		ax = -MARIO_ACCEL_WALK_X;
+		//ax = -MARIO_ACCEL_WALK_X;
+		vx = -MARIO_WALKING_SPEED;
 		break;
 	}
 

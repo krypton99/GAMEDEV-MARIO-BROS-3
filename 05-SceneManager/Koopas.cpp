@@ -103,9 +103,12 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 void CKoopas::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-	if (brick->GetState() != BRICK_STATE_EMPTY) {
+	if (brick->GetState() != BRICK_STATE_EMPTY && brick->GetBrickType() != BRICK_TYPE_GOLD ) {
 		brick->SetIsFallingItem(true);
 		brick->SetState(BRICK_STATE_EMPTY);
+	}
+	if(brick->GetBrickType() == BRICK_TYPE_GOLD) {
+		brick->SetState(BRICK_STATE_BROKEN);
 	}
 }
 void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
