@@ -48,7 +48,7 @@ void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x,
 
 	// Update pos_cam_y
 	if (!islockY) { // pos_mario in center cam  < end.y (map) -> pos_cam = pos_mario...
-		if (int(playerPosY - height / 4 ) < end_y )
+		if (int(playerPosY - height / 4 ) < end_y+ (SCREEN_WIDTH / 2))
 		{
 			position_y = float(int(playerPosY - height / 8 + 30 ));
 		}
