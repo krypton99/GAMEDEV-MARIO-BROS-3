@@ -61,7 +61,7 @@ void CBrick::OnNoCollision(DWORD dt)
 }
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	//CGameObject::Update(dt);
-	if ((state == BRICK_STATE_BROKEN) && (GetTickCount64() - brickBroken_start > 400))
+	if ((state == BRICK_STATE_BROKEN) && (GetTickCount64() - brickBroken_start > 300))
 	{
 		if (itemType != CONTAIN_PSWITCH )
 		{

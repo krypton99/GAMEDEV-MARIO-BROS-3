@@ -913,7 +913,7 @@ int CMario::GetAniIdRacoon()
 	int aniId = -1;
 	if (!isOnPlatform && !isHolding && !isAttack && !isInPipe && !isOutPipe)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (isFlying)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_RACOON_MARIO_FLY_RIGHT;
