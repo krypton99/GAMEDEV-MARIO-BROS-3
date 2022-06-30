@@ -25,9 +25,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			} if (!mario->GetIsFlying()) {
 				mario->SetState(MARIO_STATE_JUMP);
 			}
-			if (mario->GetIsFlying()) {
+			if (mario->GetIsFlying() && mario->GetIsFlystep()) {
 				mario->SetState(MARIO_STATE_FLY);
 				mario->flyStep->Start();
+				mario->SetIsFlystep(false);
 			}
 			break;
 		case DIK_A:
@@ -81,6 +82,7 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 				mario->SetState(MARIO_STATE_RELEASE_JUMP);
 				mario->setAy(MARIO_GRAVITY);
 			}
+			mario->SetIsFlystep(true);
 			break;
 		case DIK_DOWN:
 			mario->SetState(MARIO_STATE_SIT_RELEASE);

@@ -231,18 +231,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 void CMario::DecreaseSpeed() {
-	if (vx < 0 && nx == 1) {
+	if (vx < 0 && nx == 1 && lastnx == 1) {
 		vx = 0;
 		ax = 0;
 	}
-	else if (vx > 0 && nx == -1) {
+	else if (vx > 0 && nx == -1 && lastnx == -1) {
 		vx = 0;
 		ax = 0;
 	}
-	else if (vx > 0 && nx == 1) {
+	else if (vx > 0 && nx == 1 && lastnx == 1) {
+		ax = -MARIO_ACCEL_STOP_X;
+		DebugOut(L"ax %f \n", ax);
+	}
+	else if (vx > 0 && nx == 1 && lastnx == -1) {
 		ax = -MARIO_ACCEL_STOP_X;
 	}
-	else if (vx < 0 && nx == -1) {
+	
+	else if (vx < 0 && nx == -1 && lastnx == -1) {
+		ax = MARIO_ACCEL_STOP_X;
+	}
+	else if (vx < 0 && nx == -1 && lastnx == 1)
+	{
 		ax = MARIO_ACCEL_STOP_X;
 	}
 	else {
@@ -1035,12 +1044,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_WALKING_RIGHT:
 		if (isSitting) break;
 		maxVx = MARIO_WALKING_SPEED;
+		lastnx = nx;
 		ax = MARIO_ACCEL_WALK_X;
 		nx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT:
 		if (isSitting) break;
 		maxVx = -MARIO_WALKING_SPEED;
+		lastnx = nx;
 		ax = -MARIO_ACCEL_WALK_X;
 		nx = -1;
 		break;

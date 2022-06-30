@@ -246,7 +246,9 @@ class CMario : public CGameObject
 	bool canSwitchScene = false;
 	Timer* getInPipe=new Timer(2000);
 	CFunnel* funnel = nullptr;
+	bool isFlystep;
 	vector<int> cards;
+	int lastnx;
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
@@ -335,6 +337,8 @@ public:
 	void SetShell(CKoopas* shell) { this->shell = shell; }
 	bool GetIsAttack() { return isAttack; }
 	void SetIsAttack(bool isAttack) { this->isAttack = isAttack; }
+	bool GetIsFlystep() { return isFlystep; }
+	void SetIsFlystep(bool IsFlystep) { this->isFlystep = IsFlystep; }
 	bool GetIsBlocking() { return isBlocking; }
 	void SetIsBlocking(bool isBlocking) { this->isBlocking = isBlocking; }
 	bool GetIsInHiddenMap() { return isInHiddenMap; }
