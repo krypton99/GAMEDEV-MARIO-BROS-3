@@ -676,19 +676,22 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	
 	CPortal* portal = dynamic_cast<CPortal*>(e->obj);
+	collidePortal = portal;
 	this->mLeft = portal->getMLeft();
 	this->mRight = portal->getMRight();
 	this->mUp = portal->getMUp();
 	this->mDown = portal->getMDown();
-	if (!portal->IsHasPortal())
-	{
-		/*vx = 0;
-		vy = 0;*/
-	}
-	else
-	{
-		CGame::GetInstance()->InitiateSwitchScene(portal->GetSceneId());
-	}
+	//if (!portal->IsHasPortal())
+	//{
+	//	/*vx = 0;
+	//	vy = 0;*/
+	//}
+	//else
+	//{
+	//	if (canSwitchScene) {
+	//		
+	//	}
+	//}
 	
 }
 

@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "MarioTail.h"
 #include "Funnel.h"
+#include "Portal.h"
 #define MARIO_TIME_ATTACK 400
 #define TIME_FLY					2000
 #define TIME_POWER_UP	2000
@@ -249,6 +250,7 @@ class CMario : public CGameObject
 	bool isFlystep;
 	vector<int> cards;
 	int lastnx;
+	CPortal* collidePortal;
 public:
 	
 	void setAy(float ay) { this->ay = ay; }
@@ -290,7 +292,7 @@ public:
 	void UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects); //update mario khi o worldmap
 	void Render();
 	void SetState(int state);
-	
+	CPortal* GetCollidePortal() { return collidePortal; }
 	int IsCollidable()
 	{ 
 		return (state != MARIO_STATE_DIE && isBlocking);
