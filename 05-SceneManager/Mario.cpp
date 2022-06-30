@@ -113,7 +113,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (abs(vx) > abs(maxVx)) {
 		vx = maxVx;
-		if (state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT)
+		if ((state == MARIO_STATE_RUNNING_LEFT || state == MARIO_STATE_RUNNING_RIGHT) && isOnPlatform)
 		{
 			isPowerUp = true;
 			PowerUp->Start();
@@ -124,7 +124,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 	else {
-		if (PowerUp->GetStartTime() != 0 && PowerUp->IsTimeUp()) {
+		if (PowerUp->GetStartTime() != 0 && PowerUp->IsTimeUp() && level==MARIO_LEVEL_RACOON) {
+			isPowerUp = false;
+		}
+		else if (level != MARIO_LEVEL_RACOON) {
 			isPowerUp = false;
 		}
 	}
@@ -1025,7 +1028,7 @@ void CMario::Render()
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
+	if (this->state == MARIO_STATE_DIE) return;
 
 	switch (state)
 	{
@@ -1059,8 +1062,8 @@ void CMario::SetState(int state)
 		if (isSitting) break;
 		if (isOnPlatform)
 		{
-			if (abs(this->vx) == MARIO_RUNNING_SPEED)
-				vy = -MARIO_JUMP_RUN_SPEED_Y;
+			if (abs(this->vx) > MARIO_WALKING_SPEED + 0.07f)
+				vy = -(abs(vx) * 3.0f);
 			else
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
@@ -1071,14 +1074,14 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_RELEASE_FLY:
 		if (ay < 0) //ay = MARIO_GRAVITY ;
-		break;
+			break;
 	case MARIO_STATE_SIT:
 		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
 		{
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
 			vx = 0; vy = 0.0f;
-			y +=MARIO_SIT_HEIGHT_ADJUST;
+			y += MARIO_SIT_HEIGHT_ADJUST;
 		}
 		break;
 
@@ -1095,11 +1098,12 @@ void CMario::SetState(int state)
 		/*ax = 0.0f;
 		vx = 0.0f;*/
 		//ax=0;
-		
+
 		if (stage == WORLD_MAP_SCENE) {
 			ax = 0.0f;
 			vx = 0.0f;
-		} else DecreaseSpeed();
+		}
+		else DecreaseSpeed();
 		//isFlying = false;
 		break;
 	case MARIO_STATE_TELEPORT:
@@ -1123,10 +1127,11 @@ void CMario::SetState(int state)
 				vx = -MARIO_WALKING_SPEED;
 			vy = -MARIO_JUMP_SPEED_Y * 0.7;
 			isOnPlatform = false;
-			
+
 		}
 		break;
 	case MARIO_STATE_ATTACK:
+		if (isSitting||isFlying) break;
 		temp_nx = nx;
 		isAttack = true;
 		attackStart->Start();

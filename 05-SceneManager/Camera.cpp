@@ -43,7 +43,7 @@ void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x,
 	// Check lock_y
 	if (playerPosY < end_y && isFlying)
 		islockY = false;
-	if (playerPosY > end_y && isOnGround && !isFlying)
+	if (playerPosY > end_y && isOnGround && !isFlying && !isInHiddenMap)
 		islockY = true;
 
 	// Update pos_cam_y
