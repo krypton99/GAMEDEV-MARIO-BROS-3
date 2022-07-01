@@ -27,7 +27,6 @@
 # empty
 90043	167	39	184	56	140
 
-
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #MUSHROOM
@@ -52,4 +51,4 @@
 # flower
 9042	90042	100	90043	100
 #shuffle
-9045	90040	50	90041	50	90042	50	90043	50
+9045	90040	50	90041	50	90042	50

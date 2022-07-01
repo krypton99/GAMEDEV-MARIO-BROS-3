@@ -21,9 +21,11 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_S:
 			if (mario->GetIsPowerUp())
 			{
-				mario->SetIsFlying(true);
+				if (mario->GetLevel() == MARIO_LEVEL_RACOON) {
+					mario->SetIsFlying(true);
+				}
 			}
-			if (!mario->GetIsOnPlatform() && !mario->GetIsFlying()) {
+			if (!mario->GetIsOnPlatform() && !mario->GetIsFlying() && mario->GetLevel()==MARIO_LEVEL_RACOON) {
 				mario->SetVy(MARIO_RACOON_FALLING_SLOW_SPEED);
 				mario->SetFallLower(true);
 			} if (!mario->GetIsFlying()) {
@@ -36,7 +38,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			}
 			break;
 		case DIK_A:
-			mario->SetState(MARIO_STATE_ATTACK);
+			if (!mario->GetIsHolding()) {
+				mario->SetState(MARIO_STATE_ATTACK);
+			}
 			break;
 		case DIK_1:
 			mario->SetLevel(MARIO_LEVEL_SMALL);
@@ -53,7 +57,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_R: // reset
 			//Reload();
 			break;
-		case DIK_F:
+		/*case DIK_F:
 			float x, y;
 			mario->GetPosition(x, y);
 			mario->GetGhostMario()->SetPosition(x, y);
@@ -61,7 +65,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			if (mario->GetGhostMario()->GetHoldingShell() == true) {
 				mario->GetGhostMario()->SetHoldingShell(false);
 			}
-			break;
+			break;*/
 		}
 	}
 }
@@ -90,6 +94,9 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 			break;
 		case DIK_DOWN:
 			mario->SetState(MARIO_STATE_SIT_RELEASE);
+			break;
+		case DIK_A:
+			mario->SetIsHolding(false);
 			break;
 		}
 	}
@@ -127,17 +134,40 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
-			if (game->IsKeyDown(DIK_A) && !mario->GetIsFlying())
+			if (game->IsKeyDown(DIK_A) && !mario->GetIsFlying() && !mario->GetIsHolding())
+			{
 				mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+				if (mario->GetShell() != nullptr) {
+					if (mario->GetShell()->GetCanHoldingShell()) {
+						mario->SetIsHolding(true);
+					}
+				}
+			}
 			else
+			{
+				/*if (mario->GetShell() != nullptr) {
+					mario->SetIsHolding(true);
+				}*/
 				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+			}
 		}
 		else if (game->IsKeyDown(DIK_LEFT))
 		{
-			if (game->IsKeyDown(DIK_A) && !mario->GetIsFlying())
+			if (game->IsKeyDown(DIK_A) && !mario->GetIsFlying() && !mario->GetIsHolding())
+			{
 				mario->SetState(MARIO_STATE_RUNNING_LEFT);
-			else
+				if (mario->GetShell() != nullptr) {
+					if (mario->GetShell()->GetCanHoldingShell()) {
+						mario->SetIsHolding(true);
+					}
+				}
+			} else
+			{
+				/*if (mario->GetShell() != nullptr) {
+					mario->SetIsHolding(true);
+				}*/
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
+			}
 		}
 		else
 		{

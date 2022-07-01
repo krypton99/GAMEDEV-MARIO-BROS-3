@@ -52,6 +52,7 @@ void CMario::UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 }
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	//canHolding = false;
 	vy += ay * dt;
 	vx += ax * (dt / ((1 + abs(vx * 30))));
 	if (stage != WORLD_MAP_SCENE) {
@@ -218,8 +219,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		ay = MARIO_GRAVITY;
 	}
 	if (shell != nullptr) {
-		if (ghost_mario->GetHoldingShell() == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
-			isHolding = true;
+		if (isHolding == true && (shell->GetState() == TROOPA_STATE_DIE || shell->GetState() == TROOPA_STATE_DIE_UP)){
+			//isHolding = true;
 			shell->SetIsMariohold(true);
 			if (level == MARIO_LEVEL_SMALL) {
 				if (nx > 0) {
@@ -582,7 +583,9 @@ void CMario::OnCollisionWithFireBullet(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+	
 	shell = koopas;
+
 	// jump on top >> kill Goomba and deflect a bit 
 	if (koopas->GetKoopasType() == KOOPAS_TYPE_GREEN_WING) {
 
@@ -733,7 +736,7 @@ int CMario::GetAniIdSmall()
 	int aniId = -1;
 	if (!isOnPlatform && !isHolding && !isInPipe && !isOutPipe)
 	{
-		if (abs(ax) == MARIO_ACCEL_RUN_X)
+		if (abs(vx) == MARIO_RUNNING_SPEED)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
@@ -840,7 +843,7 @@ int CMario::GetAniIdBig()
 	int aniId = -1;
 	if (!isOnPlatform && !isHolding && !isInPipe && !isOutPipe)
 	{
-		if (abs(vx)==abs(maxVx))
+		if (abs(vx)==MARIO_RUNNING_SPEED)
 		{
 			if (nx >= 0)
 				aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
@@ -873,7 +876,7 @@ int CMario::GetAniIdBig()
 				else if (vx > 0)
 				{
 					if (nx > 0) aniId = ID_ANI_MARIO_WALK_HOLDING_RIGHT_RED;
-					else aniId = ID_ANI_MARIO_SMALL_WALK_HOLDING_LEFT_RED;
+					else aniId = ID_ANI_MARIO_WALK_HOLDING_LEFT_RED;
 				}
 				else {
 					if (nx < 0) aniId = ID_ANI_MARIO_WALK_HOLDING_LEFT_RED;

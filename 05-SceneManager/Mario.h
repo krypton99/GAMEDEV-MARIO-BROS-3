@@ -251,8 +251,9 @@ class CMario : public CGameObject
 	vector<int> cards;
 	int lastnx;
 	CPortal* collidePortal;
-public:
 	
+public:
+	bool canHolding;
 	void setAy(float ay) { this->ay = ay; }
 	void setAx(float ax) { this->ax = ax; }
 	CMario(float x, float y) : CGameObject(x, y)

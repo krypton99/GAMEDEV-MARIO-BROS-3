@@ -31,7 +31,7 @@ bool CKoopas::CheckDistancePlayer(D3DXVECTOR4 player)
 
 	float kl, kt, kr, kb;
 	GetBoundingBox(kl, kt, kr, kb);
-	if ((abs(player.x - kr) < MARIO_DISTANCE_KOOPAS)|| (abs(player.z - kl) < MARIO_DISTANCE_KOOPAS))
+	if (((abs(player.x - kr) < MARIO_DISTANCE_KOOPAS)|| (abs(player.z - kl) < MARIO_DISTANCE_KOOPAS)) && ((abs(player.w - kb) < MARIO_DISTANCE_KOOPAS)))
 	{
 		return true;
 	}// trong vung gan rua
