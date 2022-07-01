@@ -263,19 +263,19 @@ void CMario::DecreaseSpeed() {
 		vx = 0;
 		ax = 0;
 	}
-	else if (vx > 0 && nx == -1) {
+	else if (vx > 0 && nx == -1 ) {
 		vx = 0;
 		ax = 0;
 	}
-	else if (vx > 0 && nx == 1) {
+	else if (vx > 0 && (nx == 1 || lastnx==-1)) {
 		ax = -MARIO_ACCEL_STOP_X;
 	}
-	else if (vx < 0 && nx == -1) {
+	else if (vx < 0 && (nx == -1 || lastnx == 1)) {
 		ax = MARIO_ACCEL_STOP_X;
 	}
 	else {
-		vx = 0;
-		ax = 0;
+		//vx = 0;
+		//ax = 0;
 
 	}
 	//ay = MARIO_GRAVITY;
@@ -1061,29 +1061,62 @@ void CMario::SetState(int state)
 	{
 	case MARIO_STATE_RUNNING_RIGHT:
 		if (isSitting) break;
-		maxVx = MARIO_RUNNING_SPEED;
-		ax = MARIO_ACCEL_RUN_X;
+		lastnx = nx;
 		nx = 1;
+		if (lastnx != nx)
+		{
+			ax = -MARIO_ACCEL_RUN_X;
+			maxVx = -MARIO_RUNNING_SPEED;
+		}
+		else {
+			ax = MARIO_ACCEL_RUN_X;
+			maxVx = MARIO_RUNNING_SPEED;
+		}
 		break;
 	case MARIO_STATE_RUNNING_LEFT:
 		if (isSitting) break;
-		maxVx = -MARIO_RUNNING_SPEED;
-		ax = -MARIO_ACCEL_RUN_X;
+		lastnx = nx;
 		nx = -1;
+		if (lastnx != nx)
+		{
+			ax = MARIO_ACCEL_RUN_X;
+			maxVx = MARIO_RUNNING_SPEED;
+		}
+		else {
+			ax = -MARIO_ACCEL_RUN_X;
+			maxVx = -MARIO_RUNNING_SPEED;
+		}
 		break;
 	case MARIO_STATE_WALKING_RIGHT:
 		if (isSitting) break;
-		maxVx = MARIO_WALKING_SPEED;
-		//lastnx = nx;
-		ax = MARIO_ACCEL_WALK_X;
+		//maxVx = MARIO_WALKING_SPEED;
+		lastnx = nx;
 		nx = 1;
+		if (lastnx != nx)
+		{
+			ax = -MARIO_ACCEL_WALK_X;
+			maxVx = -MARIO_WALKING_SPEED;
+		}
+		else {
+			ax = MARIO_ACCEL_WALK_X;
+			maxVx = MARIO_WALKING_SPEED;
+		}
 		break;
 	case MARIO_STATE_WALKING_LEFT:
 		if (isSitting) break;
-		maxVx = -MARIO_WALKING_SPEED;
-		//lastnx = nx;
-		ax = -MARIO_ACCEL_WALK_X;
+		//maxVx = -MARIO_WALKING_SPEED;
+		lastnx = nx;
 		nx = -1;
+		if (lastnx != nx)
+		{
+			ax = MARIO_ACCEL_WALK_X;
+			maxVx = MARIO_WALKING_SPEED;
+		}
+		else {
+			ax = -MARIO_ACCEL_WALK_X;
+			maxVx = -MARIO_WALKING_SPEED;
+		}
+
 		break;
 	case MARIO_STATE_JUMP:
 		if (isSitting) break;
