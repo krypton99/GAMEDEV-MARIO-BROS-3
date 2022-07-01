@@ -436,13 +436,13 @@ void CMario::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (goomba->GetType() == GOOMBA_TYPE_RED_WING) {
+	if (goomba->GetGoombaType() == GOOMBA_TYPE_RED_WING) {
 
 		if (e->ny < 0)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				goomba->SetType(GOOMBA_TYPE_RED);
+				goomba->SetGoombaType(GOOMBA_TYPE_RED);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 		}
@@ -506,39 +506,45 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 {
 	CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(e->obj);
-	if (level == MARIO_LEVEL_RACOON)
+	if (untouchable == 0)
 	{
-		level = MARIO_LEVEL_BIG;
-		StartUntouchable();
-	}
-	else if (level == MARIO_LEVEL_BIG)
-	{
-		level = MARIO_LEVEL_SMALL;
-		StartUntouchable();
-	}
-	else
-	{
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
+		if (level == MARIO_LEVEL_RACOON)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_BIG)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 	}
 }
 void CMario::OnCollisionWithFireBullet(LPCOLLISIONEVENT e)
 {
 	CFireBullet* bullet = dynamic_cast<CFireBullet*>(e->obj);
-	if (level == MARIO_LEVEL_RACOON)
+	if (untouchable == 0)
 	{
-		level = MARIO_LEVEL_BIG;
-		StartUntouchable();
-	}
-	else if (level == MARIO_LEVEL_BIG)
-	{
-		level = MARIO_LEVEL_SMALL;
-		StartUntouchable();
-	}
-	else
-	{
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
+		if (level == MARIO_LEVEL_RACOON)
+		{
+			level = MARIO_LEVEL_BIG;
+			StartUntouchable();
+		}
+		else if (level == MARIO_LEVEL_BIG)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 	}
 }
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)

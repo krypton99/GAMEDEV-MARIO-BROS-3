@@ -136,10 +136,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			timeStartJump->Start();
 		}
 	}
-	if (state == TROOPA_STATE_DIE) {
+	if (state == TROOPA_STATE_DIE || state == TROOPA_STATE_DIE_UP) {
 		if (timeReborn->IsTimeUp() && timeReborn->GetStartTime()) { // bd tinh time hoi sinh
 			timeReborn->Stop();
-			if (!isMariohold) {
+			if (isMariohold == true)
+			{
+				((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer()->SetIsHolding(false);
+				isMariohold = false;
+			}
 				SetState(TROOPA_STATE_WALKING);
 				y -= 10;
 				if (koopa_type == KOOPAS_TYPE_RED) {
@@ -147,7 +151,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					ghost_koopas->SetPosition(x + 16, y);
 					ghost_koopas->SetSpeed(vx, vy);
 				}
-			}
+			
 		}
 	}
 	if (state == TROOPA_STATE_DIE_UP) {
@@ -214,6 +218,10 @@ void CKoopas::Render()
 
 		}
 		else if (state == TROOPA_STATE_ROLL_LEFT || state == TROOPA_STATE_ROLL_RIGHT) {
+			if (isMariohold) {
+				RenderBoundingBox();
+				return;
+			} else
 			if (isShellUp) {
 				aniId = ID_ANI_RED_TROOPA_DIE_UP_RUN;
 			}
@@ -317,7 +325,7 @@ void CKoopas::SetState(int state)
 		else {
 			vx = -0.05f;
 		}
-
+		timeReborn->Start();
 		isShellUp = true;
 		break;
 	case TROOPA_STATE_ROLL_RIGHT:

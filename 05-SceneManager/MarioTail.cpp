@@ -84,7 +84,11 @@ void CMarioTail::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 void CMarioTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	
+	if (goomba->GetGoombaType() == KOOPAS_TYPE_GREEN_WING)
+	{
+		goomba->SetGoombaType(KOOPAS_TYPE_GREEN);
+		goomba->SetState(TROOPA_STATE_WALKING);
+	} else
 	goomba->SetState(GOOMBA_STATE_DIE_BY_OBJECT);
 }
 void CMarioTail::OnCollisionWithVenus(LPCOLLISIONEVENT e) {
