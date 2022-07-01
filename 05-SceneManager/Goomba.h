@@ -55,6 +55,6 @@ protected:
 public: 	
 	CGoomba(float x, float y, float type);
 	virtual void SetState(int state);
-	float GetType() { return goomba_type; };
-	void SetType(float goomba_type) { this->goomba_type = goomba_type; };
+	float GetGoombaType() { return goomba_type; };
+	void SetGoombaType(float goomba_type) { this->goomba_type = goomba_type; };
 };

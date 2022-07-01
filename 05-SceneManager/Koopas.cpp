@@ -287,7 +287,7 @@ void CKoopas::Render()
 
 void CKoopas::SetState(int state)
 {
-	if ((this->state == TROOPA_STATE_ROLL_LEFT || this->state == TROOPA_STATE_ROLL_RIGHT) && state!= TROOPA_STATE_DIE_UP) {
+	if ((this->state == TROOPA_STATE_ROLL_LEFT || this->state == TROOPA_STATE_ROLL_RIGHT) && state!= TROOPA_STATE_DIE_UP && state!= STATE_ERASE) {
 		return;
 	}
 	CGameObject::SetState(state);

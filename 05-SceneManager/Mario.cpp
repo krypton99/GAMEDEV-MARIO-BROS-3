@@ -61,19 +61,35 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (getInPipe->Timeleft() < 1000 && getInPipe->Timeleft() > 0) {
 		if (funnel->GetIsEntry() && isInPipe) {
 			if (funnel->GetDirection()) {
-				if (level == MARIO_LEVEL_SMALL) {
-					y -= 0.6f;
-				} else 
-				y -= 0.86f;
-
+				float fx, fy;
+				funnel->GetPosition(fx, fy);
+				if (level != MARIO_LEVEL_SMALL) {
+					if (y > fy - MARIO_RACOON_BBOX_HEIGHT)
+					{
+						y -= 1;
+					}
+				}
+				else {
+					if (y > fy - 10)
+					{
+						y -= 1;
+					}
+				}
 				isInHiddenMap = true;
 			}
 			else {
-				if (level == MARIO_LEVEL_SMALL) {
-					y += 0.6f;
+				if (level != MARIO_LEVEL_SMALL) {
+					if (y < funnel->GetDesY() + MARIO_RACOON_BBOX_HEIGHT)
+					{
+						y += 1;
+					}
 				}
-				else
-				y += 0.86f;
+				else {
+					if (y < funnel->GetDesY() + 20)
+					{
+						y += 1;
+					}
+				}
 				isInHiddenMap = false;
 			}
 			ay = 0;
@@ -82,17 +98,33 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (funnel->GetIsEntry() && !isInPipe) {
 			isOutPipe = true;
 			if (funnel->GetDirection()) {
-				if (level == MARIO_LEVEL_SMALL) {
-					y -= 0.6f;
+				if (level != MARIO_LEVEL_SMALL) {
+					if (y > funnel->GetDesY() - MARIO_RACOON_BBOX_HEIGHT)
+					{
+						y -= 1;
+					}
 				}
-				else y -= 0.87f;
+				else {
+					if (y > funnel->GetDesY() - 20)
+					{
+						y -= 1;
+					}
+				}
 				isInHiddenMap = false;
 			}
 			else {
-				if (level == MARIO_LEVEL_SMALL) {
-					y += 0.6f;
+				if (level != MARIO_LEVEL_SMALL) {
+					if (y < funnel->GetDesY() + MARIO_RACOON_BBOX_HEIGHT)
+					{
+						y += 1;
+					}
 				}
-				else y += 0.87f;
+				else {
+					if (y < funnel->GetDesY() + 20)
+					{
+						y += 1;
+					}
+				}
 				isInHiddenMap = true;
 			}
 			ay = 0;
