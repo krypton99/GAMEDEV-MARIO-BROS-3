@@ -1182,7 +1182,12 @@ void CMario::SetState(int state)
 			state = MARIO_STATE_IDLE;
 			isSitting = true;
 			vx = 0; vy = 0.0f;
-			y += MARIO_SIT_HEIGHT_ADJUST;
+			if (level == MARIO_LEVEL_BIG) {
+				y += MARIO_SIT_HEIGHT_ADJUST;
+			}
+			else {
+				y += MARIO_RACOON_SIT_HEIGHT_ADJUST;
+			}
 		}
 		break;
 
@@ -1191,7 +1196,12 @@ void CMario::SetState(int state)
 		{
 			isSitting = false;
 			state = MARIO_STATE_IDLE;
-			y -= MARIO_SIT_HEIGHT_ADJUST;
+			if (level == MARIO_LEVEL_BIG) {
+				y -= MARIO_SIT_HEIGHT_ADJUST;
+			}
+			else {
+				y -= MARIO_RACOON_SIT_HEIGHT_ADJUST;
+			}
 		}
 		break;
 
