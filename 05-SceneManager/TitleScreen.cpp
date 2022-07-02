@@ -14,6 +14,7 @@ using namespace std;
 
 CTitleScreen::CTitleScreen(int id, LPCWSTR filePath) : CScene(id, filePath)
 {
+	arrow = NULL;
 	map = NULL;
 	key_handler = new CTitleScreenKeyHandler(this);
 }
@@ -101,7 +102,7 @@ void CTitleScreen::_ParseSection_OBJECTS(string line)
 	
 	case OBJECT_TYPE_SELECTARROW:
 	{
-		int scene_id = atof(tokens[3].c_str());
+		int scene_id = atoi(tokens[3].c_str());
 		
 		obj = new CSelectArrow(x,y,scene_id);
 		arrow = (CSelectArrow*)obj;
@@ -119,12 +120,12 @@ void CTitleScreen::_ParseSection_OBJECTS(string line)
 	{
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
-		int hasPortal = atof(tokens[5].c_str());
-		int scene_id = atof(tokens[6].c_str());
-		int left = atof(tokens[7].c_str());
-		int right = atof(tokens[8].c_str());
-		int up = atof(tokens[9].c_str());
-		int down = atof(tokens[10].c_str());
+		int hasPortal = atoi(tokens[5].c_str());
+		int scene_id = atoi(tokens[6].c_str());
+		int left = atoi(tokens[7].c_str());
+		int right = atoi(tokens[8].c_str());
+		int up = atoi(tokens[9].c_str());
+		int down = atoi(tokens[10].c_str());
 		obj = new CPortal(hasPortal, x, y, r, b, scene_id, left, right, up, down);
 		// General object setup
 		//obj->SetPosition(x, y);

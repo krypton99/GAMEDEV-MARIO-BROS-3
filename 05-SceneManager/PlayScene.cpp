@@ -26,7 +26,7 @@ using namespace std;
 CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
-	
+	map = NULL;
 	grid = NULL;
 	hud = NULL;
 	player = NULL;

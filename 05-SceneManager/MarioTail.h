@@ -16,7 +16,7 @@
 class CMarioTail : public CGameObject {
 private:
 	static CMarioTail* __instance;
-	int ani;
+	int ani=NULL;
 	BOOLEAN isAttack = false;
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	virtual void OnNoCollision(DWORD dt);

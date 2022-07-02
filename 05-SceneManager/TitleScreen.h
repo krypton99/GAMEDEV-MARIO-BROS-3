@@ -13,7 +13,7 @@ class CTitleScreen :
 protected:
 	LPMAP map;
 	LPCAMERA cam = nullptr;
-	CSelectArrow* arrow;
+	CSelectArrow* arrow=nullptr;
 
 	vector<LPGAMEOBJECT> listObjects; // chua tat ca object except item + effect
 

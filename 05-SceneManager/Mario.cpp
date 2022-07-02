@@ -1226,7 +1226,7 @@ void CMario::SetState(int state)
 				vx = MARIO_WALKING_SPEED;
 			else
 				vx = -MARIO_WALKING_SPEED;
-			vy = -MARIO_JUMP_SPEED_Y * 0.7;
+			vy = -MARIO_JUMP_SPEED_Y * 0.7f;
 			isOnPlatform = false;
 
 		}

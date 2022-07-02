@@ -15,6 +15,7 @@ CMarioTail* CMarioTail::GetInstance(float x, float y)
 CMarioTail::CMarioTail(float x, float y) :CGameObject(x, y) {
 	this->start_x = x;
 	this->start_y = y;
+	ani = NULL;
 }
 void CMarioTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects,D3DXVECTOR2 playerPos, int playerNx) {
 	//CGameObject::Update(dt);
@@ -168,11 +169,7 @@ void CMarioTail::GetBoundingBox(float& l, float& t, float& r, float& b) {
 
 }
 void CMarioTail::SetState(int state) {
-	CGameObject::SetState(state);
-	switch (state) {
-
-
-	}
+	
 }
 void CMarioTail::Render() {
 	RenderBoundingBox();

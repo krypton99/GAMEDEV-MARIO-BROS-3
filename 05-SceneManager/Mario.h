@@ -204,7 +204,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
-	bool isFlying = false;
+	bool isFlying;
 	bool mLeft;	// mario in worldmap
 	bool mRight;
 	bool mUp;
@@ -231,29 +231,28 @@ class CMario : public CGameObject
 	int GetAniIdSmall();
 	int GetAniIdRacoon();
 	void DecreaseSpeed();
-	bool isFallLower = false;
-	CKoopas* shell = nullptr;
-	int changeNx = 0;
-	bool isHitY = false;
+	bool isFallLower;
+	CKoopas* shell;
+	int changeNx;
+	bool isHitY;
 	CMarioTail* tail = CMarioTail::GetInstance(x, y);
-	CGhost* ghost_mario = nullptr;
-	boolean isBlocking = true;
+	CGhost* ghost_mario;
+	boolean isBlocking;
 	int temp_nx;
 	bool isAttack;
-	bool isInHiddenMap=false;
-	CGhostPlatform* collide_Platform = nullptr;
+	bool isInHiddenMap;
+	CGhostPlatform* collide_Platform;
 	bool canGoThroughPipe_down;
 	bool canGoThroughPipe_up;
-	bool canSwitchScene = false;
+	bool canSwitchScene ;
 	Timer* getInPipe=new Timer(2000);
-	CFunnel* funnel = nullptr;
+	CFunnel* funnel;
 	bool isFlystep;
 	vector<int> cards;
 	int lastnx;
 	CPortal* collidePortal;
 	
 public:
-	bool canHolding;
 	void setAy(float ay) { this->ay = ay; }
 	void setAx(float ax) { this->ax = ax; }
 	CMario(float x, float y) : CGameObject(x, y)
@@ -261,6 +260,7 @@ public:
 		score = 0;
 		isSitting = false;
 		maxVx = 0.0f;
+		maxVy = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
 		tail = new CMarioTail(x, y);
@@ -268,14 +268,43 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		coin = 0;
 		getInPipe = new Timer(2000);
+		collidePortal = nullptr;
+		lastnx = NULL;
+		isFlystep = false;
+		funnel = nullptr;
+		canSwitchScene = false;
+		canGoThroughPipe_up = false;
+		canGoThroughPipe_down = false;
+		collide_Platform = nullptr;
+		isInHiddenMap = false;
+		isAttack = false;
+		temp_nx = NULL;
+		isBlocking = true;
+		ghost_mario = nullptr;
+		isHitY = false;
+		changeNx = NULL;
+		shell = nullptr;
+		isFallLower = false;
+		desX = NULL;
+		desY = NULL;
+		isInPipe = false;
+		isOutPipe = false;
+		isFlying = false;
+		mLeft = false;
+		mRight = false;
+		mDown = false;
+		mUp = false;
+		coin = NULL;
+		isPowerUp = false;
+		
 	}
 	CMario(float x, float y, int stage) : CGameObject(x, y)
 	{
 		this->stage = stage;
 		isSitting = false;
 		maxVx = 0.0f;
+		maxVy = 0.0f;
 		ax = 0.0f;
 		if (stage == WORLD_MAP_SCENE) {
 			ay = 0;
@@ -286,8 +315,36 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
-		coin = 0;
 		getInPipe = new Timer(2000);
+		collidePortal = nullptr;
+		lastnx = NULL;
+		isFlystep = false;
+		funnel = nullptr;
+		canSwitchScene = false;
+		canGoThroughPipe_up = false;
+		canGoThroughPipe_down = false;
+		collide_Platform = nullptr;
+		isInHiddenMap = false;
+		isAttack = false;
+		temp_nx = NULL;
+		isBlocking = true;
+		ghost_mario = nullptr;
+		isHitY = false;
+		changeNx = NULL;
+		shell = nullptr;
+		isFallLower = false;
+		desX = NULL;
+		desY = NULL;
+		isInPipe = false;
+		isOutPipe = false;
+		isFlying = false;
+		mLeft = false;
+		mRight = false;
+		mDown = false;
+		mUp = false;
+		coin = NULL;
+		score = 0;
+		isPowerUp = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void UpdateWorldMap(DWORD dt, vector<LPGAMEOBJECT>* coObjects); //update mario khi o worldmap
