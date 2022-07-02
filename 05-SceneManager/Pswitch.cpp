@@ -33,7 +33,7 @@ void CPswitch::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJE
 	//CGameObject::Update(dt, objects);
 	if (onChange) {// ktra nhan nut
 		// gach bien mat -> state coin
-		for (int i = 0; i < objects->size(); i++) {
+		for (size_t i = 0; i < objects->size(); i++) {
 			if (objects->at(i)->GetType() == OBJECT_TYPE_BRICK ) {
 
 				CBrick* brick = dynamic_cast<CBrick*>(objects->at(i));
@@ -53,7 +53,7 @@ void CPswitch::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJE
 	}
 	if (changeTimer->GetStartTime() != 0 && changeTimer->IsTimeUp()) {
 		//tien bien lai thanh gach
-		for (int i = 0; i < objects->size(); i++) {
+		for (size_t i = 0; i < objects->size(); i++) {
 			if (dynamic_cast<CCoin*>(objects->at(i))) {
 
 				CCoin* coin = dynamic_cast<CCoin*>(objects->at(i));

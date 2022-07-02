@@ -90,7 +90,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (size_t i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i+1].c_str());
@@ -510,11 +510,11 @@ void CPlayScene::Update(DWORD dt)
 void CPlayScene::Render()
 {
 	map->Render();
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 		objects[i]->Render();
-	for (int i = 0; i < listItems.size(); i++)
+	for (size_t i = 0; i < listItems.size(); i++)
 		listItems[i]->Render();
-	for (int i = 0; i < listGrid.size(); i++)
+	for (size_t i = 0; i < listGrid.size(); i++)
 		listGrid[i]->Render();
 	for (size_t i = 0; i < listEffects.size(); i++)
 		listEffects[i]->Render();
@@ -542,7 +542,7 @@ void CPlayScene::Clear()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
 
 	objects.clear();

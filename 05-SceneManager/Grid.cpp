@@ -26,7 +26,7 @@ void CGrid::Clear(int num_row, int num_col) {
 void CGrid::UpdateOnGrid(vector<LPGAMEOBJECT> objects) {
 	Clear(num_row, num_col);
 
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 	{
 		float l, t, r, b;
 		objects[i]->GetBoundingBox(l, t, r, b);
@@ -54,7 +54,7 @@ void CGrid::UpdateOnGrid(vector<LPGAMEOBJECT> objects) {
 	}
 }
 void CGrid::ResetGrid(vector<LPGAMEOBJECT>& objects) {
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 		objects[i]->SetIsInGrid(false);
 }
 
@@ -78,7 +78,7 @@ void CGrid::GetObjectFromGrid(vector<LPGAMEOBJECT>& objects, CMario* player) {
 
 	for (int i = 0; i < num_row; i++) {
 		for (int j = firstCol; j < lastCol; j++) {
-			for (int k = 0; k < cells[i][j].size(); k++) {
+			for (size_t k = 0; k < cells[i][j].size(); k++) {
 				if (!cells[i][j][k]->GetIsInGrid()
 					&& cells[i][j][k]->GetState() != STATE_ERASE)
 				{

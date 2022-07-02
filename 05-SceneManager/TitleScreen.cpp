@@ -73,7 +73,7 @@ void CTitleScreen::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (size_t i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i + 1].c_str());
@@ -256,7 +256,7 @@ void CTitleScreen::Render()
 {
 	map->Render();
 	// list objects
-	for (int i = 0; i < listObjects.size(); i++)
+	for (size_t i = 0; i < listObjects.size(); i++)
 		listObjects[i]->Render();
 }
 
@@ -295,7 +295,7 @@ void CTitleScreenKeyHandler::OnKeyDown(int KeyCode)
 }
 void CTitleScreen::Unload()
 {
-	for (int i = 0; i < listObjects.size(); i++)
+	for (size_t i = 0; i < listObjects.size(); i++)
 		delete listObjects[i];
 
 	listObjects.clear();
