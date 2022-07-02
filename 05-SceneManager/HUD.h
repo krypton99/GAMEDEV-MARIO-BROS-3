@@ -44,7 +44,7 @@ class HUD
 	CAnimations* card;
 	Text text;
 public:
-	HUD() {};
+	HUD() { card = nullptr; };
 
 	void Render(float x, float y, CMario* mario, int remainingTime);
 };

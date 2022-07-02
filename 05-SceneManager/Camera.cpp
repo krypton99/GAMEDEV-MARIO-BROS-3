@@ -35,7 +35,7 @@ void Camera::Update(DWORD dt, float playerPosX, float playerPosY, float start_x,
 	}
 	else {
 		if (position_x > lockHiddenMapwidth)
-			position_x = lockHiddenMapwidth;
+			position_x = float(lockHiddenMapwidth);
 	}
 	if (position_x < start_x)
 		position_x = start_x;

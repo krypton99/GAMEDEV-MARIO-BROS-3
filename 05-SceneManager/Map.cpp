@@ -75,8 +75,8 @@ void CMap::Render()
 	{
 		CGame::GetInstance()->SetCamPosX(0);
 	}
-	int col_begin = CGame::GetInstance()->GetCamPosX() / TILE_SIZE;
-	int col_end = ceil(CGame::GetInstance()->GetCamPosX() / TILE_SIZE) + (SCREEN_WIDTH / TILE_SIZE)-1; //fixing map was't render fast enough 
+	int col_begin = int(CGame::GetInstance()->GetCamPosX() / TILE_SIZE);
+	int col_end = int(ceil(CGame::GetInstance()->GetCamPosX() / TILE_SIZE) + (SCREEN_WIDTH / TILE_SIZE)-1); //fixing map was't render fast enough 
 	/*int col_end = widthMap / TILE_SIZE;*/
 
 	CGame* game = CGame::GetInstance();
@@ -84,8 +84,8 @@ void CMap::Render()
 
 	for (int i = 0; i < numRow; i++) {
 		for (int j = col_begin; j < col_end; j++) {
-			float x = TILE_SIZE * (j - col_begin) - (int)game->GetCamPosX() % TILE_SIZE + game->GetCamPosX() + CAMERA_X_OFFSET;
-			float y = TILE_SIZE * i;
+			float x = float(TILE_SIZE * (j - col_begin) - (int)game->GetCamPosX() % TILE_SIZE + game->GetCamPosX() + CAMERA_X_OFFSET);
+			float y = float(TILE_SIZE * i);
 
 
 			CSprites::GetInstance()->Get(tileMaps[i][j])->Draw(x, y);
@@ -114,4 +114,5 @@ LPMAP CMaps::Get(int id)
 	LPMAP map = maps[id];
 	if (map == NULL)
 		return map;
+	return NULL;
 }
