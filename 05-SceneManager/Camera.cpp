@@ -14,6 +14,8 @@ Camera::Camera() {
 	this->height = SCREEN_HEIGHT ;
 	this->islockUpdate = false;
 	this->islockY = true;
+	position_x = NULL;
+	position_y = NULL;
 	CGame::GetInstance()->SetCamPos(0, 250);
 }
 
