@@ -17,7 +17,7 @@ private:
 	virtual int IsBlocking() { return 1; }
 	bool onChange = false;
 	Timer* changeTimer = new Timer(12000);
-	vector<LPGAMEOBJECT>* coins;
+	vector<LPGAMEOBJECT>* coins = nullptr;
 public:
 	CPswitch(float x, float y);
 	~CPswitch() {}

@@ -7,6 +7,7 @@
 #define BRICK_BOUNDING_X 5.0f
 CPswitch::CPswitch(float x, float y)
 {
+	coins = nullptr;
 	this->x = x;
 	this->y = y;
 	state = SWITCH_STATE_ON;
@@ -74,7 +75,7 @@ void CPswitch::Update(DWORD dt, vector<LPGAMEOBJECT>* objects, vector<LPGAMEOBJE
 		}
 		//coins->clear();
 		changeTimer->Stop();
-		state == SWITCH_STATE_INACTIVE;
+		state = SWITCH_STATE_INACTIVE;
 	}
 	
 	CCollision::GetInstance()->Process(this, dt, objects);
